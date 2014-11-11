@@ -2,10 +2,10 @@ package edu.tolc.discussionforum.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.model.UserInformation;
 import edu.tolc.discussionforum.service.UsersService;
@@ -16,15 +16,14 @@ public class RegistrationController {
 	UsersService userService;
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
-	public String registerGETRequest() {
+	public String registerGETRequest(Model model) {
 		return "register";
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String registerPOSTRequest(@ModelAttribute("registrationInformation") UserInformation userInfo) {
+	public String registerPOSTRequest(@ModelAttribute("registrationInformation") UserInformation userInfo, Model model) {
 		String successMsg = userService.userRegistration(userInfo);
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("successMsg", successMsg);
+		model.addAttribute("successMsg", successMsg);
 		return "register";
 	}
 }
