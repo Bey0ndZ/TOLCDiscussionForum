@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<sec:authorize access="hasRole('ROLE_USER')">
-		<h2>Welcome home!</h2>
+	<sec:authorize access="hasRole('ROLE_STUDENT')">
+		
 	</sec:authorize>
 </body>

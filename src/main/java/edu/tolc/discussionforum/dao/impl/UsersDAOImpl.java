@@ -19,13 +19,23 @@ public class UsersDAOImpl implements UsersDAO {
 		userInfo.setEnabled(1);
 		
 		String userRegistrationQuery = "INSERT INTO users VALUES (?,?,?,?,?,?,?)";
-		JdbcTemplate userRegistrationTemplate = new JdbcTemplate(dataSource);
+		String userRolesQuery = "INSERT INTO user_roles(username, role) VALUES (?,?)";
 		
+		JdbcTemplate userRegistrationTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate userRolesTemplate = new JdbcTemplate(dataSource);
+		
+		// Insert into DB
+		// Query 1
 		userRegistrationTemplate.update(userRegistrationQuery,
 				new Object[] {userInfo.getUsername(), userInfo.getPassword(),
 				userInfo.getFirstname(), userInfo.getLastname(),
-				userInfo.getIsstudent(), userInfo.getPhonenumber(),
-				userInfo.getEmail(), userInfo.getEnabled()});
+				userInfo.getPhonenumber(), userInfo.getEmail(), 
+				userInfo.getEnabled()});
+		
+		// Query 2
+		userRolesTemplate.update(userRolesQuery, new Object[] {userInfo.getUsername(),
+				"ROLE_STUDENT"});
+		
 		return "User registration successful";
 	}
 

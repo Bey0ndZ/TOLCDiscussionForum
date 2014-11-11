@@ -42,11 +42,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         int usertype = 0;
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
+            if (grantedAuthority.getAuthority().equals("ROLE_STUDENT")) {
             	usertype = 1;
             } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
             	usertype = 2;
-            }else if (grantedAuthority.getAuthority().equals("ROLE_EMPLOYEE")) {
+            }else if (grantedAuthority.getAuthority().equals("ROLE_INSTRUCTOR")) {
             	usertype = 3;
 
             }
