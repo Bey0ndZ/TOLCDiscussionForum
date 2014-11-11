@@ -129,7 +129,8 @@
 														<tr>
 															<th>Course ID</th>
 															<th>Course Name</th>
-															<!-- Can add number of students -->
+															<th>Course Description</th>
+															<th>Number of Students</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -138,7 +139,9 @@
 															<tr>
 																<td>${o.courseid}</td>
 																<td>${o.coursename}</td>
-																<!-- Can add number of students -->
+																<td>${o.coursedescription }</td>
+																<td>${o.numberofstudents }</td>
+					
 															</tr>
 														</c:forEach>
 													</tbody>

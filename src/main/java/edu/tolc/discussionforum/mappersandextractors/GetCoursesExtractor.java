@@ -17,8 +17,9 @@ public class GetCoursesExtractor implements ResultSetExtractor<GetCoursesDTO> {
 	  
 	  getCoursesInfoDTO.setCourseid(resultSet.getInt(1));
 	  getCoursesInfoDTO.setCoursename(resultSet.getString(2));
-	  getCoursesInfoDTO.setCoursedescription(resultSet.getString(3));
-	  getCoursesInfoDTO.setInstructor(resultSet.getString(4));		  
+	  getCoursesInfoDTO.setInstructor(resultSet.getString(3));
+	  getCoursesInfoDTO.setCoursedescription(resultSet.getString(4));
+	  getCoursesInfoDTO.setNumberofstudents(resultSet.getInt(5));
 	  
 	  return getCoursesInfoDTO;
 	 }

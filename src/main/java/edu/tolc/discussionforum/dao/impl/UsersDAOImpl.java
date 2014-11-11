@@ -49,12 +49,13 @@ public class UsersDAOImpl implements UsersDAO {
 	public String addCourse(String courseName, String courseDescription,
 			String instructorsName) {
 		String addCourseQuery = "INSERT INTO courses (coursename, "
-				+ "coursedescription, instructor) VALUES (?,?,?)";
+				+ "coursedescription, instructor, numberofstudentsenrolled) VALUES (?,?,?,?)";
 		JdbcTemplate addCourseTemplate = new JdbcTemplate(dataSource);
 		
 		// Insert into DB
 		addCourseTemplate.update(addCourseQuery, 
-				new Object[]{courseName, courseDescription, instructorsName});
+				new Object[]{courseName, courseDescription, instructorsName,
+				0});
 		return "Course added successfully.";
 	}
 
