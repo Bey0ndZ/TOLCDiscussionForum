@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -86,4 +87,11 @@ public class InstructorController {
 		modelAndView.setViewName("getMyCourses");
 		return modelAndView;
 	}
+	
+	// Get the discussion board page based on the GET parameter
+//	@RequestMapping(value="/getMyCourses/discussionBoard/{courseid}", method=RequestMethod.GET)
+//	public ModelAndView discussionBoardGET(@PathVariable int courseid) {
+//		ModelAndView modelAndView = new ModelAndView();
+//		
+//	}
 }

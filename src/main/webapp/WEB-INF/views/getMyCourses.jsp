@@ -138,10 +138,9 @@
 														<c:forEach var="o" items="${courseInformationForInstructor}">
 															<tr>
 																<td>${o.courseid}</td>
-																<td>${o.coursename}</td>
-																<td>${o.coursedescription }</td>
-																<td>${o.numberofstudents }</td>
-					
+																<td><a href=getMyCourses/discussionBoard/${o.courseid}>${o.coursename}</a></td>
+																<td>${o.coursedescription}</td>
+																<td>${o.numberofstudents}</td>
 															</tr>
 														</c:forEach>
 													</tbody>
