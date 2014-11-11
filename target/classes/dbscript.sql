@@ -13,6 +13,7 @@ CREATE  TABLE users (
   isstudent VARCHAR(45) NOT NULL,
   phonenumber VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
+  enabled TINYINT NOT NULL,
   PRIMARY KEY (username));
   
   CREATE TABLE user_roles (

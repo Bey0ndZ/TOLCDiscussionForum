@@ -8,6 +8,7 @@ public class UserInformation {
 	private String isstudent;
 	private String phonenumber;
 	private String email;
+	private boolean enabled;
 	/**
 	 * @return the username
 	 */
@@ -91,5 +92,17 @@ public class UserInformation {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	/**
+	 * @return the enabled
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }

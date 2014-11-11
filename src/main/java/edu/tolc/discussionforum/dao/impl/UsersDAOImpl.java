@@ -15,6 +15,8 @@ public class UsersDAOImpl implements UsersDAO {
 	
 	@Override
 	public String userRegistration(UserInformation userInfo) {
+		// Setting all the accounts to enabled by default
+		userInfo.setEnabled(true);
 		System.out.println(userInfo.getUsername());
 		System.out.println(userInfo.getFirstname());
 		System.out.println(userInfo.getEmail());
@@ -25,7 +27,7 @@ public class UsersDAOImpl implements UsersDAO {
 				new Object[] {userInfo.getUsername(), userInfo.getPassword(),
 				userInfo.getFirstname(), userInfo.getLastname(),
 				userInfo.getIsstudent(), userInfo.getPhonenumber(),
-				userInfo.getEmail()});
+				userInfo.getEmail(), userInfo.isEnabled()});
 		return "User registration successful";
 	}
 
