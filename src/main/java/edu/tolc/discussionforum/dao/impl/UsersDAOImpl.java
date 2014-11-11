@@ -15,6 +15,9 @@ public class UsersDAOImpl implements UsersDAO {
 	
 	@Override
 	public String userRegistration(UserInformation userInfo) {
+		System.out.println(userInfo.getUsername());
+		System.out.println(userInfo.getFirstname());
+		System.out.println(userInfo.getEmail());
 		String userRegistrationQuery = "INSERT INTO users VALUES (?,?,?,?,?,?,?)";
 		JdbcTemplate userRegistrationTemplate = new JdbcTemplate(dataSource);
 		
