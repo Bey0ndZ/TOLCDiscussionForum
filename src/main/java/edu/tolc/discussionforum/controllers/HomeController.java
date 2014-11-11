@@ -36,11 +36,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String userRegistration(@ModelAttribute("registrationInformation") UserInformation userInfo) {
-		System.out.println(userInfo.getUsername());
+	public String userRegistration(@ModelAttribute("registrationInformation") UserInformation userInfo) {		
 		String successMsg = userService.userRegistration(userInfo);
-		ModelAndView model = new ModelAndView();
-		model.addObject("successMsg", successMsg);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("successMsg", successMsg);		
 		return "register";
 		
 	}

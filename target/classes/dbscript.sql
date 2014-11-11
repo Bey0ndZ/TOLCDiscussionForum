@@ -3,6 +3,7 @@ create database if not exists `tolcdiscussionforum`;
 USE `tolcdiscussionforum`;
 
 DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `user_roles`;
 
 CREATE  TABLE users (
   username VARCHAR(45) NOT NULL,
@@ -13,3 +14,11 @@ CREATE  TABLE users (
   phonenumber VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   PRIMARY KEY (username));
+  
+  CREATE TABLE user_roles (
+  username VARCHAR(45) NOT NULL,
+  ROLE VARCHAR(45) NOT NULL,
+  PRIMARY KEY (user_role_id),
+  UNIQUE KEY uni_username_role (ROLE,username),
+  KEY fk_username_idx (username),
+  CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
