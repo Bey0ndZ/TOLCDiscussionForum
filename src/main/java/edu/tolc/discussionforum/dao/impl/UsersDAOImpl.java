@@ -16,10 +16,8 @@ public class UsersDAOImpl implements UsersDAO {
 	@Override
 	public String userRegistration(UserInformation userInfo) {
 		// Setting all the accounts to enabled by default
-		userInfo.setEnabled(true);
-		System.out.println(userInfo.getUsername());
-		System.out.println(userInfo.getFirstname());
-		System.out.println(userInfo.getEmail());
+		userInfo.setEnabled(1);
+		
 		String userRegistrationQuery = "INSERT INTO users VALUES (?,?,?,?,?,?,?)";
 		JdbcTemplate userRegistrationTemplate = new JdbcTemplate(dataSource);
 		
@@ -27,7 +25,7 @@ public class UsersDAOImpl implements UsersDAO {
 				new Object[] {userInfo.getUsername(), userInfo.getPassword(),
 				userInfo.getFirstname(), userInfo.getLastname(),
 				userInfo.getIsstudent(), userInfo.getPhonenumber(),
-				userInfo.getEmail(), userInfo.isEnabled()});
+				userInfo.getEmail(), userInfo.getEnabled()});
 		return "User registration successful";
 	}
 

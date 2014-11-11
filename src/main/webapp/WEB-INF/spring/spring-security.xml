@@ -10,14 +10,14 @@
 	<http auto-config="true" use-expressions="true">
  
 		<intercept-url pattern="/home**" access="permitAll" />
-		<intercept-url pattern="/welcome**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/welcome**" access="hasRole('ROLE_STUDENT')" />
  
 		<access-denied-handler error-page="/403" />
-		<form-login login-page="/index"
+		<form-login login-page="/home"
 			authentication-success-handler-ref="mySuccessHandler"
-			authentication-failure-url="/index?error" username-parameter="username"
+			authentication-failure-url="/home?error" username-parameter="username"
 			password-parameter="password" />
-		<logout logout-success-url="/index?logout" />
+		<logout logout-success-url="/home?logout" />
 		<!-- enable csrf protection -->
 		<csrf />
 	</http>
