@@ -8,9 +8,18 @@
  
     <!-- enable use-expressions -->
 	<http auto-config="true" use-expressions="true">
- 
-		<intercept-url pattern="/home**" access="permitAll" />
-		<intercept-url pattern="/welcome**" access="hasRole('ROLE_STUDENT')" />
+ 		<!-- Permit All -->
+		<intercept-url pattern="/home" access="permitAll" />
+		
+		<!-- Permit Students -->
+		<intercept-url pattern="/welcome" access="hasRole('ROLE_STUDENT')" />
+		
+		<!-- Permit Instructor -->
+		<intercept-url pattern="/welcomeInstructor" access="hasRole('ROLE_INSTRUCTOR')" />
+		<intercept-url pattern="/getMyCourses" access="hasRole('ROLE_INSTRUCTOR')" />
+		
+		<!-- Permit Admin -->
+		<intercept-url pattern="/welcomeAdmin" access="hasRole('ROLE_ADMIN')" />		
  
 		<access-denied-handler error-page="/403" />
 		<form-login login-page="/home"

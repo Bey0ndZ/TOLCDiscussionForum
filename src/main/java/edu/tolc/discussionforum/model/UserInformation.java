@@ -5,7 +5,6 @@ public class UserInformation {
 	private String password;
 	private String firstname;
 	private String lastname;
-	private String isstudent;
 	private String phonenumber;
 	private String email;
 	private int enabled;
@@ -56,18 +55,6 @@ public class UserInformation {
 	 */
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
-	}
-	/**
-	 * @return the isstudent
-	 */
-	public String getIsstudent() {
-		return isstudent;
-	}
-	/**
-	 * @param isstudent the isstudent to set
-	 */
-	public void setIsstudent(String isstudent) {
-		this.isstudent = isstudent;
 	}
 	/**
 	 * @return the phonenumber

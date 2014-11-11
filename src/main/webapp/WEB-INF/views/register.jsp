@@ -87,11 +87,6 @@
 									<b>Password:</b> <FONT color="red"><form:errors path="password" /></FONT><br/><input type="password" name="password" id="password" style="color:#999;" /><br/> <br/>
 									<b>First Name:</b>  <FONT color="red"><form:errors path="firstname" /></FONT><br/> <input type="text" name="firstname" id="f_name" style="color:#999;" /><br/><br/>
 									<b>Last Name:</b>  <FONT color="red"><form:errors path="lastname" /></FONT><br/><input type="text" name="lastname" id="l_name" style="color:#999;" /><br/><br/>
-									<b>Instructor or Student</b><br/>
-									<select name="selection">
-										<option value="Teacher">Instructor</option>
-										<option value="Student">Student</option>
-									</select><br/><br/>
 									<b>Phone Number:</b> <FONT color="red"> <form:errors path="phonenumber" /> </FONT><br/><input type="text" name="phonenumber" id="contact" style="color:#999;" /><br/><br/>
 									<b>Email Address:</b> <br/><input type="email" name="email" id="email" style="color:#999;" /><br/><br/>
 													
