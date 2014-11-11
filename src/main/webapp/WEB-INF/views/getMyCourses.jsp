@@ -129,16 +129,16 @@
 														<tr>
 															<th>Course ID</th>
 															<th>Course Name</th>
-															<th>Number of Students</th>
+															<!-- Can add number of students -->
 														</tr>
 													</thead>
 													<tbody>
 
 														<c:forEach var="o" items="${courseInformationForInstructor}">
 															<tr>
-																<td>${o.courseID}</td>
-																<td>${o.courseName}</td>
-																<td>${o.numberOfStudents }</td>
+																<td>${o.courseid}</td>
+																<td>${o.coursename}</td>
+																<!-- Can add number of students -->
 															</tr>
 														</c:forEach>
 													</tbody>

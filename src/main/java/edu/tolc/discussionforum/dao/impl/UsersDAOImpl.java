@@ -1,11 +1,16 @@
 package edu.tolc.discussionforum.dao.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
+import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
 import edu.tolc.discussionforum.model.UserInformation;
 
 // Perform CRUD Operations
@@ -51,6 +56,20 @@ public class UsersDAOImpl implements UsersDAO {
 		addCourseTemplate.update(addCourseQuery, 
 				new Object[]{courseName, courseDescription, instructorsName});
 		return "Course added successfully.";
+	}
+
+	@Override
+	public List<GetCoursesDTO> getCourseList(String instructorsName) {
+		List<GetCoursesDTO> allCourses = new ArrayList<GetCoursesDTO>();
+		
+		// Query to retrieve courses
+		String getCoursesQuery = "SELECT * FROM courses WHERE instructor=?";
+		JdbcTemplate getCoursesTemplate = new JdbcTemplate(dataSource);
+		
+		// Get data from DB, map them row-wise
+		allCourses = getCoursesTemplate.query(getCoursesQuery,
+				new Object[]{instructorsName}, new GetCoursesMapper());
+		return allCourses;
 	}
 
 }

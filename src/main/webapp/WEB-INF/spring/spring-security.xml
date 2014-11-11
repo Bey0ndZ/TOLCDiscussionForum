@@ -16,6 +16,7 @@
 		
 		<!-- Permit Instructor -->
 		<intercept-url pattern="/welcomeInstructor" access="hasRole('ROLE_INSTRUCTOR')" />
+		<intercept-url pattern="/getMyCourses" access="hasRole('ROLE_INSTRUCTOR')" />
 		
 		<!-- Permit Admin -->
 		<intercept-url pattern="/welcomeAdmin" access="hasRole('ROLE_ADMIN')" />		

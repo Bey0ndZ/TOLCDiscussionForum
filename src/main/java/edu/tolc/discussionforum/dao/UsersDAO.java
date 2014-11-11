@@ -1,5 +1,8 @@
 package edu.tolc.discussionforum.dao;
 
+import java.util.List;
+
+import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 
 public interface UsersDAO {
@@ -8,4 +11,6 @@ public interface UsersDAO {
 
 	public String addCourse(String courseName, String courseDescription,
 			String instructorsName);
+
+	public List<GetCoursesDTO> getCourseList(String instructorsName);
 }
