@@ -14,5 +14,11 @@ public class UsersServiceImpl implements UsersService{
 	public String userRegistration(UserInformation userInfo) {
 		return userDAO.userRegistration(userInfo);
 	}
+
+	@Override
+	public String addCourse(String courseName, String courseDescription,
+			String instructorsName) {
+		return userDAO.addCourse(courseName, courseDescription, instructorsName);
+	}
 	
 }	

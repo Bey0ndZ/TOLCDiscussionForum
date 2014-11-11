@@ -35,7 +35,7 @@
 </head>
 
 <body oncontextmenu="return false">
-	<sec:authorize access="hasRole('ROLE_STUDENT')">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		<div id="wrapper">
 
 			<!-- Navigation -->
@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Customer</a>
+					<a class="navbar-brand" href="index">Admin</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -87,11 +87,11 @@
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
 						<li class="active"><a href="viewCourses"><i
-								class="fa fa-fw fa-dashboard"></i> View Courses</a></li>
+								class="fa fa-fw fa-dashboard"></i> Add Instructor</a></li>
 						<li><a href="viewCalendar"><i
-								class="fa fa-fw fa-bar-chart-o"></i> View Calendar</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> View All Instructors</a></li>
 						<li><a href="deleteAccount"><i
-								class="fa fa-fw fa-bar-chart-o"></i>For Future</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i>Delete Instructor</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->

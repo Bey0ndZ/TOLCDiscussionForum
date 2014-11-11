@@ -38,7 +38,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
  
     /** Builds the target URL according to the logic defined in the main class Javadoc. */
     protected String determineTargetUrl(Authentication auth) {
-    	//usertype 1 : customer, 2 : Admin, 3 : Employee.
+    	//usertype 1 : student, 2 : admin, 3 : instructor.
         int usertype = 0;
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
@@ -55,9 +55,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         if (usertype == 1) {
             return "/welcome";
         } else if (usertype == 2) {
-            return "/admin";
+            return "/welcomeAdmin";
         } else if (usertype == 3) {
-            return "/instructor";
+            return "/welcomeInstructor";
         }else {
             throw new IllegalStateException();
         }

@@ -254,6 +254,12 @@ th {
   }
   .table {
     border-collapse: collapse !important;
+    width: 100% !important;
+    border: 1px solid #ddd;
+  }
+  .table_css {
+  	width: 100% !important;
+    border: 1px solid #ddd;
   }
   .table-bordered th,
   .table-bordered td {
@@ -2256,6 +2262,7 @@ table th[class*="col-"] {
   }
   .table-responsive > .table {
     margin-bottom: 0;
+    
   }
   .table-responsive > .table > thead > tr > th,
   .table-responsive > .table > tbody > tr > th,

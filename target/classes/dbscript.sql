@@ -4,6 +4,7 @@ USE `tolcdiscussionforum`;
 
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `user_roles`;
+DROP TABLE IF EXISTS `courses`;
 
 CREATE  TABLE users (
   username VARCHAR(45) NOT NULL,
@@ -25,5 +26,11 @@ CREATE  TABLE users (
   KEY fk_username_idx (username),
   CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
   
- INSERT INTO user_roles (username, ROLE)
- VALUES ('Bey0ndZ', 'ROLE_USER');
+  CREATE TABLE courses (
+  courseid int(11) NOT NULL AUTO_INCREMENT,
+  coursename VARCHAR(255) NOT NULL,
+  instructor VARCHAR(45) NOT NULL,
+  coursedescription VARCHAR(255) NOT NULL,
+  PRIMARY KEY (courseid),
+  FOREIGN KEY (instructor) REFERENCES users (username));
+  

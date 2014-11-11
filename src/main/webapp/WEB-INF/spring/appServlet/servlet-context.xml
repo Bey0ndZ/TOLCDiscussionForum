@@ -29,6 +29,6 @@
 	<bean id="UsersServiceImpl" class="edu.tolc.discussionforum.service.impl.UsersServiceImpl" />
 	<bean id="UsersDAOImpl" class="edu.tolc.discussionforum.dao.impl.UsersDAOImpl" />
 	
-	<context:component-scan base-package="edu.tolc.discussionforum.controllers" />
+	<context:component-scan base-package="edu.tolc.discussionforum" />
 	
 </beans>

@@ -36,7 +36,21 @@ public class UsersDAOImpl implements UsersDAO {
 		userRolesTemplate.update(userRolesQuery, new Object[] {userInfo.getUsername(),
 				"ROLE_STUDENT"});
 		
-		return "User registration successful";
+		return "User registration successful.";
+	}
+
+	// Creates a new course
+	@Override
+	public String addCourse(String courseName, String courseDescription,
+			String instructorsName) {
+		String addCourseQuery = "INSERT INTO courses (coursename, "
+				+ "coursedescription, instructor) VALUES (?,?,?)";
+		JdbcTemplate addCourseTemplate = new JdbcTemplate(dataSource);
+		
+		// Insert into DB
+		addCourseTemplate.update(addCourseQuery, 
+				new Object[]{courseName, courseDescription, instructorsName});
+		return "Course added successfully.";
 	}
 
 }

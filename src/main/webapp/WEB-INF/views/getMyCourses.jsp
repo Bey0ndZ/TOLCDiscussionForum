@@ -35,7 +35,7 @@
 </head>
 
 <body oncontextmenu="return false">
-	<sec:authorize access="hasRole('ROLE_STUDENT')">
+	<sec:authorize access="hasRole('ROLE_INSTRUCTOR')">
 		<div id="wrapper">
 
 			<!-- Navigation -->
@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Customer</a>
+					<a class="navbar-brand" href="index">Instructor</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -86,12 +86,14 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active"><a href="viewCourses"><i
-								class="fa fa-fw fa-dashboard"></i> View Courses</a></li>
-						<li><a href="viewCalendar"><i
-								class="fa fa-fw fa-bar-chart-o"></i> View Calendar</a></li>
-						<li><a href="deleteAccount"><i
-								class="fa fa-fw fa-bar-chart-o"></i>For Future</a></li>
+						<li class="active"><a href="addCourse"><i
+								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
+						<li><a href="getMyCourses"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Get My Courses</a></li>
+						<li><a href="getEnrolledStudentsList"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Get Enrolled Students</a></li>
+						<li><a href="deleteCourse"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -104,7 +106,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Registered Courses</h1>
+							<h1 class="page-header">Information</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -120,23 +122,23 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty courseInformation}">
+											<c:if test="${not empty courseInformationForInstructor}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
 															<th>Course ID</th>
 															<th>Course Name</th>
-															<th>Instructor</th>
+															<th>Number of Students</th>
 														</tr>
 													</thead>
 													<tbody>
 
-														<c:forEach var="o" items="${billPayInformation}">
+														<c:forEach var="o" items="${courseInformationForInstructor}">
 															<tr>
 																<td>${o.courseID}</td>
 																<td>${o.courseName}</td>
-																<td>${o.courseInstructor }</td>
+																<td>${o.numberOfStudents }</td>
 															</tr>
 														</c:forEach>
 													</tbody>
