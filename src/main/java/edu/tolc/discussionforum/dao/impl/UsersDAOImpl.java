@@ -43,6 +43,32 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		return "User registration successful.";
 	}
+	
+	@Override
+	public String instructorRegistration(UserInformation userInfo) {
+		// Setting all the accounts to enabled by default
+		userInfo.setEnabled(1);
+		
+		String userRegistrationQuery = "INSERT INTO users VALUES (?,?,?,?,?,?,?)";
+		String userRolesQuery = "INSERT INTO user_roles(username, role) VALUES (?,?)";
+		
+		JdbcTemplate userRegistrationTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate userRolesTemplate = new JdbcTemplate(dataSource);
+		
+		// Insert into DB
+		// Query 1
+		userRegistrationTemplate.update(userRegistrationQuery,
+				new Object[] {userInfo.getUsername(), userInfo.getPassword(),
+				userInfo.getFirstname(), userInfo.getLastname(),
+				userInfo.getPhonenumber(), userInfo.getEmail(), 
+				userInfo.getEnabled()});
+		
+		// Query 2
+		userRolesTemplate.update(userRolesQuery, new Object[] {userInfo.getUsername(),
+				"ROLE_INSTRUCTOR"});
+		
+		return "Instructor registration successful.";
+	}
 
 	// Creates a new course
 	@Override

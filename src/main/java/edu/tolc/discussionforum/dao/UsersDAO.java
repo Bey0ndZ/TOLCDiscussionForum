@@ -13,4 +13,6 @@ public interface UsersDAO {
 			String instructorsName);
 
 	public List<GetCoursesDTO> getCourseList(String instructorsName);
+
+	public String instructorRegistration(UserInformation userInfo);
 }
