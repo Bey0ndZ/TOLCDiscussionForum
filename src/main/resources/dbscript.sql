@@ -11,7 +11,6 @@ CREATE  TABLE users (
   password VARCHAR(60) NOT NULL,
   firstname VARCHAR(45) NOT NULL,
   lastname VARCHAR(45) NOT NULL,
-  isstudent VARCHAR(45) NOT NULL,
   phonenumber VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   enabled TINYINT NOT NULL,
