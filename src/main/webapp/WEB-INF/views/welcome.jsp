@@ -130,9 +130,9 @@
 													</thead>
 													<tbody>
 														<!-- Align properly -->
-														<c:forEach var="o" items="${instructorsList}">
+														<c:forEach var="instructorsname" items="${instructorsList}">
 															<tr>
-																<td><a href="/getCourses/${o}">${o}</a></td>
+																<td><a href=welcome/getCoursesForStudent/${instructorsname}>${instructorsname}</a></td>
 															</tr>
 														</c:forEach>
 													</tbody>

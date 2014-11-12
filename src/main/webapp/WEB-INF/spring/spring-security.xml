@@ -13,7 +13,7 @@
 		
 		<!-- Permit Students -->
 		<intercept-url pattern="/welcome" access="hasRole('ROLE_STUDENT')" />
-		<intercept-url pattern="/getCoursesForStudent/**" access="hasRole('ROLE_STUDENT')" />
+		<intercept-url pattern="/welcome/getCourses" access="hasRole('ROLE_STUDENT')" />
 		
 		<!-- Permit Instructor -->
 		<intercept-url pattern="/welcomeInstructor" access="hasRole('ROLE_INSTRUCTOR')" />

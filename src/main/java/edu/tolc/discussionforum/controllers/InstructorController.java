@@ -89,9 +89,12 @@ public class InstructorController {
 	}
 	
 	// Get the discussion board page based on the GET parameter
-//	@RequestMapping(value="/getMyCourses/discussionBoard/{courseid}", method=RequestMethod.GET)
-//	public ModelAndView discussionBoardGET(@PathVariable int courseid) {
-//		ModelAndView modelAndView = new ModelAndView();
-//		
-//	}
+	@RequestMapping(value="/getMyCourses/discussionBoard/{courseid}", method=RequestMethod.GET)
+	public ModelAndView discussionBoardGET(@PathVariable int courseid) {
+		ModelAndView modelAndView = new ModelAndView();
+		System.out.println(courseid);
+		modelAndView.setViewName("welcomeInstructor");
+		return modelAndView;
+		
+	}
 }

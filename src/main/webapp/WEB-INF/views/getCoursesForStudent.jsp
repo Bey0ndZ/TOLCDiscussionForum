@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Customer</a>
+					<a class="navbar-brand" href="index">Instructor</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -84,6 +84,7 @@
 				</script>
 
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
 						<li class="active"><a href="viewCourses"><i
@@ -104,7 +105,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Courses</h1>
+							<h1 class="page-header">Information</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -114,29 +115,31 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Summary
+										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Summary
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty courseInformationList}">
+											<c:if test="${not empty courseInformation}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
 															<th>Course ID</th>
 															<th>Course Name</th>
+															<th>Course Description</th>
 															<th>Number of Students</th>
 														</tr>
 													</thead>
 													<tbody>
 
-														<c:forEach var="o" items="${courseInformationList}">
+														<c:forEach var="o" items="${courseInformation}">
 															<tr>
-																<td>${o.courseID}</td>
-																<td>${o.courseName}</td>
-																<td>${o.numberOfStudents }</td>
+																<td>${o.courseid}</td>
+																<td>${o.instructor}</td>
+																<td>${o.coursedescription}</td>
+																<td>${o.numberofstudents}</td>
 															</tr>
 														</c:forEach>
 													</tbody>

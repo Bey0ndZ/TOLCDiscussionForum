@@ -36,13 +36,13 @@ public class StudentController {
 	
 	// Get the instructors courses to display to the student
 	// Call the same method
-	@RequestMapping(value="/getCourses/{instructorsname}", method=RequestMethod.GET)
-	public ModelAndView getInstructorCourses(@PathVariable String instructorsName) {
+	@RequestMapping(value="/welcome/getCoursesForStudent/{instructorsname}", method=RequestMethod.GET)
+	public ModelAndView getInstructorCourses(@PathVariable String instructorsname) {
 		ModelAndView modelAndView = new ModelAndView();
-		System.out.println(instructorsName);
+		System.out.println(instructorsname);
 		List<GetCoursesDTO> getCoursesList = new ArrayList<GetCoursesDTO>();
-		getCoursesList = userService.getCourseList(instructorsName);
-		modelAndView.addObject("courseListInformation", getCoursesList);
+		getCoursesList = userService.getCourseList(instructorsname);
+		modelAndView.addObject("courseInformation", getCoursesList);
 		modelAndView.setViewName("getCoursesForStudent");
 		return modelAndView;
 	}
