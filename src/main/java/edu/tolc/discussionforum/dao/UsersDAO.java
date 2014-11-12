@@ -15,4 +15,6 @@ public interface UsersDAO {
 	public List<GetCoursesDTO> getCourseList(String instructorsName);
 
 	public String instructorRegistration(UserInformation userInfo);
+
+	public List<String> getInstructorsList();
 }

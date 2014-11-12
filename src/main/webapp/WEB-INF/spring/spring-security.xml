@@ -13,6 +13,7 @@
 		
 		<!-- Permit Students -->
 		<intercept-url pattern="/welcome" access="hasRole('ROLE_STUDENT')" />
+		<intercept-url pattern="/getCoursesForStudent/**" access="hasRole('ROLE_STUDENT')" />
 		
 		<!-- Permit Instructor -->
 		<intercept-url pattern="/welcomeInstructor" access="hasRole('ROLE_INSTRUCTOR')" />
@@ -44,7 +45,8 @@
 	<!-- Login handler bean -->
 	<beans:bean id="mySuccessHandler"
 		class="edu.tolc.discussionforum.controllers.LoginSuccessHandler" />
- 
+ 	
+ 	<!-- Encrypting password -->
 	<beans:bean id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<beans:constructor-arg name="strength" value="10" />

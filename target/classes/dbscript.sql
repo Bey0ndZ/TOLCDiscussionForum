@@ -11,7 +11,6 @@ CREATE  TABLE users (
   password VARCHAR(60) NOT NULL,
   firstname VARCHAR(45) NOT NULL,
   lastname VARCHAR(45) NOT NULL,
-  isstudent VARCHAR(45) NOT NULL,
   phonenumber VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   enabled TINYINT NOT NULL,
@@ -20,9 +19,9 @@ CREATE  TABLE users (
   CREATE TABLE user_roles (
   user_role_id int(11) NOT NULL AUTO_INCREMENT,
   username VARCHAR(45) NOT NULL,
-  ROLE VARCHAR(45) NOT NULL,
+  role VARCHAR(45) NOT NULL,
   PRIMARY KEY (user_role_id),
-  UNIQUE KEY uni_username_role (ROLE,username),
+  UNIQUE KEY uni_username_role (role,username),
   KEY fk_username_idx (username),
   CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
   
@@ -31,7 +30,9 @@ CREATE  TABLE users (
   coursename VARCHAR(255) NOT NULL,
   instructor VARCHAR(45) NOT NULL,
   coursedescription VARCHAR(255) NOT NULL,
+  studentregistered VARCHAR(45) NOT NULL,
   numberofstudentsenrolled int(11) NOT NULL,
   PRIMARY KEY (courseid),
   FOREIGN KEY (instructor) REFERENCES users (username));
+
   
