@@ -2,7 +2,6 @@ package edu.tolc.discussionforum.service.impl;
 
 import java.util.List;
 
-import org.hamcrest.core.IsEqual;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
@@ -35,6 +34,8 @@ public class UsersServiceImpl implements UsersService{
 		return userDAO.getCourseList(instructorsName);
 	}
 
-
-	
+	@Override
+	public List<String> getInstructorsList() {
+		return userDAO.getInstructorsList();
+	}
 }	

@@ -1,5 +1,7 @@
 package edu.tolc.discussionforum.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
@@ -75,16 +78,18 @@ public class UsersDAOImpl implements UsersDAO {
 	public String addCourse(String courseName, String courseDescription,
 			String instructorsName) {
 		String addCourseQuery = "INSERT INTO courses (coursename, "
-				+ "coursedescription, instructor, numberofstudentsenrolled) VALUES (?,?,?,?)";
+				+ "coursedescription, instructor, studentregistered, numberofstudentsenrolled) VALUES (?,?,?,?,?)";
 		JdbcTemplate addCourseTemplate = new JdbcTemplate(dataSource);
 		
 		// Insert into DB
 		addCourseTemplate.update(addCourseQuery, 
 				new Object[]{courseName, courseDescription, instructorsName,
-				0});
+				"Noonerightnow",0});
 		return "Course added successfully.";
 	}
-
+	
+	// We could reuse this method by displaying
+	// the instructor name for the student in the open courses
 	@Override
 	public List<GetCoursesDTO> getCourseList(String instructorsName) {
 		List<GetCoursesDTO> allCourses = new ArrayList<GetCoursesDTO>();
@@ -99,4 +104,23 @@ public class UsersDAOImpl implements UsersDAO {
 		return allCourses;
 	}
 
+	@Override
+	public List<String> getInstructorsList() {
+		// Get the instructors list from user_roles table
+		String getInstructorsQuery = "SELECT username FROM user_roles WHERE "
+				+ "role=?";
+		JdbcTemplate getInstructorsTemplate = new JdbcTemplate(dataSource);
+		List<String> instructorsList = getInstructorsTemplate.query(getInstructorsQuery,
+				new Object[] { "ROLE_INSTRUCTOR" },
+				new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+
+						String instructor;
+						instructor = rs.getString(1);
+						return instructor;
+					}
+				});
+		return instructorsList;
+	}
 }

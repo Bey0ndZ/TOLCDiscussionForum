@@ -104,7 +104,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Instructors</h1>
+							<h1 class="page-header">Courses</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -114,25 +114,29 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> All Instructors
+										<i class="fa fa-bar-chart-o fa-fw"></i> Summary
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty instructorsList}">
+											<c:if test="${not empty courseInformationList}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
-															<th>Instructor Name</th>
+															<th>Course ID</th>
+															<th>Course Name</th>
+															<th>Number of Students</th>
 														</tr>
 													</thead>
 													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="o" items="${instructorsList}">
+
+														<c:forEach var="o" items="${courseInformationList}">
 															<tr>
-																<td><a href="/getCourses/${o}">${o}</a></td>
+																<td>${o.courseID}</td>
+																<td>${o.courseName}</td>
+																<td>${o.numberOfStudents }</td>
 															</tr>
 														</c:forEach>
 													</tbody>

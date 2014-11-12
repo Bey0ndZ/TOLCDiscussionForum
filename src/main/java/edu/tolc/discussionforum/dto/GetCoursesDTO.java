@@ -5,6 +5,7 @@ public class GetCoursesDTO {
 	private String coursename;
 	private String coursedescription;
 	private String instructor;
+	private String studentregistered;
 	private int numberofstudents;
 	/**
 	 * @return the courseid
@@ -65,5 +66,17 @@ public class GetCoursesDTO {
 	 */
 	public void setNumberofstudents(int numberofstudents) {
 		this.numberofstudents = numberofstudents;
+	}
+	/**
+	 * @return the studentregistered
+	 */
+	public String getStudentregistered() {
+		return studentregistered;
+	}
+	/**
+	 * @param studentregistered the studentregistered to set
+	 */
+	public void setStudentregistered(String studentregistered) {
+		this.studentregistered = studentregistered;
 	}
 }
