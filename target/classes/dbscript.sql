@@ -30,9 +30,13 @@ CREATE  TABLE users (
   coursename VARCHAR(255) NOT NULL,
   instructor VARCHAR(45) NOT NULL,
   coursedescription VARCHAR(255) NOT NULL,
-  studentregistered VARCHAR(45) NOT NULL,
   numberofstudentsenrolled int(11) NOT NULL,
   PRIMARY KEY (courseid),
   FOREIGN KEY (instructor) REFERENCES users (username));
+  
+  CREATE TABLE enrollment (
+  courseid int(11) NOT NULL,
+  studentregistered VARCHAR(45) NOT NULL,
+  FOREIGN KEY (courseid) REFERENCES courses(courseid));
 
   

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,11 +43,33 @@ public class StudentController {
 	@RequestMapping(value="/welcome/getCoursesForStudent/{instructorsname}", method=RequestMethod.GET)
 	public ModelAndView getInstructorCourses(@PathVariable String instructorsname) {
 		ModelAndView modelAndView = new ModelAndView();
-		System.out.println(instructorsname);
 		List<GetCoursesDTO> getCoursesList = new ArrayList<GetCoursesDTO>();
 		getCoursesList = userService.getCourseList(instructorsname);
 		modelAndView.addObject("courseInformation", getCoursesList);
 		modelAndView.setViewName("getCoursesForStudent");
 		return modelAndView;
 	}
+	
+	// Enrollment of student in all courses
+	// TODO: Redirect properly
+	@RequestMapping(value="/welcome/getCoursesForStudent/{instructorsname}/enrollInAllCourses", method=RequestMethod.GET)
+	public ModelAndView enrollInAllCourses(@PathVariable String instructorsName) {
+		ModelAndView modelAndView = new ModelAndView();
+		// Get the instructor name via session attribute
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String studentName = userDetail.getUsername();
+		// Enroll in all courses obtained by URL
+		String enrollmentSuccess = userService.enrollStudentInAllCourses(studentName, instructorsName);
+		modelAndView.addObject("enrollmentSuccess", enrollmentSuccess);
+		modelAndView.setViewName("getCoursesForStudent");
+		
+		} else {
+			// permission-denied page
+		}
+		return modelAndView;
+	}
+	
 }

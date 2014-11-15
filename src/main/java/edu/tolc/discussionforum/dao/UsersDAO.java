@@ -17,4 +17,6 @@ public interface UsersDAO {
 	public String instructorRegistration(UserInformation userInfo);
 
 	public List<String> getInstructorsList();
+
+	public String enrollStudentInAllCourses(String studentName, String instructorsName);
 }

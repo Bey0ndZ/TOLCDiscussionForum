@@ -129,7 +129,6 @@
 															<th>Course ID</th>
 															<th>Course Name</th>
 															<th>Course Description</th>
-															<th>Number of Students</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -137,18 +136,23 @@
 														<c:forEach var="o" items="${courseInformation}">
 															<tr>
 																<td>${o.courseid}</td>
-																<td>${o.instructor}</td>
+																<td>${o.coursename}</td>
 																<td>${o.coursedescription}</td>
-																<td>${o.numberofstudents}</td>
 															</tr>
 														</c:forEach>
 													</tbody>
 												</table>
 											</c:if>
 											
+											<c:if test="${not empty enrollmentSuccess}">
+												${enrollmentSuccess}
+											</c:if>
+											
 											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
+											<c:forEach var="o" items="${courseInformation}">
+												<a href=${o.instructor}/enrollInAllCourses>Enroll in All Courses <i
 													class="fa fa-arrow-circle-right"></i></a>
+											</c:forEach>
 											</div>
 										</div>
 									</div>

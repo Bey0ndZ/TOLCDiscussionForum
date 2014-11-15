@@ -17,4 +17,5 @@ public interface UsersService {
 	public List<GetCoursesDTO> getCourseList(String instructorsName);
 	// This method could be reused for admin
 	public List<String> getInstructorsList();
+	public String enrollStudentInAllCourses(String studentName, String instructorsName);
 }
