@@ -98,4 +98,7 @@ public class StudentController {
 		modelAndView.setViewName("viewAllCourses");
 		return modelAndView;
 	}
+	
+	// Get the discussionBoard for a particular course
+	
 }
