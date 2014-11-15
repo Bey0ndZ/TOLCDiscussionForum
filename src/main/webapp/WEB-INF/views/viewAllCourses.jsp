@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Customer</a>
+					<a class="navbar-brand" href="index">Instructor</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -84,14 +84,15 @@
 				</script>
 
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active"><a href="welcome"><i
+						<li><a href="welcome"><i
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
-						<li><a href="viewAllCourses"><i
+						<li class="active"><a href="viewAllCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Courses</a></li>
 						<li><a href="deleteAccount"><i
-								class="fa fa-fw fa-bar-chart-o"></i>For Future</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> For Future</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -104,7 +105,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">My Courses</h1>
+							<h1 class="page-header">Information</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -114,40 +115,52 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Information
+										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Summary
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getMyCourses}">
+											<c:if test="${not empty courseInformation}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
 															<th>Course ID</th>
-															<th>Course Name</th>
 															<th>Instructor</th>
+															<th>Course Name</th>
 															<th>Course Description</th>
 														</tr>
 													</thead>
 													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="courseInfo" items="${getMyCourses}">
+
+														<c:forEach var="o" items="${courseInformation}">
 															<tr>
-																<td>${courseInfo.courseid}</td>
-																<td>${courseInfo.coursename}</td>
-																<td>${courseInfo.instructor}</td>
-																<td>${courseInfo.coursedescription}</td>
+																<td>${o.courseid}</td>
+																<td>${o.instructor}</td>
+																<td>${o.coursename}</td>
+																<td>${o.coursedescription}</td>
 															</tr>
 														</c:forEach>
 													</tbody>
 												</table>
 											</c:if>
 											
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
+											<c:if test="${not empty enrollmentSuccess}">
+												${enrollmentSuccess}
+											</c:if>
+											
+											<div class="text-left">
+											<c:forEach var="o" items="${courseInformation}">
+												<form:form method="POST" action="enrollInCourse">
+													Type the course IDs of courses you want to enroll in:<br/><br/>
+													Course ID: <input type="text" name="enrollInCourseID" /><br/>
+													<input type="submit" value="Enroll" />
+												</form:form>
+											</c:forEach>
+											<c:if test="${not empty courseEnrollmentMsg}">
+												${courseEnrollmentMsg}
+											</c:if>
 											</div>
 										</div>
 									</div>

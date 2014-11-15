@@ -124,51 +124,56 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public String enrollStudentInAllCourses(String studentName,
-			String instructorsName) {
+	public List<GetCoursesDTO> getCourseList() {
+		List<GetCoursesDTO> allCoursesInformation = new ArrayList<GetCoursesDTO>();
+		
+		String getAllCourseInformation = "SELECT * from courses";
+		JdbcTemplate getAllCoursesInformation = new JdbcTemplate(dataSource);
+		
+		allCoursesInformation = getAllCoursesInformation.query(getAllCourseInformation,
+				new GetCoursesMapper());
+		
+		return allCoursesInformation;
+	}
+
+	@Override
+	public String enrollStudentInCourse(String courseID, String studentName) {
 		// Update 2 tables
-		// Courses and enrollment
-		// But first, get number of people enrolled in a course
-		String getNumberOfStudentsEnrolled = "SELECT numberofstudentsenrolled FROM "
-				+ "courses where instructor=?";
-		JdbcTemplate numberOfStudentsEnrolledTemplate = new JdbcTemplate(
-				dataSource);
-		int numberOfStudentsEnrolled = numberOfStudentsEnrolledTemplate
-				.queryForObject(getNumberOfStudentsEnrolled,
-						new Object[] { instructorsName }, Integer.class);
+				// Courses and enrollment
+				// But first, get number of people enrolled in a course
+				String getNumberOfStudentsEnrolled = "SELECT numberofstudentsenrolled FROM "
+						+ "courses where courseid=?";
+				JdbcTemplate numberOfStudentsEnrolledTemplate = new JdbcTemplate(
+						dataSource);
+				int numberOfStudentsEnrolled = numberOfStudentsEnrolledTemplate
+						.queryForObject(getNumberOfStudentsEnrolled,
+								new Object[] { courseID }, Integer.class);
 
-		// Update the courses table
-		String updateCoursesQuery = "UPDATE courses SET numberofstudentsenrolled=? WHERE "
-				+ "instructor=?";
-		JdbcTemplate updateCoursesTemplate = new JdbcTemplate(dataSource);
-		updateCoursesTemplate.update(updateCoursesQuery,
-				new Object[] { numberOfStudentsEnrolled + 1 });
+				// Update the courses table
+				String updateCoursesQuery = "UPDATE courses SET numberofstudentsenrolled=? WHERE "
+						+ "courseid=?";
+				JdbcTemplate updateCoursesTemplate = new JdbcTemplate(dataSource);
+				updateCoursesTemplate.update(updateCoursesQuery,
+						new Object[] { numberOfStudentsEnrolled + 1, courseID });
+				
+				// Query to insert in enrollment table
+				String enrollmentQuery = "INSERT INTO enrollment VALUES (?, ?)";
+				JdbcTemplate enrollmentTemplate = new JdbcTemplate(dataSource);
+				
+				enrollmentTemplate.update(enrollmentQuery, new Object[] {courseID, studentName});
+				return "Successfully enrolled!";
+	}
 
-		// Insert into the enrollment table
-		// Instructors may have multiple courses
-		List<Integer> allCourseIDs = new ArrayList<Integer>();
-		String getAllCourseIDsForInstructor = "SELECT courseid FROM courses where instructor=?";
-		JdbcTemplate getAllCourseIDsForInstructorTemplate = new JdbcTemplate(
-				dataSource);
-
-		allCourseIDs = getAllCourseIDsForInstructorTemplate.query(
-				getAllCourseIDsForInstructor, new RowMapper<Integer>() {
-					public Integer mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-
-						int courseid;
-						courseid = rs.getInt(1);
-						return courseid;
-					}
-				});
+	@Override
+	public List<GetCoursesDTO> getStudentCourses(String studentName) {
+		// Get the courseid
+		String getStudentCoursesQuery = "select courses.courseid, courses.coursename, courses.instructor, courses.coursedescription, courses.numberofstudentsenrolled from courses inner join enrollment on courses.courseid=enrollment.courseid AND studentregistered=?";
+		JdbcTemplate getStudentCoursesTemplate = new JdbcTemplate(dataSource);
 		
-		// Query to insert in enrollment table
-		String enrollmentQuery = "INSERT INTO enrollment VALUES (?, ?)";
-		JdbcTemplate enrollmentTemplate = new JdbcTemplate(dataSource);
+		// Ignoring the last two rows after joining the two tables
+		List<GetCoursesDTO> getStudentCourses = getStudentCoursesTemplate.query(getStudentCoursesQuery, 
+				new Object[] {studentName}, new GetCoursesMapper());
 		
-		for (int courseid : allCourseIDs) {
-			enrollmentTemplate.update(enrollmentQuery, new Object[] {courseid, studentName});
-		}
-		return "Successfully enrolled!";
+		return getStudentCourses;
 	}
 }

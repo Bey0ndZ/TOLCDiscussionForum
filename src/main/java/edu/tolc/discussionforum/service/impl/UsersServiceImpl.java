@@ -38,10 +38,19 @@ public class UsersServiceImpl implements UsersService{
 	public List<String> getInstructorsList() {
 		return userDAO.getInstructorsList();
 	}
-	
+
 	@Override
-	public String enrollStudentInAllCourses(String studentName,
-			String instructorsName) {
-		return userDAO.enrollStudentInAllCourses(studentName, instructorsName);
+	public List<GetCoursesDTO> getCourseList() {
+		return userDAO.getCourseList();
+	}
+
+	@Override
+	public String enrollStudentInCourse(String courseID, String studentName) {
+		return userDAO.enrollStudentInCourse(courseID, studentName);
+	}
+
+	@Override
+	public List<GetCoursesDTO> getStudentCourses(String studentName) {
+		return userDAO.getStudentCourses(studentName);
 	}
 }	

@@ -150,8 +150,9 @@
 											
 											<div class="text-right">
 											<c:forEach var="o" items="${courseInformation}">
-												<a href=${o.instructor}/enrollInAllCourses>Enroll in All Courses <i
-													class="fa fa-arrow-circle-right"></i></a>
+												<form:form method="POST" action="enrollInAllCourses">
+													<input type="submit" value="Enroll" />
+												</form:form>
 											</c:forEach>
 											</div>
 										</div>

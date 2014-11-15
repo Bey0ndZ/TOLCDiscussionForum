@@ -17,6 +17,13 @@ public interface UsersDAO {
 	public String instructorRegistration(UserInformation userInfo);
 
 	public List<String> getInstructorsList();
+	
+	// For the students when they click on View All Courses tab
+	public List<GetCoursesDTO> getCourseList();
+	
+	// Enroll student in course
+	public String enrollStudentInCourse(String courseID, String studentName);
 
-	public String enrollStudentInAllCourses(String studentName, String instructorsName);
+	// Get student courses
+	public List<GetCoursesDTO> getStudentCourses(String studentName);
 }
