@@ -176,4 +176,18 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		return getStudentCourses;
 	}
+
+	@Override
+	public String createThread(int courseid, String threadName,
+			String threadSubject, String threadContent, String studentName, boolean isanonymous) {
+		String createThreadQuery = "INSERT INTO discussionboard (courseid, threadname, threadsubject,"
+				+ " threadcontent, createdby, postanonymously) VALUES (?,?,?,?,?,?)";
+		JdbcTemplate createThreadTemplate = new JdbcTemplate(dataSource);
+		
+		// Insert into DB
+		createThreadTemplate.update(createThreadQuery, 
+				new Object[] {courseid, threadName, threadSubject, threadContent, studentName, isanonymous});
+		
+		return "Thread created.";
+	}
 }

@@ -41,18 +41,20 @@ CREATE  TABLE users (
   
   CREATE TABLE discussionboard (
   courseid int(11) NOT NULL,
-  discussionid int(11) NOT NULL,
-  discussionname VARCHAR(255) NOT NULL,
-  discussionsubject VARCHAR(255) NOT NULL,
-  discussioncontent VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (discussionid),
+  threadid int(11) NOT NULL AUTO_INCREMENT,
+  threadname VARCHAR(255) NOT NULL,
+  threadsubject VARCHAR(255) NOT NULL,
+  threadcontent VARCHAR(1000) NOT NULL,
+  createdby VARCHAR(45) NOT NULL,
+  postanonymously TINYINT NOT NULL,
+  PRIMARY KEY (threadid),
   FOREIGN KEY (courseid) REFERENCES courses(courseid));
   
   CREATE TABLE discussionposts (
-  discussionid int(11) NOT NULL,
+  threadid int(11) NOT NULL,
   postid int(11) NOT NULL AUTO_INCREMENT,
   postedby VARCHAR(45) NOT NULL,
   PRIMARY KEY (postid),
-  FOREIGN KEY (discussionid) REFERENCES discussionboard(discussionid));
+  FOREIGN KEY (threadid) REFERENCES discussionboard(threadid));
 
   

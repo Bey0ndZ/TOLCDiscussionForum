@@ -53,4 +53,10 @@ public class UsersServiceImpl implements UsersService{
 	public List<GetCoursesDTO> getStudentCourses(String studentName) {
 		return userDAO.getStudentCourses(studentName);
 	}
+
+	@Override
+	public String createThread(int courseid, String threadName,
+			String threadSubject, String threadContent, String studentName, boolean isanonymous) {
+		return userDAO.createThread(courseid, threadName, threadSubject, threadContent, studentName, isanonymous);
+	}
 }	

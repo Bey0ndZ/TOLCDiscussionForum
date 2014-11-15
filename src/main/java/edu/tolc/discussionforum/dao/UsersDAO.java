@@ -26,4 +26,8 @@ public interface UsersDAO {
 
 	// Get student courses
 	public List<GetCoursesDTO> getStudentCourses(String studentName);
+
+	// Create a new thread
+	public String createThread(int courseid, String threadName,
+			String threadSubject, String threadContent, String studentName, boolean isanonymous);
 }

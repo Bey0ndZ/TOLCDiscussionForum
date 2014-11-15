@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Welcome, ${username }</title>
+<title>Welcome, ${pageContext.request.userPrincipal.name}</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Customer</a>
+					<a class="navbar-brand" href="index">Welcome, ${pageContext.request.userPrincipal.name}</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -86,12 +86,10 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active"><a href="welcome"><i
+						<li><a href="welcome"><i
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
-						<li><a href="viewAllCourses"><i
-								class="fa fa-fw fa-bar-chart-o"></i> View All Courses</a></li>
-						<li><a href="deleteAccount"><i
-								class="fa fa-fw fa-bar-chart-o"></i>For Future</a></li>
+						<li><a href="createThread"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Create New Thread</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -114,41 +112,22 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Information
+										<i class="fa fa-bar-chart-o fa-fw"></i> Thread Information
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getMyCourses}">
-													<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
-														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Instructor</th>
-															<th>Course Description</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="courseInfo" items="${getMyCourses}">
-															<tr>
-																<td><a href="welcome/discussionBoard/${courseInfo.courseid}">${courseInfo.courseid}</a></td>
-																<td>${courseInfo.coursename}</td>
-																<td>${courseInfo.instructor}</td>
-																<td>${courseInfo.coursedescription}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</c:if>
-											
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
+											<form:form method="POST" action="createThread">
+											Thread Name: <br/><input type="text" name="threadName" /><br/><br/>
+											Thread Subject: <br/><input type="text" name="threadSubject" /><br/><br/>
+											Thread Content:<br/><textarea name="threadContent" rows=10 cols=70></textarea><br/><br/>
+											Post as anonymous: <input type="radio" value="Yes" name="anonymousPost"> Yes <input type="radio" value="No" name="anonymousPost" checked/> No <br/><br/>
+											<input type="submit" value="Create Thread"/>
+										</form:form>
+										<c:if test="${not empty threadCreationSuccessMsg}">
+											${threadCreationSuccessMsg}
+										</c:if>
 										</div>
 									</div>
 								</div>

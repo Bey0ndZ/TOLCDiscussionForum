@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,7 @@ import edu.tolc.discussionforum.service.UsersService;
 public class StudentController {
 	@Autowired
 	UsersService userService;
-	String globalInstructorsName = "";
+	int getDiscussionForCourseID = 0;
 	
 	// TODO: Need to have a default list of all the courses
 	// the student is present in
@@ -100,5 +101,64 @@ public class StudentController {
 	}
 	
 	// Get the discussionBoard for a particular course
+	// The courseid will be in the path variable
+	@RequestMapping(value="welcome/discussionBoard/{courseid}", method=RequestMethod.GET)
+	public ModelAndView getDiscussionBoardForCourse(@PathVariable int courseid) {
+		ModelAndView modelAndView = new ModelAndView();
+		// Get the information from discussioboard table
+		
+		// Setting the global variable to keep track of courseIDs
+		getDiscussionForCourseID = courseid;
+		modelAndView.setViewName("discussionBoard");
+		return modelAndView;
+	}
 	
+	// Creating a new thread
+	// GET Request
+	@RequestMapping(value="welcome/discussionBoard/createThread",
+			method=RequestMethod.GET)
+	public ModelAndView createThreadGET() {
+		ModelAndView modelAndView = new ModelAndView();		
+		modelAndView.setViewName("createThread");
+		return modelAndView;
+	}
+	
+	// Creating a new thread
+	// POST Request
+	@RequestMapping(value="welcome/discussionBoard/createThread", method=RequestMethod.POST)
+	public ModelAndView createThreadPOST(@RequestParam("threadName") String threadName,
+			@RequestParam("threadSubject") String threadSubject, @RequestParam("threadContent") String threadContent,
+			@RequestParam("anonymousPost") String anonymousPost) {
+		ModelAndView modelAndView = new ModelAndView();
+		boolean isanonymous;
+		int courseid = getDiscussionForCourseID;
+		if (threadName != null && threadSubject != null && threadContent != null) {
+			
+			// Get the username of the student logged in
+			Authentication auth = SecurityContextHolder.getContext()
+					.getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetail = (UserDetails) auth.getPrincipal();
+				String studentName = userDetail.getUsername();
+				
+				if (anonymousPost.equalsIgnoreCase("yes")) {
+					isanonymous = true;
+				} else {
+					isanonymous = false;
+				}
+				
+				String threadCreationSuccessMsg = userService.createThread(courseid, 
+						threadName, threadSubject, threadContent, studentName, isanonymous);
+				
+				modelAndView.addObject("threadCreationSuccessMsg", threadCreationSuccessMsg);
+			} else {
+				// permission-denied page
+				// Must log in
+			}
+		} else {
+			modelAndView.addObject("inputValidationMsg", "Please do not leave the fields empty.");
+		}
+		modelAndView.setViewName("createThread");
+		return modelAndView;
+	}
 }

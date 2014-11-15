@@ -23,5 +23,8 @@ public interface UsersService {
 	public String enrollStudentInCourse(String courseID, String studentName);
 	// Get student courses
 	public List<GetCoursesDTO> getStudentCourses(String studentName);
+	// Creating the thread
+	public String createThread(int courseid, String threadName,
+			String threadSubject, String threadContent, String studentName, boolean isanonymous);
 	
 }
