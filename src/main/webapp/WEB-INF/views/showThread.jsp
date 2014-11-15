@@ -86,7 +86,7 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li><a href="/discussionforum/welcome"><i
+						<li><a href="welcome"><i
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
 						<li><a href="createThread"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Create New Thread</a></li>
@@ -102,7 +102,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Discussion Board</h1>
+							<h1 class="page-header">${threadname}</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -112,38 +112,21 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Threads
+										<i class="fa fa-bar-chart-o fa-fw"></i> ${threadsubject}
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getThreadInformation}">
-													<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
-														<tr>
-															<th>Thread ID</th>
-															<th>Thread Name</th>
-															<th>Thread Subject</th>
-															<th>Thread Content</th>
-															<th>Created By</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="threadInfo" items="${getThreadInformation}">
-															<tr>
-																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadid}</a></td>
-																<td>${threadInfo.threadname}</td>
-																<td>${threadInfo.threadsubject}</td>
-																<td>${threadInfo.threadcontent}</td>
-																<td>${threadInfo.createdby}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</c:if>
+											<!-- Show the thread information here -->
+											<!-- Show the thread name, thread subject and thread content -->
+											<div class="panel panel-default">
+												${threadcontent}<br/><br/>
+											</div>
+											<form:form action="welcome/discussionBoard/showThread" method="POST">
+												<textarea rows=3 cols=100 name="discussion"></textarea><br/>
+												<input type="submit" value="Post" />
+											</form:form>										
 										</div>
 									</div>
 								</div>

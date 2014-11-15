@@ -33,4 +33,7 @@ public interface UsersDAO {
 			String threadSubject, String threadContent, String studentName, boolean isanonymous);
 	// Get thread information
 	public List<GetThreadInfoDTO> getThreadInformation(int courseid);
+	
+	// Get thread by threadid
+	public List<GetThreadInfoDTO> getThreadInfoByThreadID(int threadid);
 }

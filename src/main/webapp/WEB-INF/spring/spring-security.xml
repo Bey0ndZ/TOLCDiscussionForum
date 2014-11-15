@@ -16,6 +16,7 @@
 		<intercept-url pattern="/welcome/getCourses" access="hasRole('ROLE_STUDENT')" />
 		<intercept-url pattern="/welcome/discussionBoard" access="hasRole('ROLE_STUDENT')"/>
 		<intercept-url pattern="/welcome/discussionBoard/createThread" access="hasRole('ROLE_STUDENT')" />
+		<intercept-url pattern="/welcome/discussionBoard/showThread" access="hasRole('ROLE_STUDENT')" />
 		
 		<!-- Permit Instructor -->
 		<intercept-url pattern="/welcomeInstructor" access="hasRole('ROLE_INSTRUCTOR')" />

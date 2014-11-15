@@ -205,4 +205,17 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		return getThreadInformation;
 	}
+
+	@Override
+	public List<GetThreadInfoDTO> getThreadInfoByThreadID(int threadid) {
+		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
+		String getThreadInfoQuery = "SELECT courseid, threadid, threadname, threadsubject, threadcontent,"
+				+ "createdby, postanonymously FROM discussionboard "
+				+ "WHERE threadid=?";
+		JdbcTemplate getThreadInfoTemplate = new JdbcTemplate(dataSource);
+		
+		getThreadInformation = getThreadInfoTemplate.query(getThreadInfoQuery, 
+				new Object[] {threadid}, new GetThreadInfoMapper());
+		return getThreadInformation;
+	}
 }

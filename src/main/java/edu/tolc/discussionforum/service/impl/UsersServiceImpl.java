@@ -65,4 +65,9 @@ public class UsersServiceImpl implements UsersService{
 	public List<GetThreadInfoDTO> getThreadInformation(int courseid) {
 		return userDAO.getThreadInformation(courseid);
 	}
+
+	@Override
+	public List<GetThreadInfoDTO> getThreadInfoByThreadID(int threadid) {
+		return userDAO.getThreadInfoByThreadID(threadid);
+	}
 }	

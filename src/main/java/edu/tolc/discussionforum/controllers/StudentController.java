@@ -175,4 +175,29 @@ public class StudentController {
 		modelAndView.setViewName("createThread");
 		return modelAndView;
 	}
+	
+	// GET the showThread page
+	@RequestMapping(value="welcome/discussionBoard/showThread/{threadid}", method=RequestMethod.GET)
+	public ModelAndView getThread(@PathVariable int threadid) {
+		ModelAndView modelAndView = new ModelAndView();
+		// Get the threadname, threadsubject and threadcontent
+		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
+		getThreadInformation = userService.getThreadInfoByThreadID(threadid);
+		
+		for (GetThreadInfoDTO threadInfo : getThreadInformation) {
+			modelAndView.addObject("threadname", threadInfo.getThreadname());
+			modelAndView.addObject("threadsubject", threadInfo.getThreadsubject());
+			modelAndView.addObject("threadcontent", threadInfo.getThreadcontent());
+		}
+		modelAndView.setViewName("showThread");
+		return modelAndView;
+	}
+	
+	// POST request
+	public ModelAndView postThread(@RequestParam("discussion") String discussionPost) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		modelAndView.setViewName("showThread");
+		return modelAndView;
+	}
 }

@@ -29,5 +29,7 @@ public interface UsersService {
 			String threadSubject, String threadContent, String studentName, boolean isanonymous);
 	// Get the thread information
 	public List<GetThreadInfoDTO> getThreadInformation(int courseid);
+	// Get thread information
+	public List<GetThreadInfoDTO> getThreadInfoByThreadID(int threadid);
 	
 }
