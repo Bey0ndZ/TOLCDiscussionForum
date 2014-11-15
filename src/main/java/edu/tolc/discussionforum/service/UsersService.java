@@ -3,6 +3,7 @@ package edu.tolc.discussionforum.service;
 import java.util.List;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 
 public interface UsersService {
@@ -26,5 +27,7 @@ public interface UsersService {
 	// Creating the thread
 	public String createThread(int courseid, String threadName,
 			String threadSubject, String threadContent, String studentName, boolean isanonymous);
+	// Get the thread information
+	public List<GetThreadInfoDTO> getThreadInformation(int courseid);
 	
 }

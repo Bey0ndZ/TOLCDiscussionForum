@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.service.UsersService;
 
 @Controller
@@ -105,10 +106,22 @@ public class StudentController {
 	@RequestMapping(value="welcome/discussionBoard/{courseid}", method=RequestMethod.GET)
 	public ModelAndView getDiscussionBoardForCourse(@PathVariable int courseid) {
 		ModelAndView modelAndView = new ModelAndView();
-		// Get the information from discussioboard table
-		
-		// Setting the global variable to keep track of courseIDs
+		// Get the information from discussionboard table
+		// using a DTO
+		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
+		// Setting the global variable
 		getDiscussionForCourseID = courseid;
+		
+		getThreadInformation = userService.getThreadInformation(courseid);
+		
+		// Check if the user has selected anonymous
+		for (GetThreadInfoDTO threadInfo : getThreadInformation) {
+			if (threadInfo.isPostanonymously()) {
+				threadInfo.setCreatedby("Anonymous");
+			} 
+		}
+		// Adding it to the view
+		modelAndView.addObject("getThreadInformation", getThreadInformation);
 		modelAndView.setViewName("discussionBoard");
 		return modelAndView;
 	}
@@ -131,7 +144,8 @@ public class StudentController {
 			@RequestParam("anonymousPost") String anonymousPost) {
 		ModelAndView modelAndView = new ModelAndView();
 		boolean isanonymous;
-		int courseid = getDiscussionForCourseID;
+		int courseid = 0;
+		courseid = getDiscussionForCourseID;
 		if (threadName != null && threadSubject != null && threadContent != null) {
 			
 			// Get the username of the student logged in

@@ -13,7 +13,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
+import edu.tolc.discussionforum.mappersandextractors.GetThreadInfoMapper;
 import edu.tolc.discussionforum.model.UserInformation;
 
 // Perform CRUD Operations
@@ -179,15 +181,28 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public String createThread(int courseid, String threadName,
-			String threadSubject, String threadContent, String studentName, boolean isanonymous) {
+			String threadSubject, String threadContent, String creatorsName, boolean isanonymous) {
 		String createThreadQuery = "INSERT INTO discussionboard (courseid, threadname, threadsubject,"
-				+ " threadcontent, createdby, postanonymously) VALUES (?,?,?,?,?,?)";
+				+ "threadcontent, createdby, postanonymously) VALUES (?,?,?,?,?,?)";
 		JdbcTemplate createThreadTemplate = new JdbcTemplate(dataSource);
 		
 		// Insert into DB
 		createThreadTemplate.update(createThreadQuery, 
-				new Object[] {courseid, threadName, threadSubject, threadContent, studentName, isanonymous});
+				new Object[] {courseid, threadName, threadSubject, threadContent, creatorsName, isanonymous});
 		
 		return "Thread created.";
+	}
+
+	@Override
+	public List<GetThreadInfoDTO> getThreadInformation(int courseid) {
+		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
+		String getThreadInfoQuery = "SELECT courseid, threadid, threadname, threadsubject, threadcontent,"
+				+ "createdby, postanonymously FROM discussionboard WHERE courseid=?";
+		JdbcTemplate getThreadInfoTemplate = new JdbcTemplate(dataSource);
+		
+		getThreadInformation = getThreadInfoTemplate.query(getThreadInfoQuery, 
+				new Object[] {courseid}, new GetThreadInfoMapper());
+		
+		return getThreadInformation;
 	}
 }

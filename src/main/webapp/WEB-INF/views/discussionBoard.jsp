@@ -86,7 +86,7 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li><a href="welcome"><i
+						<li><a href="/discussionforum/welcome"><i
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
 						<li><a href="createThread"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Create New Thread</a></li>
@@ -118,35 +118,32 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getMyCourses}">
+											<c:if test="${not empty getThreadInformation}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Instructor</th>
-															<th>Course Description</th>
+															<th>Thread ID</th>
+															<th>Thread Name</th>
+															<th>Thread Subject</th>
+															<th>Thread Content</th>
+															<th>Created By</th>
 														</tr>
 													</thead>
 													<tbody>
 														<!-- Align properly -->
-														<c:forEach var="courseInfo" items="${getMyCourses}">
+														<c:forEach var="threadInfo" items="${getThreadInformation}">
 															<tr>
-																<td><a href="welcome/discussionBoard/${courseInfo.courseid}">${courseInfo.courseid}</a></td>
-																<td>${courseInfo.coursename}</td>
-																<td>${courseInfo.instructor}</td>
-																<td>${courseInfo.coursedescription}</td>
+																<td><a href="welcome/discussionBoard/thread/${threadInfo.threadid}">${threadInfo.threadid}</a></td>
+																<td>${threadInfo.threadname}</td>
+																<td>${threadInfo.threadsubject}</td>
+																<td>${threadInfo.threadcontent}</td>
+																<td>${threadInfo.createdby}</td>
 															</tr>
 														</c:forEach>
 													</tbody>
 												</table>
 											</c:if>
-											
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
 										</div>
 									</div>
 								</div>

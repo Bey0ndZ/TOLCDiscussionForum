@@ -3,6 +3,7 @@ package edu.tolc.discussionforum.dao;
 import java.util.List;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 
 public interface UsersDAO {
@@ -30,4 +31,6 @@ public interface UsersDAO {
 	// Create a new thread
 	public String createThread(int courseid, String threadName,
 			String threadSubject, String threadContent, String studentName, boolean isanonymous);
+	// Get thread information
+	public List<GetThreadInfoDTO> getThreadInformation(int courseid);
 }

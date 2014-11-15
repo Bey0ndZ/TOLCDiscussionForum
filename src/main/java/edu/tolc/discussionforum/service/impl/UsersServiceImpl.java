@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 import edu.tolc.discussionforum.service.UsersService;
 
@@ -58,5 +59,10 @@ public class UsersServiceImpl implements UsersService{
 	public String createThread(int courseid, String threadName,
 			String threadSubject, String threadContent, String studentName, boolean isanonymous) {
 		return userDAO.createThread(courseid, threadName, threadSubject, threadContent, studentName, isanonymous);
+	}
+
+	@Override
+	public List<GetThreadInfoDTO> getThreadInformation(int courseid) {
+		return userDAO.getThreadInformation(courseid);
 	}
 }	

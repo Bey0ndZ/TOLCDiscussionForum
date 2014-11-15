@@ -5,6 +5,9 @@ USE `tolcdiscussionforum`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `user_roles`;
 DROP TABLE IF EXISTS `courses`;
+DROP TABLE IF EXISTS `enrollment`;
+DROP TABLE IF EXISTS `discussionboard`;
+DROP TABLE IF EXISTS `discussionposts`;
 
 CREATE  TABLE users (
   username VARCHAR(45) NOT NULL,
