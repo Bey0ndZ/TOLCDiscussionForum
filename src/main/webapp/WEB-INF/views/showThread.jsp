@@ -123,9 +123,15 @@
 											<div class="panel panel-default">
 												${threadcontent}<br/><br/>
 											</div>
-											<form:form action="welcome/discussionBoard/showThread" method="POST">
-												<textarea rows=3 cols=100 name="discussion"></textarea><br/>
-												<input type="submit" value="Post" />
+											<!-- Show the post which is basically text from the below textarea -->
+											<!-- Use ajax to perform the post text request -->
+											<div class="panel panel-default" id="showPost">
+												
+											</div>
+											
+											<form:form action="/discussionforum/welcome/discussionBoard/showThread" method="POST">
+												<textarea rows=3 cols=100 name="discussion" id="discussion"></textarea><br/>
+												<input type="submit" value="Post" id="postToDiscussion"/>
 											</form:form>										
 										</div>
 									</div>
@@ -151,6 +157,18 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+			
+		<script>
+			$(document).ready(function() {
+				$('postToDiscussion').click(function() {
+					var discussion = $('#discussion').val();
+					$.post('/discussionforum/welcome/discussionBoard/showThread', 
+							{discussion: discussion}, function(response) {
+								$('#showPost').text(response);
+							});
+				});
+			});
+		</script>
 	</sec:authorize>
 </body>
 

@@ -1,7 +1,11 @@
 package edu.tolc.discussionforum.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -194,9 +198,14 @@ public class StudentController {
 	}
 	
 	// POST request
-	public ModelAndView postThread(@RequestParam("discussion") String discussionPost) {
-		ModelAndView modelAndView = new ModelAndView();
+	@RequestMapping(value="/discussionforum/welcome/discussionBoard/showThread", method=RequestMethod.POST)
+	public ModelAndView postThread(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String discussion = request.getParameter("discussion");
+		response.setContentType("text/plain");  
+		response.setCharacterEncoding("UTF-8");
 		
+		ModelAndView modelAndView = new ModelAndView();
+		response.getWriter().write(discussion);
 		modelAndView.setViewName("showThread");
 		return modelAndView;
 	}
