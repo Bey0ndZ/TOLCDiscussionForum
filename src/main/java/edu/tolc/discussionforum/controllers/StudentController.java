@@ -196,7 +196,11 @@ public class StudentController {
 		// Get discussion posts
 		List<GetPostsDTO> getAllPosts = new ArrayList<GetPostsDTO>();
 		getAllPosts = userService.getPosts(threadid);
-		
+		for (GetPostsDTO post : getAllPosts) {
+			if (post.isPostanonymously()) {
+				post.setPostedby("Anonymous");
+			}
+		}
 		modelAndView.addObject("getAllPosts", getAllPosts);
 		modelAndView.setViewName("showThread");
 		return modelAndView;

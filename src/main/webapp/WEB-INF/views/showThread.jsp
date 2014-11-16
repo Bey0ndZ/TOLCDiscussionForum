@@ -129,6 +129,9 @@
 												
 											</div> -->
 											<c:forEach var="post" items="${getAllPosts}">
+												<div class="text-right">
+													<small>Posted by: ${post.postedby} at ${post.postedat}</small>
+												</div>
 												<div class="panel panel-default">
 													${post.postcontent}
 												</div>
