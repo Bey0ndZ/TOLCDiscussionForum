@@ -56,7 +56,10 @@ CREATE  TABLE users (
   CREATE TABLE discussionposts (
   threadid int(11) NOT NULL,
   postid int(11) NOT NULL AUTO_INCREMENT,
+  postcontent VARCHAR(1000) NOT NULL,
   postedby VARCHAR(45) NOT NULL,
+  postanonymously TINYINT NOT NULL,
+  postedat timestamp NOT NULL,
   PRIMARY KEY (postid),
   FOREIGN KEY (threadid) REFERENCES discussionboard(threadid));
 

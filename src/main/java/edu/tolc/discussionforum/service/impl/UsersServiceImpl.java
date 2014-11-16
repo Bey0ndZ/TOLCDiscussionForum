@@ -70,4 +70,9 @@ public class UsersServiceImpl implements UsersService{
 	public List<GetThreadInfoDTO> getThreadInfoByThreadID(int threadid) {
 		return userDAO.getThreadInfoByThreadID(threadid);
 	}
+
+	@Override
+	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously) {
+		userDAO.postToThread(threadid, newPost, studentName, postAnonymously);		
+	}
 }	

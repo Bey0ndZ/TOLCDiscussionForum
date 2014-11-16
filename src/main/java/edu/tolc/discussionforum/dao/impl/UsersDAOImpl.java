@@ -2,7 +2,9 @@ package edu.tolc.discussionforum.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -217,5 +219,19 @@ public class UsersDAOImpl implements UsersDAO {
 		getThreadInformation = getThreadInfoTemplate.query(getThreadInfoQuery, 
 				new Object[] {threadid}, new GetThreadInfoMapper());
 		return getThreadInformation;
+	}
+
+	@Override
+	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously) {	
+		String newThreadPostQuery = "INSERT INTO discussionposts(threadid, postcontent, postedby, postanonymously, postedat) "
+				+ "VALUES (?,?,?,?,?)";
+		JdbcTemplate newThreadPostTemplate = new JdbcTemplate(dataSource);
+		
+		// Get the timestamp
+		Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
+		
+		// Actual insert
+		newThreadPostTemplate.update(newThreadPostQuery, 
+				new Object[] {threadid, newPost, studentName, postAnonymously, currentTimestamp});
 	}
 }

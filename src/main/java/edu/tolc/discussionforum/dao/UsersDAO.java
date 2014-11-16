@@ -36,4 +36,7 @@ public interface UsersDAO {
 	
 	// Get thread by threadid
 	public List<GetThreadInfoDTO> getThreadInfoByThreadID(int threadid);
+	
+	// Post to thread
+	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously);
 }

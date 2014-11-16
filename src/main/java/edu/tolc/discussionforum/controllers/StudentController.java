@@ -1,11 +1,7 @@
 package edu.tolc.discussionforum.controllers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -28,6 +24,7 @@ public class StudentController {
 	@Autowired
 	UsersService userService;
 	int getDiscussionForCourseID = 0;
+	int getThreadID = 0;
 	
 	@RequestMapping(value="/welcome", method=RequestMethod.GET)
 	public ModelAndView welcomeGET() {
@@ -184,6 +181,9 @@ public class StudentController {
 		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
 		getThreadInformation = userService.getThreadInfoByThreadID(threadid);
 		
+		// Store the threadid in the global variable to be used during insertion
+		getThreadID = threadid;
+		
 		for (GetThreadInfoDTO threadInfo : getThreadInformation) {
 			modelAndView.addObject("threadname", threadInfo.getThreadname());
 			modelAndView.addObject("threadsubject", threadInfo.getThreadsubject());
@@ -194,16 +194,52 @@ public class StudentController {
 	}
 	
 	// POST request
-	// TODO: Cleanup the ajax functionality
-	@RequestMapping(value="/discussionforum/welcome/discussionBoard/showThread", method=RequestMethod.POST)
-	public ModelAndView postThread(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String discussion = request.getParameter("discussion");
-		response.setContentType("text/plain");  
-		response.setCharacterEncoding("UTF-8");
-		
+	// Redirect it to another page which displays the discussion
+	// board posts
+	@RequestMapping(value="welcome/discussionBoard/showThread", 
+			method=RequestMethod.POST)
+	public ModelAndView postToThread(@RequestParam("discussion") String newPost,
+			@RequestParam("postanonymously") String postAnon) {
 		ModelAndView modelAndView = new ModelAndView();
-		response.getWriter().write(discussion);
-		modelAndView.setViewName("showThread");
+		boolean postAnonymously = false;
+		if (newPost != null) {
+			// Get the student logged in
+			Authentication auth = SecurityContextHolder.getContext()
+					.getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetail = (UserDetails) auth.getPrincipal();
+				String studentName = userDetail.getUsername();
+				
+				// Let the return type of the method be void
+				// since we would just be redirecting to another
+				// page which would extract the data and populate the view
+				
+				if (postAnon.equalsIgnoreCase("yes")) {
+					postAnonymously = true;
+				} else {
+					postAnonymously = false;
+				}
+				
+				userService.postToThread(getThreadID, newPost, studentName, postAnonymously);
+				// Update view
+				modelAndView.setViewName("redirect:showThread/"+getThreadID);
+			} else {
+				// permission-denied
+				// must log in
+			}
+		} else {
+			modelAndView.addObject("discussionMsg", "Please do not leave the text area empty.");
+			modelAndView.setViewName("showThread");
+		}
+		return modelAndView;
+	}
+	
+	// Write the controller for showThreadPosts which 
+	// the above controller redirects to
+	@RequestMapping(value="welcome/discussionBoard/showThreadPosts", method=RequestMethod.GET)
+	public ModelAndView showThreadPostsGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("showThreadPosts");
 		return modelAndView;
 	}
 }

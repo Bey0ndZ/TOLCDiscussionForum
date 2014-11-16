@@ -130,7 +130,10 @@
 											</div>
 											
 											<form:form action="/discussionforum/welcome/discussionBoard/showThread" method="POST">
-												<textarea rows=3 cols=100 name="discussion" id="discussion"></textarea><br/>
+												<textarea rows=2 cols=100 name="discussion" id="discussion"></textarea><br/>
+												<div class="text-right">
+													Post anonymously: Yes <input type="checkbox" name="postanonymously" value="yes"/> No <input type="checkbox" name="postanonymously" value="no" />
+												</div>
 												<input type="submit" value="Post" id="postToDiscussion"/>
 											</form:form>										
 										</div>
@@ -157,18 +160,6 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-			
-		<script>
-			$(document).ready(function() {
-				$('postToDiscussion').click(function() {
-					var discussion = $('#discussion').val();
-					$.post('/discussionforum/welcome/discussionBoard/showThread', 
-							{discussion: discussion}, function(response) {
-								$('#showPost').text(response);
-							});
-				});
-			});
-		</script>
 	</sec:authorize>
 </body>
 

@@ -31,5 +31,7 @@ public interface UsersService {
 	public List<GetThreadInfoDTO> getThreadInformation(int courseid);
 	// Get thread information
 	public List<GetThreadInfoDTO> getThreadInfoByThreadID(int threadid);
+	// Post to thread
+	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously);
 	
 }
