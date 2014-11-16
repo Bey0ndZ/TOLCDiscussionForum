@@ -86,7 +86,7 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li><a href="welcome"><i
+						<li><a href="/discussionforum/welcome"><i
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
 						<li><a href="createThread"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Create New Thread</a></li>
@@ -138,7 +138,8 @@
 											</c:forEach>
 											
 											<form:form action="/discussionforum/welcome/discussionBoard/showThread" method="POST">
-												<textarea rows=2 cols=100 name="discussion" id="discussion"></textarea><br/>
+												<small>Follow up discussion:</small><br/>
+												<textarea rows="2" cols="116" name="discussion" id="discussion"></textarea><br/>
 												<div class="text-right">
 													Post anonymously: Yes <input type="checkbox" name="postanonymously" value="yes"/> No <input type="checkbox" name="postanonymously" value="no" checked/>
 												</div>
