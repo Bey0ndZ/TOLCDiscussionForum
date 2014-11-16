@@ -29,8 +29,6 @@ public class StudentController {
 	UsersService userService;
 	int getDiscussionForCourseID = 0;
 	
-	// TODO: Need to have a default list of all the courses
-	// the student is present in
 	@RequestMapping(value="/welcome", method=RequestMethod.GET)
 	public ModelAndView welcomeGET() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -49,8 +47,6 @@ public class StudentController {
 			getMyCourses = userService.getStudentCourses(studentName);
 			
 			modelAndView.addObject("getMyCourses", getMyCourses);
-			
-			
 		} else {
 			// permission-denied page
 			// Please log in
@@ -198,6 +194,7 @@ public class StudentController {
 	}
 	
 	// POST request
+	// TODO: Cleanup the ajax functionality
 	@RequestMapping(value="/discussionforum/welcome/discussionBoard/showThread", method=RequestMethod.POST)
 	public ModelAndView postThread(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String discussion = request.getParameter("discussion");
