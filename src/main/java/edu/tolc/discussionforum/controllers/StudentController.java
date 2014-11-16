@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.service.UsersService;
 
@@ -189,6 +190,14 @@ public class StudentController {
 			modelAndView.addObject("threadsubject", threadInfo.getThreadsubject());
 			modelAndView.addObject("threadcontent", threadInfo.getThreadcontent());
 		}
+		
+		// Populate the remaining discussions going on
+		// When adding the object to the model, add the html tags with them
+		// Get discussion posts
+		List<GetPostsDTO> getAllPosts = new ArrayList<GetPostsDTO>();
+		getAllPosts = userService.getPosts(threadid);
+		
+		modelAndView.addObject("getAllPosts", getAllPosts);
 		modelAndView.setViewName("showThread");
 		return modelAndView;
 	}

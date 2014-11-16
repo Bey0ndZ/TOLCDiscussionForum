@@ -3,6 +3,7 @@ package edu.tolc.discussionforum.dao;
 import java.util.List;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 
@@ -39,4 +40,6 @@ public interface UsersDAO {
 	
 	// Post to thread
 	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously);
+	// Get all posts till then
+	public List<GetPostsDTO> getPosts(int threadid);
 }

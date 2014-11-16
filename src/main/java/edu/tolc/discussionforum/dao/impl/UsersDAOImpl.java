@@ -15,8 +15,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
+import edu.tolc.discussionforum.mappersandextractors.GetPostsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetThreadInfoMapper;
 import edu.tolc.discussionforum.model.UserInformation;
 
@@ -233,5 +235,17 @@ public class UsersDAOImpl implements UsersDAO {
 		// Actual insert
 		newThreadPostTemplate.update(newThreadPostQuery, 
 				new Object[] {threadid, newPost, studentName, postAnonymously, currentTimestamp});
+	}
+
+	@Override
+	public List<GetPostsDTO> getPosts(int threadid) {
+		String getPostsQuery = "SELECT postcontent, postedby, postanonymously, postedat "
+				+ "FROM discussionposts WHERE threadid=?";
+		JdbcTemplate getPostsTemplate = new JdbcTemplate(dataSource);
+		List<GetPostsDTO> getAllPosts = new ArrayList<GetPostsDTO>();
+		
+		getAllPosts = getPostsTemplate.query(getPostsQuery, 
+				new Object[] {threadid}, new GetPostsMapper());
+		return getAllPosts;
 	}
 }

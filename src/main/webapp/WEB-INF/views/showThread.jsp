@@ -125,14 +125,19 @@
 											</div>
 											<!-- Show the post which is basically text from the below textarea -->
 											<!-- Use ajax to perform the post text request -->
-											<div class="panel panel-default" id="showPost">
+											<!-- <div class="panel panel-default" id="showPost">
 												
-											</div>
+											</div> -->
+											<c:forEach var="post" items="${getAllPosts}">
+												<div class="panel panel-default">
+													${post.postcontent}
+												</div>
+											</c:forEach>
 											
 											<form:form action="/discussionforum/welcome/discussionBoard/showThread" method="POST">
 												<textarea rows=2 cols=100 name="discussion" id="discussion"></textarea><br/>
 												<div class="text-right">
-													Post anonymously: Yes <input type="checkbox" name="postanonymously" value="yes"/> No <input type="checkbox" name="postanonymously" value="no" />
+													Post anonymously: Yes <input type="checkbox" name="postanonymously" value="yes"/> No <input type="checkbox" name="postanonymously" value="no" checked/>
 												</div>
 												<input type="submit" value="Post" id="postToDiscussion"/>
 											</form:form>										
