@@ -10,6 +10,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +21,7 @@ import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.GetTickrDTO;
+import edu.tolc.discussionforum.mail.EmailService;
 import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetPostsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetThreadInfoMapper;
@@ -238,6 +241,40 @@ public class UsersDAOImpl implements UsersDAO {
 		// Actual insert
 		newThreadPostTemplate.update(newThreadPostQuery, 
 				new Object[] {threadid, newPost, studentName, postAnonymously, currentTimestamp});
+		
+		// Also email people who have subscribed to this thread
+		// saying so and so user modified the post
+		// we could send content too
+		String getSubscribersQuery = "SELECT studentname FROM subscriptions WHERE threadid=?";
+		JdbcTemplate getSubscribersTemplate = new JdbcTemplate(dataSource);
+		
+		List<String> getAllSubscribers = getSubscribersTemplate.query(getSubscribersQuery,
+				new Object[] {threadid}, new RowMapper<String>() {
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString(1);
+			}
+		});
+		
+		// Get the thread name
+		String threadName = "SELECT threadname FROM discussionboard WHERE threadid=?";
+		JdbcTemplate threadNameTemplate = new JdbcTemplate(dataSource);
+		
+		String threadNameObject = threadNameTemplate.queryForObject(threadName, 
+				new Object[] {threadid}, String.class);
+		
+		String subject = "New post has been made in: "+threadNameObject;
+		String content = "Post made by: "+studentName+"\n\nContent:\n"+newPost;
+		
+		// Get email addresses
+		String getEmailQuery = "SELECT email from users where username=?";
+		JdbcTemplate getEmailTemplate = new JdbcTemplate(dataSource);
+		
+		// Send the email to every subscriber of the thread
+		for (String subscriber : getAllSubscribers) {
+			String emailID = getEmailTemplate.queryForObject(getEmailQuery, new Object[]{subscriber},
+					String.class);
+			sendEmail(emailID, subject, content);
+		}
 	}
 
 	@Override
@@ -290,5 +327,14 @@ public class UsersDAOImpl implements UsersDAO {
 		} else {
 			return false;
 		}
+	}
+	
+	// Email functionality
+	// Just call the method with params
+	public void sendEmail(String to, String subject, String msg) {
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"spring-mail.xml");
+		EmailService emailService = (EmailService) context.getBean("email");
+		emailService.sendMail("tolcdiscussionforum@gmail.com", to, subject, msg);
 	}
 }
