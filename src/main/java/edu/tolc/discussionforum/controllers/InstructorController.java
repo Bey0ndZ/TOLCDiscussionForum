@@ -1,6 +1,10 @@
 package edu.tolc.discussionforum.controllers;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +98,31 @@ public class InstructorController {
 		ModelAndView modelAndView = new ModelAndView();
 		System.out.println(courseid);
 		modelAndView.setViewName("welcomeInstructor");
+		return modelAndView;	
+	}
+	
+	// Display the course calendar
+	@RequestMapping(value="/courseCalendar", method=RequestMethod.GET)
+	public ModelAndView courseCalendarGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("courseCalendar");
 		return modelAndView;
+	}
+	
+	// Process the events
+	@RequestMapping(value="/courseCalendar", method=RequestMethod.POST)
+	public ModelAndView courseCalendarPOST(@RequestParam("dateandtime") String dateandtime,
+			@RequestParam("eventDetails") String eventDetails) throws ParseException {
+		ModelAndView modelAndView = new ModelAndView();
 		
+		// Changing the string timestamp to a timestamp variable
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		Date date = simpleDateFormat.parse(dateandtime);
+		Timestamp eventTimestamp = new Timestamp(date.getTime());
+		
+		// Save the event
+		
+		modelAndView.setViewName("courseCalendar");
+		return modelAndView;
 	}
 }

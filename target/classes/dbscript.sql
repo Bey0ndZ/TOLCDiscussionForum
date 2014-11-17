@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `courses`;
 DROP TABLE IF EXISTS `enrollment`;
 DROP TABLE IF EXISTS `discussionboard`;
 DROP TABLE IF EXISTS `discussionposts`;
+DROP TABLE IF EXISTS `subscriptions`;
 
 CREATE  TABLE users (
   username VARCHAR(45) NOT NULL,
@@ -70,5 +71,13 @@ CREATE  TABLE users (
   subscription TINYINT NOT NULL,
   PRIMARY KEY (sno),
   FOREIGN KEY (threadid) REFERENCES discussionboard(threadid));
-
+  
+  CREATE TABLE calendarevents(
+  eventnumber int(11) NOT NULL AUTO_INCREMENT,
+  courseid int(11) NOT NULL,
+  eventinformation VARCHAR(1000) NOT NULL,
+  eventcreatedby VARCHAR(45) NOT NULL,
+  personalevent TINYINT NOT NULL,
+  PRIMARY KEY(eventnumber),
+  FOREIGN KEY(courseid) REFERENCES courses(courseid));
   

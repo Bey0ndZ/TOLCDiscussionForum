@@ -31,6 +31,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome-4.1.0/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+	
+<link href="${pageContext.request.contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -124,33 +126,13 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty courseInformationForInstructor}">
-													<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
-														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Number of Students</th>
-														</tr>
-													</thead>
-													<tbody>
-
-														<c:forEach var="o" items="${courseInformationForInstructor}">
-															<tr>
-																<td>${o.courseID}</td>
-																<td>${o.courseName}</td>
-																<td>${o.numberOfStudents }</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</c:if>
-											
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
+											<form:form method="POST" action="courseCalendar">
+												<!-- Course Calendar -->
+												<p>Date and Time: <input type="text" id="datetimepicker" name="dateandtime"></p><br/>
+												Event details:<br/>
+												<textarea cols="116" rows="2" name="eventDetails"></textarea><br/>
+												<button type="submit" class="btn btn-default">Create Event</button>
+											</form:form>
 										</div>
 									</div>
 								</div>
@@ -175,6 +157,15 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		<!-- datetimepicker -->
+		<script
+			src="${pageContext.request.contextPath}/resources/js/jquery.datetimepicker.js"></script>
+			
+		<!-- Activate datetimepicker -->
+		<script>
+			jQuery('#datetimepicker').datetimepicker();
+		</script>	
+			
 	</sec:authorize>
 </body>
 
