@@ -12,14 +12,11 @@ TOLCDiscussionForum
 
 TODO (Dt. 11/17/2014)
 Sumanth's tasks:
-1. TODO: If anonymous is true, then do not display their name in the tickr
+1. Subscribe to threads
 
-2. Subscribe to threads
+2. Create a new firepad for every discussion thread which is active
 
-3. Add created by thread right hand side bottom like in piazza
+3. Try getting the username of the person editing the firebug space
 
-4. In the main thread content, post the persons name who has created the thread
-
-5. Add a wiki
 
  
