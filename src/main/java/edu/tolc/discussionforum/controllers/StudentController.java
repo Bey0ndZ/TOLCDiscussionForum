@@ -130,7 +130,8 @@ public class StudentController {
 	@RequestMapping(value="welcome/discussionBoard/createThread",
 			method=RequestMethod.GET)
 	public ModelAndView createThreadGET() {
-		ModelAndView modelAndView = new ModelAndView();		
+		ModelAndView modelAndView = new ModelAndView();	
+		modelAndView.addObject("getCourseID", getCourseID);
 		modelAndView.setViewName("createThread");
 		return modelAndView;
 	}
