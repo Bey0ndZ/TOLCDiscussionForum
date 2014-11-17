@@ -62,5 +62,13 @@ CREATE  TABLE users (
   postedat timestamp NOT NULL,
   PRIMARY KEY (postid),
   FOREIGN KEY (threadid) REFERENCES discussionboard(threadid));
+  
+  CREATE TABLE subscriptions (
+  sno int(11) NOT NULL AUTO_INCREMENT,
+  threadid int(11) NOT NULL,
+  studentname VARCHAR(45) NOT NULL,
+  subscription TINYINT NOT NULL,
+  PRIMARY KEY (sno),
+  FOREIGN KEY (threadid) REFERENCES discussionboard(threadid));
 
   

@@ -48,7 +48,7 @@
 	.firepad {
 	  width: 100%;
 	  height: 200px;
-	  background-color: #808080; /* dark orange background */
+	  background-color: #808080; /* Grey backgroun */
 	}
 	
 	/* Note: CodeMirror applies its own styles which can be customized in the same way.
@@ -129,6 +129,13 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<h1 class="page-header">${threadname}</h1>
+							<!-- Subscribe now feature -->
+							<div class="text-right">
+								<form:form method="POST" action="/discussionforum/welcome/discussionBoard/subscribeToThread">
+									<small>Subscribe to thread: <input type="checkbox" value="yes" name="subscribeToThread"></small>
+									<button type="submit" class="btn btn-default">Subscribe</button>
+								</form:form>
+							</div>
 							<c:forEach var="tickrInfo" items="${tickr}">
 								<small><marquee>${tickrInfo.postedby} has posted last at ${tickrInfo.postedat} on this thread!</marquee></small>
 							</c:forEach>

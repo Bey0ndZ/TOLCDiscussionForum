@@ -266,4 +266,26 @@ public class StudentController {
 		}
 		return modelAndView;
 	}
+	
+	// Subscribe to thread
+	// POST action
+	@RequestMapping(value="welcome/discussionBoard/subscribeToThread", method=RequestMethod.POST)
+	public ModelAndView subscribeToThreadPost(@RequestParam("subscribeToThread") String subscription) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		// Get the studentName
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String studentName = userDetail.getUsername();
+			
+			
+		} else {
+			// permission-denied page
+			// user must log in
+		}
+		
+		return modelAndView;
+	}
 }
