@@ -163,7 +163,6 @@ public class StudentController {
 				String threadCreationSuccessMsg = userService.createThread(courseid, 
 						threadName, threadSubject, threadContent, studentName, isanonymous);
 				
-				modelAndView.addObject("threadCreationSuccessMsg", threadCreationSuccessMsg);
 			} else {
 				// permission-denied page
 				// Must log in
@@ -171,7 +170,7 @@ public class StudentController {
 		} else {
 			modelAndView.addObject("inputValidationMsg", "Please do not leave the fields empty.");
 		}
-		modelAndView.setViewName("createThread");
+		modelAndView.setViewName("redirect:welcome/discussionBoard/"+getDiscussionForCourseID);
 		return modelAndView;
 	}
 	

@@ -10,10 +10,16 @@ TOLCDiscussionForum
 8. Change the DB password in spring-database.xml to your password which you set during MySQL installation
 9. You can now register and test out modules
 
-TODO (Dt. 11/16/2014)
+TODO (Dt. 11/17/2014)
 Sumanth's tasks:
-1. Discussion board posts
-2. Post as anonymous on discussion board
-3. Subscribe to threads
-4. Add created by thread right hand side bottom for piazza
+1. TODO: If anonymous is true, then do not display their name in the tickr
+
+2. Subscribe to threads
+
+3. Add created by thread right hand side bottom like in piazza
+
+4. In the main thread content, post the persons name who has created the thread
+
+5. Add a wiki
+
  
