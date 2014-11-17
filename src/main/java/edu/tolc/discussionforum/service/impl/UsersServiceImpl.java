@@ -87,4 +87,15 @@ public class UsersServiceImpl implements UsersService{
 	public List<GetTickrDTO> getDetailsForTickr(int threadid) {
 		return userDAO.getDetailsForTickr(threadid);
 	}
+
+	@Override
+	public String subscribeToThread(int getThreadID, String studentName,
+			boolean subscribe) {
+		return userDAO.subscribeToThread(getThreadID, studentName, subscribe);
+	}
+
+	@Override
+	public boolean hasSubscribed(int threadid, String studentName) {
+		return userDAO.hasSubscribed(threadid, studentName);
+	}
 }	

@@ -130,12 +130,19 @@
 						<div class="col-lg-12">
 							<h1 class="page-header">${threadname}</h1>
 							<!-- Subscribe now feature -->
-							<div class="text-right">
-								<form:form method="POST" action="/discussionforum/welcome/discussionBoard/subscribeToThread">
-									<small>Subscribe to thread: <input type="checkbox" value="yes" name="subscribeToThread"></small>
-									<button type="submit" class="btn btn-default">Subscribe</button>
-								</form:form>
-							</div>
+							<!-- Display the form only if the subscriptionMsg is empty -->
+							<c:if test="${not empty displayForm}">
+								<div class="text-right">
+									<form:form method="POST" action="/discussionforum/welcome/discussionBoard/subscribeToThread">
+										<small>Subscribe to thread: <input type="checkbox" value="yes" name="subscribeToThread"></small>
+										<button type="submit" class="btn btn-default">Subscribe</button>
+									</form:form>
+								</div>
+							</c:if>
+							<!-- Display the subscription message if it is not empty -->
+							<c:if test="${not empty subscriptionMsg}">
+								<small>${subscriptionMsg}</small>
+							</c:if>
 							<c:forEach var="tickrInfo" items="${tickr}">
 								<small><marquee>${tickrInfo.postedby} has posted last at ${tickrInfo.postedat} on this thread!</marquee></small>
 							</c:forEach>

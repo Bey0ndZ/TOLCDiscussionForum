@@ -221,6 +221,27 @@ public class StudentController {
 				post.setPostedby("Anonymous");
 			}
 		}
+		
+		// Check if the user is subscribed to the current thread
+		// if he or she haven't subscribed, only then display the form
+		// Get the username of the student logged in
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String studentName = userDetail.getUsername();
+			
+			if (userService.hasSubscribed(threadid, studentName)) {
+				modelAndView.addObject("subscriptionMsg", "You have been subscribed to this thread.");
+			} else {
+				modelAndView.addObject("displayForm", "Subscription form");
+			}
+			
+		} else {
+			// Not logged in
+		}
+		
+		
 		modelAndView.addObject("getAllPosts", getAllPosts);
 		modelAndView.setViewName("showThread");
 		return modelAndView;
@@ -272,6 +293,7 @@ public class StudentController {
 	@RequestMapping(value="welcome/discussionBoard/subscribeToThread", method=RequestMethod.POST)
 	public ModelAndView subscribeToThreadPost(@RequestParam("subscribeToThread") String subscription) {
 		ModelAndView modelAndView = new ModelAndView();
+		boolean subscribe = false;
 		
 		// Get the studentName
 		Authentication auth = SecurityContextHolder.getContext()
@@ -280,12 +302,19 @@ public class StudentController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String studentName = userDetail.getUsername();
 			
+			if (subscription.equalsIgnoreCase("yes")) {
+				subscribe = true;
+			} else {
+				subscribe = false;
+			}
 			
+			String subscriptionMsg = userService.subscribeToThread(getThreadID, studentName, subscribe);
+			modelAndView.addObject("subscriptionMsg", subscriptionMsg);
 		} else {
 			// permission-denied page
 			// user must log in
 		}
-		
+		modelAndView.setViewName("redirect:showThread/"+getThreadID);
 		return modelAndView;
 	}
 }

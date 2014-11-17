@@ -46,4 +46,10 @@ public interface UsersDAO {
 	
 	// Get details for tickr
 	public List<GetTickrDTO> getDetailsForTickr(int threadid);
+	
+	// Subscribe to thread
+	public String subscribeToThread(int getThreadID, String studentName,
+			boolean subscribe);
+	// Check for user subscription
+	public boolean hasSubscribed(int threadid, String studentName);
 }

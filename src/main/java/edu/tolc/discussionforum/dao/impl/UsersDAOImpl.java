@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
@@ -260,5 +261,34 @@ public class UsersDAOImpl implements UsersDAO {
 		getNameAndTimeForTickr = getDetailsTemplate.query(getDetailsQuery, new Object[] {threadid},
 				new GetTickrMapper());
 		return getNameAndTimeForTickr;
+	}
+
+	@Override
+	public String subscribeToThread(int getThreadID, String studentName,
+			boolean subscribe) {
+		String subscribeQuery = "INSERT INTO subscriptions (threadid, studentname, "
+				+ "subscription) VALUES (?,?,?)";
+		JdbcTemplate subscribeTemplate = new JdbcTemplate(dataSource);
+		
+		subscribeTemplate.update(subscribeQuery, new Object[] {getThreadID, studentName,
+				subscribe});
+		return "You have been subscribed to this thread.";
+	}
+
+	@Override
+	public boolean hasSubscribed(int threadid, String studentName) {
+		String userSubscribedQuery = "SELECT subscription FROM subscriptions WHERE "
+				+ "threadid=? AND studentname=?";
+		JdbcTemplate userSubscribedTemplate = new JdbcTemplate(dataSource);
+		RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
+		
+		userSubscribedTemplate.query(userSubscribedQuery, new Object[] {threadid, studentName}, countCallback);
+		int rowCount = countCallback.getRowCount();
+		
+		if (rowCount==1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

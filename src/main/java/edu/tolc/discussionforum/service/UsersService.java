@@ -40,5 +40,10 @@ public interface UsersService {
 	public List<GetPostsDTO> getPosts(int threadid);
 	// Get details for tickr
 	public List<GetTickrDTO> getDetailsForTickr(int threadid);
+	// Subscription to a particular thread
+	public String subscribeToThread(int getThreadID, String studentName,
+			boolean subscribe);
+	// Check for user subscription
+	public boolean hasSubscribed(int threadid, String studentName);
 	
 }
