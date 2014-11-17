@@ -103,6 +103,9 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<h1 class="page-header">${threadname}</h1>
+							<c:forEach var="tickrInfo" items="${tickr}">
+								<small><marquee>${tickrInfo.postedby} has posted last at ${tickrInfo.postedat} on this thread!</marquee></small>
+							</c:forEach>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -138,8 +141,7 @@
 											</c:forEach>
 											
 											<form:form action="/discussionforum/welcome/discussionBoard/showThread" method="POST">
-												<small>Follow up discussion:</small><br/>
-												<textarea rows="2" cols="116" name="discussion" id="discussion"></textarea><br/>
+												<textarea rows="2" cols="116" name="discussion" id="discussion" placeholder="Follow up discussion.."></textarea><br/>
 												<div class="text-right">
 													Post anonymously: Yes <input type="checkbox" name="postanonymously" value="yes"/> No <input type="checkbox" name="postanonymously" value="no" checked/>
 												</div>

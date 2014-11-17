@@ -17,9 +17,11 @@ import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
+import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetPostsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetThreadInfoMapper;
+import edu.tolc.discussionforum.mappersandextractors.GetTickrMapper;
 import edu.tolc.discussionforum.model.UserInformation;
 
 // Perform CRUD Operations
@@ -247,5 +249,16 @@ public class UsersDAOImpl implements UsersDAO {
 		getAllPosts = getPostsTemplate.query(getPostsQuery, 
 				new Object[] {threadid}, new GetPostsMapper());
 		return getAllPosts;
+	}
+
+	@Override
+	public List<GetTickrDTO> getDetailsForTickr(int threadid) {
+		String getDetailsQuery = "SELECT postedby, postedat FROM discussionposts WHERE threadid=? ORDER BY postedat desc LIMIT 1";
+		JdbcTemplate getDetailsTemplate = new JdbcTemplate(dataSource);
+		
+		List<GetTickrDTO> getNameAndTimeForTickr = new ArrayList<GetTickrDTO>();
+		getNameAndTimeForTickr = getDetailsTemplate.query(getDetailsQuery, new Object[] {threadid},
+				new GetTickrMapper());
+		return getNameAndTimeForTickr;
 	}
 }

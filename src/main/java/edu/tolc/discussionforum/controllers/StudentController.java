@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
+import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.service.UsersService;
 
 @Controller
@@ -190,6 +191,11 @@ public class StudentController {
 			modelAndView.addObject("threadsubject", threadInfo.getThreadsubject());
 			modelAndView.addObject("threadcontent", threadInfo.getThreadcontent());
 		}
+		
+		// For the tickr feature
+		List<GetTickrDTO> tickr = new ArrayList<GetTickrDTO>();
+		tickr = userService.getDetailsForTickr(threadid);
+		modelAndView.addObject("tickr", tickr);
 		
 		// Populate the remaining discussions going on
 		// When adding the object to the model, add the html tags with them

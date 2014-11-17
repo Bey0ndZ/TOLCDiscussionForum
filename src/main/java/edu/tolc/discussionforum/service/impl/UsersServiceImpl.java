@@ -8,6 +8,7 @@ import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
+import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 import edu.tolc.discussionforum.service.UsersService;
 
@@ -80,5 +81,10 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public List<GetPostsDTO> getPosts(int threadid) {
 		return userDAO.getPosts(threadid);
+	}
+
+	@Override
+	public List<GetTickrDTO> getDetailsForTickr(int threadid) {
+		return userDAO.getDetailsForTickr(threadid);
 	}
 }	

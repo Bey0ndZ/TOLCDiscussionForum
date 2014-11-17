@@ -5,6 +5,7 @@ import java.util.List;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
+import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 
 public interface UsersDAO {
@@ -42,4 +43,7 @@ public interface UsersDAO {
 	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously);
 	// Get all posts till then
 	public List<GetPostsDTO> getPosts(int threadid);
+	
+	// Get details for tickr
+	public List<GetTickrDTO> getDetailsForTickr(int threadid);
 }

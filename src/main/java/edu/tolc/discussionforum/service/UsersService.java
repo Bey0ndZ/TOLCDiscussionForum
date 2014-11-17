@@ -1,10 +1,12 @@
 package edu.tolc.discussionforum.service;
 
 import java.util.List;
+import java.util.Map;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
+import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 
 public interface UsersService {
@@ -36,5 +38,7 @@ public interface UsersService {
 	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously);
 	// Get posts till that time
 	public List<GetPostsDTO> getPosts(int threadid);
+	// Get details for tickr
+	public List<GetTickrDTO> getDetailsForTickr(int threadid);
 	
 }
