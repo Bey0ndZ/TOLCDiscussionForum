@@ -134,7 +134,7 @@
 							<c:if test="${not empty displayForm}">
 								<div class="text-right">
 									<form:form method="POST" action="/discussionforum/welcome/discussionBoard/subscribeToThread">
-										<small>Subscribe to thread: <input type="checkbox" value="yes" name="subscribeToThread"></small>
+										<small>Subscribe to thread: <input type="checkbox" value="yes" name="subscribeToThread" checked></small>
 										<button type="submit" class="btn btn-default">Subscribe</button>
 									</form:form>
 								</div>
