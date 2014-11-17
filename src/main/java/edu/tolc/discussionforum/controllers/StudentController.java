@@ -25,7 +25,7 @@ import edu.tolc.discussionforum.service.UsersService;
 public class StudentController {
 	@Autowired
 	UsersService userService;
-	int getDiscussionForCourseID = 0;
+	int getCourseID = 0;
 	int getThreadID = 0;
 	
 	@RequestMapping(value="/welcome", method=RequestMethod.GET)
@@ -109,7 +109,7 @@ public class StudentController {
 		// using a DTO
 		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
 		// Setting the global variable
-		getDiscussionForCourseID = courseid;
+		getCourseID = courseid;
 		
 		getThreadInformation = userService.getThreadInformation(courseid);
 		
@@ -144,7 +144,7 @@ public class StudentController {
 		ModelAndView modelAndView = new ModelAndView();
 		boolean isanonymous;
 		int courseid = 0;
-		courseid = getDiscussionForCourseID;
+		courseid = getCourseID;
 		if (threadName != null && threadSubject != null && threadContent != null) {
 			
 			// Get the username of the student logged in
@@ -170,7 +170,7 @@ public class StudentController {
 		} else {
 			modelAndView.addObject("inputValidationMsg", "Please do not leave the fields empty.");
 		}
-		modelAndView.setViewName("redirect:welcome/discussionBoard/"+getDiscussionForCourseID);
+		modelAndView.setViewName("redirect:/welcome/discussionBoard/"+getCourseID);
 		return modelAndView;
 	}
 	
@@ -194,7 +194,20 @@ public class StudentController {
 		// For the tickr feature
 		List<GetTickrDTO> tickr = new ArrayList<GetTickrDTO>();
 		tickr = userService.getDetailsForTickr(threadid);
+		
+		// If the person checks anonymous functionality
+		// do not display his name
+		for (GetTickrDTO tickrInformation : tickr) {
+			if (tickrInformation.isPostanonymously()) {
+				tickrInformation.setPostedby("Anonymous");
+			} else {
+				// Do nothing
+			}
+		}
 		modelAndView.addObject("tickr", tickr);
+		// Adding the global variable courseid so that
+		// we can redirect at the showThread page
+		modelAndView.addObject("globalCourseIDSet", getCourseID);
 		
 		// Populate the remaining discussions going on
 		// When adding the object to the model, add the html tags with them

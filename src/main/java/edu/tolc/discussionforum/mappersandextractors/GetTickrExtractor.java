@@ -16,6 +16,7 @@ public class GetTickrExtractor implements ResultSetExtractor<GetTickrDTO> {
 
 		getTickrDTO.setPostedby(resultSet.getString(1));
 		getTickrDTO.setPostedat(resultSet.getTimestamp(2));
+		getTickrDTO.setPostanonymously(resultSet.getBoolean(3));
 
 	return getTickrDTO;
 }

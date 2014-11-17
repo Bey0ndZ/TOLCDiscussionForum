@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class GetTickrDTO {
 	private String postedby;
 	private Timestamp postedat;
+	private boolean postanonymously;
 	/**
 	 * @return the postedby
 	 */
@@ -28,5 +29,17 @@ public class GetTickrDTO {
 	 */
 	public void setPostedat(Timestamp postedat) {
 		this.postedat = postedat;
+	}
+	/**
+	 * @return the postanonymously
+	 */
+	public boolean isPostanonymously() {
+		return postanonymously;
+	}
+	/**
+	 * @param postanonymously the postanonymously to set
+	 */
+	public void setPostanonymously(boolean postanonymously) {
+		this.postanonymously = postanonymously;
 	}
 }

@@ -253,7 +253,7 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public List<GetTickrDTO> getDetailsForTickr(int threadid) {
-		String getDetailsQuery = "SELECT postedby, postedat FROM discussionposts WHERE threadid=? ORDER BY postedat desc LIMIT 1";
+		String getDetailsQuery = "SELECT postedby, postedat, postanonymously FROM discussionposts WHERE threadid=? ORDER BY postedat desc LIMIT 1";
 		JdbcTemplate getDetailsTemplate = new JdbcTemplate(dataSource);
 		
 		List<GetTickrDTO> getNameAndTimeForTickr = new ArrayList<GetTickrDTO>();
