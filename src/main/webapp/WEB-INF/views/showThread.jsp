@@ -191,7 +191,7 @@
 											<form:form action="/discussionforum/welcome/discussionBoard/showThread" method="POST">
 												<textarea rows="2" cols="116" name="discussion" id="discussion" placeholder="Follow up discussion.."></textarea><br/>
 												<div class="text-right">
-													Post anonymously: Yes <input type="checkbox" name="postanonymously" value="yes"/> No <input type="checkbox" name="postanonymously" value="no" checked/>
+													Post anonymously: Yes <input type="radio" name="postanonymously" value="yes"/> No <input type="radio" name="postanonymously" value="no" checked/>
 												</div>
 												<input type="submit" value="Post" id="postToDiscussion"/>
 											</form:form>										
