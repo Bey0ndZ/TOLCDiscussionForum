@@ -265,13 +265,4 @@ public class StudentController {
 		}
 		return modelAndView;
 	}
-	
-	// Write the controller for showThreadPosts which 
-	// the above controller redirects to
-	@RequestMapping(value="welcome/discussionBoard/showThreadPosts", method=RequestMethod.GET)
-	public ModelAndView showThreadPostsGET() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("showThreadPosts");
-		return modelAndView;
-	}
 }

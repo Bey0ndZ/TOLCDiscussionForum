@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Welcome, ${username }</title>
+<title>Welcome, ${pageContext.request.userPrincipal.name}</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Customer</a>
+					<a class="navbar-brand" href="index">Welcome, ${pageContext.request.userPrincipal.name}</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -91,7 +91,7 @@
 						<li><a href="viewAllCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Courses</a></li>
 						<li><a href="deleteAccount"><i
-								class="fa fa-fw fa-bar-chart-o"></i>For Future</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> View My Calendar</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
