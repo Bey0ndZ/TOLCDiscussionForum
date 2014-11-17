@@ -245,7 +245,7 @@ public class UsersDAOImpl implements UsersDAO {
 		// Also email people who have subscribed to this thread
 		// saying so and so user modified the post
 		// we could send content too
-		String getSubscribersQuery = "SELECT studentname FROM subscriptions WHERE threadid=?";
+		String getSubscribersQuery = "SELECT studentname FROM subscriptions WHERE threadid=? AND subscription=true";
 		JdbcTemplate getSubscribersTemplate = new JdbcTemplate(dataSource);
 		
 		List<String> getAllSubscribers = getSubscribersTemplate.query(getSubscribersQuery,
