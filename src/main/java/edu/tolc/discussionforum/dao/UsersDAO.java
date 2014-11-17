@@ -1,5 +1,6 @@
 package edu.tolc.discussionforum.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
@@ -52,4 +53,7 @@ public interface UsersDAO {
 			boolean subscribe);
 	// Check for user subscription
 	public boolean hasSubscribed(int threadid, String studentName);
+	// Save the calend
+	public String createCalendarEvent(int globalCourseID, String eventDetails,
+			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp);
 }

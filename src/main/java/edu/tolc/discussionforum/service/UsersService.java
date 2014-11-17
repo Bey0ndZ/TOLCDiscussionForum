@@ -1,7 +1,7 @@
 package edu.tolc.discussionforum.service;
 
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -45,5 +45,8 @@ public interface UsersService {
 			boolean subscribe);
 	// Check for user subscription
 	public boolean hasSubscribed(int threadid, String studentName);
+	// Saving the event
+	public String createCalendarEvent(int globalCourseID, String eventDetails,
+			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp);
 	
 }

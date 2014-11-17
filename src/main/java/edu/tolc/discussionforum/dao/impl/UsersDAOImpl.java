@@ -337,4 +337,15 @@ public class UsersDAOImpl implements UsersDAO {
 		EmailService emailService = (EmailService) context.getBean("email");
 		emailService.sendMail("tolcdiscussionforum@gmail.com", to, subject, msg);
 	}
+
+	@Override
+	public String createCalendarEvent(int globalCourseID, String eventDetails,
+			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp) {
+		String createCalendarEventQuery = "INSERT INTO calendarevents(courseid,"
+				+ "eventinformation, eventcreatedby, personalevent, eventtimestamp) VALUES (?,?,?,?,?)";
+		JdbcTemplate createCalendarEventTemplate = new JdbcTemplate(dataSource);
+		createCalendarEventTemplate.update(createCalendarEventQuery, new Object[] {globalCourseID,
+				eventDetails, loggedInPersonsName, personalEvent, eventTimestamp});
+		return "Event successfully created.";
+	}
 }

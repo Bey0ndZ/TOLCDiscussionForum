@@ -126,11 +126,18 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
+											<c:if test="${not empty eventCreationMsg}">
+												<small>${eventCreationMsg}</small>
+											</c:if>
 											<form:form method="POST" action="courseCalendar">
 												<!-- Course Calendar -->
 												<p>Date and Time: <input type="text" id="datetimepicker" name="dateandtime"></p><br/>
 												Event details:<br/>
-												<textarea cols="116" rows="2" name="eventDetails"></textarea><br/>
+												<textarea cols="116" rows="2" name="eventDetails"></textarea><br/><br/>
+												Event type: <select name="eventType">
+													<option value="personalEvent">Personal</option>
+													<option value="courseEvent">Course</option>
+												</select><br/><br/>
 												<button type="submit" class="btn btn-default">Create Event</button>
 											</form:form>
 										</div>

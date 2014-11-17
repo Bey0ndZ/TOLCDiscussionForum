@@ -78,6 +78,7 @@ CREATE  TABLE users (
   eventinformation VARCHAR(1000) NOT NULL,
   eventcreatedby VARCHAR(45) NOT NULL,
   personalevent TINYINT NOT NULL,
+  eventtimestamp timestamp NOT NULL,
   PRIMARY KEY(eventnumber),
   FOREIGN KEY(courseid) REFERENCES courses(courseid));
   

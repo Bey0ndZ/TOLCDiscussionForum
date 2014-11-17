@@ -94,6 +94,8 @@
 								class="fa fa-fw fa-bar-chart-o"></i> Get Enrolled Students</a></li>
 						<li><a href="deleteCourse"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
+						<li><a href="/discussionforum/getMyCourses/discussionBoard/courseCalendar"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Course Calendar</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -129,6 +131,7 @@
 														<tr>
 															<th>Course ID</th>
 															<th>Course Name</th>
+															<th>Course Description</th>
 															<th>Number of Students</th>
 														</tr>
 													</thead>
@@ -136,9 +139,10 @@
 
 														<c:forEach var="o" items="${courseInformationForInstructor}">
 															<tr>
-																<td>${o.courseID}</td>
-																<td>${o.courseName}</td>
-																<td>${o.numberOfStudents }</td>
+																<td>${o.courseid}</td>
+																<td><a href=getMyCourses/discussionBoard/${o.courseid}>${o.coursename}</a></td>
+																<td>${o.coursedescription}</td>
+																<td>${o.numberofstudents}</td>
 															</tr>
 														</c:forEach>
 													</tbody>

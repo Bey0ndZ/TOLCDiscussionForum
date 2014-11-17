@@ -26,6 +26,7 @@ import edu.tolc.discussionforum.service.UsersService;
 public class InstructorController {
 	@Autowired
 	UsersService userService;
+	int globalCourseID = 0;
 	
 	// TODO: Get all the list of courses as soon as the instructor 
 	// logs in the system
@@ -96,13 +97,13 @@ public class InstructorController {
 	@RequestMapping(value="/getMyCourses/discussionBoard/{courseid}", method=RequestMethod.GET)
 	public ModelAndView discussionBoardGET(@PathVariable int courseid) {
 		ModelAndView modelAndView = new ModelAndView();
-		System.out.println(courseid);
-		modelAndView.setViewName("welcomeInstructor");
+		globalCourseID = courseid;
+		modelAndView.setViewName("discussionBoardForInstructor");
 		return modelAndView;	
 	}
 	
 	// Display the course calendar
-	@RequestMapping(value="/courseCalendar", method=RequestMethod.GET)
+	@RequestMapping(value="/getMyCourses/discussionBoard/courseCalendar", method=RequestMethod.GET)
 	public ModelAndView courseCalendarGET() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("courseCalendar");
@@ -110,17 +111,39 @@ public class InstructorController {
 	}
 	
 	// Process the events
-	@RequestMapping(value="/courseCalendar", method=RequestMethod.POST)
+	@RequestMapping(value="/getMyCourses/discussionBoard/courseCalendar", method=RequestMethod.POST)
 	public ModelAndView courseCalendarPOST(@RequestParam("dateandtime") String dateandtime,
-			@RequestParam("eventDetails") String eventDetails) throws ParseException {
+			@RequestParam("eventDetails") String eventDetails,
+			@RequestParam("eventType") String eventType) throws ParseException {
 		ModelAndView modelAndView = new ModelAndView();
+		boolean personalEvent = false;
 		
 		// Changing the string timestamp to a timestamp variable
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
 		Date date = simpleDateFormat.parse(dateandtime);
 		Timestamp eventTimestamp = new Timestamp(date.getTime());
 		
-		// Save the event
+		// Check whether personal event of course event
+		if (eventType.equalsIgnoreCase("personalEvent")) {
+			personalEvent = true;
+		} else {
+			personalEvent = false;
+		}
+		
+		// Get the logged in person
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInPersonsName = userDetail.getUsername();
+			
+			// Save the event
+			String eventCreationMsg = userService.createCalendarEvent(globalCourseID, eventDetails,
+					loggedInPersonsName, personalEvent, eventTimestamp);
+			modelAndView.addObject("eventCreationMsg", eventCreationMsg);
+		} else {
+			// permission-denied page
+		}
 		
 		modelAndView.setViewName("courseCalendar");
 		return modelAndView;

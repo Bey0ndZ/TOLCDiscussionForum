@@ -1,5 +1,6 @@
 package edu.tolc.discussionforum.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,5 +98,11 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public boolean hasSubscribed(int threadid, String studentName) {
 		return userDAO.hasSubscribed(threadid, studentName);
+	}
+
+	@Override
+	public String createCalendarEvent(int globalCourseID, String eventDetails,
+			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp) {
+		return userDAO.createCalendarEvent(globalCourseID, eventDetails, loggedInPersonsName, personalEvent, eventTimestamp);
 	}
 }	
