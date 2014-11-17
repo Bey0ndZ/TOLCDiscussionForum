@@ -31,6 +31,32 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome-4.1.0/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+	
+<!-- Firebase -->
+<script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+
+<!-- CodeMirror -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/4.3.0/codemirror.css" />
+
+<!-- Firepad -->
+<link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.1.0/firepad.css" />
+<script src="https://cdn.firebase.com/libs/firepad/1.1.0/firepad.min.js"></script>
+
+<!-- CSS for firepad -->
+<style type="text/css">
+	.firepad {
+	  width: 100%;
+	  height: 200px;
+	  background-color: #808080; /* dark orange background */
+	}
+	
+	/* Note: CodeMirror applies its own styles which can be customized in the same way.
+	   To apply a background to the entire editor, we need to also apply it to CodeMirror. */
+	.CodeMirror {
+	  background-color: #808080;
+	}
+</style>
 
 </head>
 
@@ -126,6 +152,10 @@
 											<div class="panel panel-default">
 												${threadcontent}<br/><br/>
 											</div>
+											
+											<!-- Wiki for collaborative editing -->
+											<div id="firepad"></div>
+											
 											<!-- Show the post which is basically text from the below textarea -->
 											<!-- Use ajax to perform the post text request -->
 											<!-- <div class="panel panel-default" id="showPost">
@@ -171,6 +201,19 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		
+		<!-- Wiki for collaborative editing -->
+		<!-- 
+		1. Initialize firebase
+		2. Initialize CodeMirror
+		3. Initialize firepad
+		 -->
+		<script>
+			var firepadRef = new Firebase('https://blinding-torch-1602.firebaseio.com/');
+			var codeMirror = CodeMirror(document.getElementById('firepad'), { lineWrapping: true });
+			var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
+				      { richTextShortcuts: true, richTextToolbar: true, defaultText: 'Hello, World!' });
+		</script>
 	</sec:authorize>
 </body>
 
