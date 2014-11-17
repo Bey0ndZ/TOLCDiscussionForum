@@ -190,6 +190,7 @@ public class StudentController {
 			modelAndView.addObject("threadname", threadInfo.getThreadname());
 			modelAndView.addObject("threadsubject", threadInfo.getThreadsubject());
 			modelAndView.addObject("threadcontent", threadInfo.getThreadcontent());
+			modelAndView.addObject("createdby", threadInfo.getCreatedby());
 		}
 		
 		// For the tickr feature

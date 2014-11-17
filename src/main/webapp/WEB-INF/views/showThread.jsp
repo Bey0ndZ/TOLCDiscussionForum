@@ -151,10 +151,14 @@
 											<!-- Show the thread name, thread subject and thread content -->
 											<div class="panel panel-default">
 												${threadcontent}<br/><br/>
+												<div class="text-right">
+													<small>Posted by: ${createdby}</small>
+												</div>
 											</div>
 											
 											<!-- Wiki for collaborative editing -->
-											<div id="firepad"></div>
+											<h3>${threadname} wiki</h3>
+											<div id="firepad"></div><br/>
 											
 											<!-- Show the post which is basically text from the below textarea -->
 											<!-- Use ajax to perform the post text request -->
@@ -162,11 +166,11 @@
 												
 											</div> -->
 											<c:forEach var="post" items="${getAllPosts}">
-												<div class="text-right">
-													<small>Posted by: ${post.postedby} at ${post.postedat}</small>
-												</div>
 												<div class="panel panel-default">
 													${post.postcontent}
+													<div class="text-right">
+														<small>Posted by: ${post.postedby} at ${post.postedat}</small>
+													</div>
 												</div>
 											</c:forEach>
 											
