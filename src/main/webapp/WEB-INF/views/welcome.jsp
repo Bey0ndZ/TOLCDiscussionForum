@@ -91,7 +91,7 @@
 						<li><a href="viewAllCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Courses</a></li>
 						<li><a href="viewMyCalendar"><i
-								class="fa fa-fw fa-bar-chart-o"></i> View My Calendar</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> View Calendar Events</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->

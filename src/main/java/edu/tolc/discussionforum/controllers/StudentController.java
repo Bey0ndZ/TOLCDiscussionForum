@@ -344,6 +344,7 @@ public class StudentController {
 							// The student created the event
 							// OK to display
 							// Add individual objects
+							modelAndView.addObject("coursename", course.getCoursename());
 							modelAndView.addObject("eventinformation", calendarEvent.getEventinformation());
 							modelAndView.addObject("eventcreatedby", calendarEvent.getEventcreatedby());
 							modelAndView.addObject("eventtimestamp", calendarEvent.getEventtimestamp());
@@ -354,6 +355,7 @@ public class StudentController {
 					} else {
 						// Course event
 						// Add individual objects
+						modelAndView.addObject("coursename", course.getCoursename());
 						modelAndView.addObject("eventinformation", calendarEvent.getEventinformation());
 						modelAndView.addObject("eventcreatedby", calendarEvent.getEventcreatedby());
 						modelAndView.addObject("eventtimestamp", calendarEvent.getEventtimestamp());

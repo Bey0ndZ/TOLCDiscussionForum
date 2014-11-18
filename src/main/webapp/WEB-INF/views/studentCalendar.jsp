@@ -86,12 +86,12 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active"><a href="welcome"><i
+						<li><a href="welcome"><i
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
 						<li><a href="viewAllCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Courses</a></li>
-						<li><a href="viewMyCalendar"><i
-								class="fa fa-fw fa-bar-chart-o"></i> View My Calendar</a></li>
+						<li class="active"><a href="viewMyCalendar"><i
+								class="fa fa-fw fa-bar-chart-o"></i> View Calendar Events</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -104,7 +104,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">My Courses</h1>
+							<h1 class="page-header">My Calendar</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -114,7 +114,7 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Information
+										<i class="fa fa-bar-chart-o fa-fw"></i> Calendar Events
 									</h3>
 								</div>
 								<div class="panel-body">
@@ -124,9 +124,10 @@
 											<c:if test="${not empty eventinformation}">
 												<b>Event</b><br/>
 												--------<br/>
-												Event Information: ${eventinformation }<br/>
-												Event Created By: ${eventcreatedby }<br/>
-												Event Timestamp: ${eventtimestamp }<br/>
+												Course: ${coursename}<br/>
+												Event Information: ${eventinformation}<br/>
+												Event Created By: ${eventcreatedby}<br/>
+												Event Timestamp: ${eventtimestamp}<br/>
 											</c:if>
 										</div>
 									</div>
