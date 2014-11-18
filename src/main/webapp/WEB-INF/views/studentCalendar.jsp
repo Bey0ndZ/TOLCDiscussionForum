@@ -120,30 +120,14 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getMyCourses}">
-													<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
-														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Instructor</th>
-															<th>Course Description</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="courseInfo" items="${getMyCourses}">
-															<tr>
-																<td><a href="welcome/discussionBoard/${courseInfo.courseid}">${courseInfo.courseid}</a></td>
-																<td>${courseInfo.coursename}</td>
-																<td>${courseInfo.instructor}</td>
-																<td>${courseInfo.coursedescription}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</c:if>	
+											<!-- The calendarevents information goes here -->
+											<c:if test="${not empty eventinformation}">
+												<b>Event</b><br/>
+												--------<br/>
+												Event Information: ${eventinformation }<br/>
+												Event Created By: ${eventcreatedby }<br/>
+												Event Timestamp: ${eventtimestamp }<br/>
+											</c:if>
 										</div>
 									</div>
 								</div>

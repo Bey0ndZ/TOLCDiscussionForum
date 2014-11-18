@@ -17,11 +17,13 @@ import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
+import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.mail.EmailService;
+import edu.tolc.discussionforum.mappersandextractors.GetCalendarEventsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetPostsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetThreadInfoMapper;
@@ -347,5 +349,18 @@ public class UsersDAOImpl implements UsersDAO {
 		createCalendarEventTemplate.update(createCalendarEventQuery, new Object[] {globalCourseID,
 				eventDetails, loggedInPersonsName, personalEvent, eventTimestamp});
 		return "Event successfully created.";
+	}
+
+	@Override
+	public List<GetCalendarEventsDTO> getCalendarEventInfo(int courseid) {
+		List<GetCalendarEventsDTO> getCalendarEventInformation = new ArrayList<GetCalendarEventsDTO>();
+		
+		String getEventInfoQuery = "SELECT eventinformation, eventcreatedby, personalevent, eventtimestamp "
+				+ "FROM calendarevents WHERE courseid=?";
+		JdbcTemplate getEventInfoTemplate = new JdbcTemplate(dataSource);
+		
+		getCalendarEventInformation = getEventInfoTemplate.query(getEventInfoQuery, 
+				new Object[] {courseid}, new GetCalendarEventsMapper());
+		return getCalendarEventInformation;
 	}
 }

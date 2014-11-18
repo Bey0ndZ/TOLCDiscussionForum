@@ -3,6 +3,7 @@ package edu.tolc.discussionforum.service;
 import java.sql.Timestamp;
 import java.util.List;
 
+import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
@@ -48,5 +49,7 @@ public interface UsersService {
 	// Saving the event
 	public String createCalendarEvent(int globalCourseID, String eventDetails,
 			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp);
+	// Get calendar events
+	public List<GetCalendarEventsDTO> getCalendarEventInfo(int courseid);
 	
 }

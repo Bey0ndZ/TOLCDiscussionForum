@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
@@ -187,6 +188,7 @@ public class StudentController {
 		getThreadID = threadid;
 		
 		for (GetThreadInfoDTO threadInfo : getThreadInformation) {
+			modelAndView.addObject("threadid", threadInfo.getThreadid());
 			modelAndView.addObject("threadname", threadInfo.getThreadname());
 			modelAndView.addObject("threadsubject", threadInfo.getThreadsubject());
 			modelAndView.addObject("threadcontent", threadInfo.getThreadcontent());
@@ -315,6 +317,54 @@ public class StudentController {
 			// user must log in
 		}
 		modelAndView.setViewName("redirect:showThread/"+getThreadID);
+		return modelAndView;
+	}
+	
+	// Calendar
+	// Group the personal events and the course events together
+	@RequestMapping(value="/viewMyCalendar", method=RequestMethod.GET)
+	public ModelAndView viewMyCalenderGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		// Get the student logged in
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String studentName = userDetail.getUsername();
+
+			// Get the courses in which the student is registered in
+			List<GetCoursesDTO> getStudentCourses = userService.getStudentCourses(studentName);
+			List<GetCalendarEventsDTO> getCalendarEventInformation;
+			
+			for (GetCoursesDTO course : getStudentCourses) {
+				getCalendarEventInformation = userService.getCalendarEventInfo(course.getCourseid());
+				for (GetCalendarEventsDTO calendarEvent : getCalendarEventInformation) {
+					if (calendarEvent.isPersonalevent()) {
+						if (calendarEvent.getEventcreatedby().equalsIgnoreCase(studentName)) {
+							// The student created the event
+							// OK to display
+							// Add individual objects
+							modelAndView.addObject("eventinformation", calendarEvent.getEventinformation());
+							modelAndView.addObject("eventcreatedby", calendarEvent.getEventcreatedby());
+							modelAndView.addObject("eventtimestamp", calendarEvent.getEventtimestamp());
+						} else {
+							// Others personal event
+							// Do not display here
+						}
+					} else {
+						// Course event
+						// Add individual objects
+						modelAndView.addObject("eventinformation", calendarEvent.getEventinformation());
+						modelAndView.addObject("eventcreatedby", calendarEvent.getEventcreatedby());
+						modelAndView.addObject("eventtimestamp", calendarEvent.getEventtimestamp());
+					}
+				}
+			}
+		} else {
+			// permission-denied page
+			// user must log in
+		}
+		modelAndView.setViewName("studentCalendar");
 		return modelAndView;
 	}
 }

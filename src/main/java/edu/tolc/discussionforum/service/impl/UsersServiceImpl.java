@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
+import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
@@ -104,5 +105,10 @@ public class UsersServiceImpl implements UsersService{
 	public String createCalendarEvent(int globalCourseID, String eventDetails,
 			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp) {
 		return userDAO.createCalendarEvent(globalCourseID, eventDetails, loggedInPersonsName, personalEvent, eventTimestamp);
+	}
+
+	@Override
+	public List<GetCalendarEventsDTO> getCalendarEventInfo(int courseid) {
+		return userDAO.getCalendarEventInfo(courseid);
 	}
 }	
