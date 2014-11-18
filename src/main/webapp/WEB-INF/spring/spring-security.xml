@@ -23,7 +23,10 @@
 		<intercept-url pattern="/getMyCourses" access="hasRole('ROLE_INSTRUCTOR')" />
 		
 		<!-- Permit Admin -->
-		<intercept-url pattern="/welcomeAdmin" access="hasRole('ROLE_ADMIN')" />		
+		<intercept-url pattern="/welcomeAdmin" access="hasRole('ROLE_ADMIN')" />
+		
+		<!-- Common -->
+		<intercept-url pattern="/welcome/discussionBoard/courseCalendar" access="hasRole('ROLE_STUDENT')" />		
  
 		<access-denied-handler error-page="/403" />
 		<form-login login-page="/home"

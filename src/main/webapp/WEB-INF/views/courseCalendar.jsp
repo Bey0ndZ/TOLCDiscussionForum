@@ -37,7 +37,7 @@
 </head>
 
 <body oncontextmenu="return false">
-	<sec:authorize access="hasRole('ROLE_INSTRUCTOR')">
+	<sec:authorize access="hasAnyRole('ROLE_INSTRUCTOR', 'ROLE_STUDENT')">
 		<div id="wrapper">
 
 			<!-- Navigation -->
@@ -136,7 +136,9 @@
 												<textarea cols="116" rows="2" name="eventDetails"></textarea><br/><br/>
 												Event type: <select name="eventType">
 													<option value="personalEvent">Personal</option>
-													<option value="courseEvent">Course</option>
+													<sec:authorize access="hasRole('ROLE_INSTRUCTOR')">
+														<option value="courseEvent">Course</option>
+													</sec:authorize>
 												</select><br/><br/>
 												<button type="submit" class="btn btn-default">Create Event</button>
 											</form:form>

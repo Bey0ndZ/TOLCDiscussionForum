@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Welcome, ${pageContext.request.userPrincipal.name}</title>
+<title>Welcome, ${username }</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -31,6 +31,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome-4.1.0/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+	
+<link href="${pageContext.request.contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -48,7 +50,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Welcome, ${pageContext.request.userPrincipal.name}</a>
+					<a class="navbar-brand" href="index">Instructor</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -104,7 +106,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Discussion Board</h1>
+							<h1 class="page-header">Information</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -114,38 +116,25 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Threads
+										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Summary
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getThreadInformation}">
-													<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
-														<tr>
-															<th>Thread ID</th>
-															<th>Thread Name</th>
-															<th>Thread Subject</th>
-															<th>Thread Content</th>
-															<th>Created By</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="threadInfo" items="${getThreadInformation}">
-															<tr>
-																<td>${threadInfo.threadid}</td>
-																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadname}</a></td>
-																<td>${threadInfo.threadsubject}</td>
-																<td>${threadInfo.threadcontent}</td>
-																<td>${threadInfo.createdby}</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
+											<c:if test="${not empty eventCreationMsg}">
+												<small>${eventCreationMsg}</small>
 											</c:if>
+											<form:form method="POST" action="courseCalendar">
+												<!-- Course Calendar -->
+												<p>Date and Time: <input type="text" id="datetimepicker" name="dateandtime"></p><br/>
+												Event details:<br/>
+												<textarea cols="116" rows="2" name="eventDetails"></textarea><br/><br/>
+												Event type: <select name="eventType">
+													<option value="personalEvent">Personal</option>
+												</select><br/><br/>
+												<button type="submit" class="btn btn-default">Create Event</button>
+											</form:form>
 										</div>
 									</div>
 								</div>
@@ -170,6 +159,15 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		<!-- datetimepicker -->
+		<script
+			src="${pageContext.request.contextPath}/resources/js/jquery.datetimepicker.js"></script>
+			
+		<!-- Activate datetimepicker -->
+		<script>
+			jQuery('#datetimepicker').datetimepicker();
+		</script>	
+			
 	</sec:authorize>
 </body>
 

@@ -1,6 +1,10 @@
 package edu.tolc.discussionforum.controllers;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +13,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
@@ -344,10 +350,8 @@ public class StudentController {
 							// The student created the event
 							// OK to display
 							// Add individual objects
-							modelAndView.addObject("coursename", course.getCoursename());
-							modelAndView.addObject("eventinformation", calendarEvent.getEventinformation());
-							modelAndView.addObject("eventcreatedby", calendarEvent.getEventcreatedby());
-							modelAndView.addObject("eventtimestamp", calendarEvent.getEventtimestamp());
+							modelAndView.addObject("coursenameForPersonalCalendarEvents", course.getCoursename());
+							modelAndView.addObject("personalCalendarEvents", getCalendarEventInformation);
 						} else {
 							// Others personal event
 							// Do not display here
@@ -355,10 +359,8 @@ public class StudentController {
 					} else {
 						// Course event
 						// Add individual objects
-						modelAndView.addObject("coursename", course.getCoursename());
-						modelAndView.addObject("eventinformation", calendarEvent.getEventinformation());
-						modelAndView.addObject("eventcreatedby", calendarEvent.getEventcreatedby());
-						modelAndView.addObject("eventtimestamp", calendarEvent.getEventtimestamp());
+						modelAndView.addObject("coursenameForCourseCalendarEvents", course.getCoursename());
+						modelAndView.addObject("courseCalendarEvents", getCalendarEventInformation);
 					}
 				}
 			}
@@ -367,6 +369,52 @@ public class StudentController {
 			// user must log in
 		}
 		modelAndView.setViewName("studentCalendar");
+		return modelAndView;
+	}
+	
+	// Display the course calendar
+	@RequestMapping(value="/welcome/discussionBoard/courseCalendar", method=RequestMethod.GET)
+	public ModelAndView courseCalendarGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("studentCourseCalendar");
+		return modelAndView;
+	}
+	
+	// Process the events
+	@RequestMapping(value="/welcome/discussionBoard/courseCalendar", method=RequestMethod.POST)
+	public ModelAndView courseCalendarPOST(@RequestParam("dateandtime") String dateandtime,
+			@RequestParam("eventDetails") String eventDetails,
+			@RequestParam("eventType") String eventType) throws ParseException {
+		ModelAndView modelAndView = new ModelAndView();
+		boolean personalEvent = false;
+		
+		// Changing the string timestamp to a timestamp variable
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+		Date date = simpleDateFormat.parse(dateandtime);
+		Timestamp eventTimestamp = new Timestamp(date.getTime());
+		
+		// Check whether personal event of course event
+		if (eventType.equalsIgnoreCase("personalEvent")) {
+			personalEvent = true;
+		} else {
+			personalEvent = false;
+		}
+		
+		// Get the logged in person
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInPersonsName = userDetail.getUsername();
+			
+			String eventCreationMsg = userService.createCalendarEvent(getCourseID, eventDetails,
+					loggedInPersonsName, personalEvent, eventTimestamp);
+			modelAndView.addObject("eventCreationMsg", eventCreationMsg);
+		} else {
+			// permission-denied page
+		}
+		
+		modelAndView.setViewName("courseCalendar");
 		return modelAndView;
 	}
 }

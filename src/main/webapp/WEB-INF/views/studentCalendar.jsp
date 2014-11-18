@@ -121,13 +121,26 @@
 									<div id="morris-area-chart">
 										<div class="panel-body">
 											<!-- The calendarevents information goes here -->
-											<c:if test="${not empty eventinformation}">
-												<b>Event</b><br/>
-												--------<br/>
-												Course: ${coursename}<br/>
-												Event Information: ${eventinformation}<br/>
-												Event Created By: ${eventcreatedby}<br/>
-												Event Timestamp: ${eventtimestamp}<br/>
+											<c:if test="${not empty personalCalendarEvents}">
+												<c:forEach var="personalEvents" items="${personalCalendarEvents}">
+													<b>Event</b><br/>
+													--------<br/>
+													Course: ${coursenameForPersonalCalendarEvents}<br/>
+													Event Information: ${personalEvents.eventinformation}<br/>
+													Event Created By: ${personalEvents.eventcreatedby}<br/>
+													Event Timestamp: ${personalEvents.eventtimestamp}<br/><br/>
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${not empty courseCalendarEvents}">
+												<c:forEach var="courseEvents" items="${courseCalendarEvents}">
+													<b>Event</b><br/>
+													--------<br/>
+													Course: ${coursenameForCourseCalendarEvents}<br/>
+													Event Information: ${courseEvents.eventinformation}<br/>
+													Event Created By: ${courseEvents.eventcreatedby}<br/>
+													Event Timestamp: ${courseEvents.eventtimestamp}<br/><br/>
+												</c:forEach>
 											</c:if>
 										</div>
 									</div>

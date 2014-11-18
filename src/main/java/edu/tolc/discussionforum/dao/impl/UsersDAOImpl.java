@@ -361,20 +361,36 @@ public class UsersDAOImpl implements UsersDAO {
 				});
 		
 		// Get coursename
-		String getCourseNameQuery = "SELECT coursename FROM courses WHERE courseid=?";
-		JdbcTemplate getCourseNameTemplate = new JdbcTemplate(dataSource);
-		
-		String courseName = getCourseNameTemplate.queryForObject(getCourseNameQuery, new Object[]{
-				globalCourseID}, String.class);
-		
-		String subject = "New calendar event for course: "+courseName;
-		String content = "Event details: "+eventDetails+"\n\nTime: "+eventTimestamp;
-		
-		for (String email : studentsEmail) {
-			// Send email
-			sendEmail(email, subject, content);
+		// Send it only if personalEvent has been set to false
+		if (!personalEvent) {
+			// Not a personalEvent
+			String getCourseNameQuery = "SELECT coursename FROM courses WHERE courseid=?";
+			JdbcTemplate getCourseNameTemplate = new JdbcTemplate(dataSource);
+			
+			String courseName = getCourseNameTemplate.queryForObject(getCourseNameQuery, new Object[]{
+					globalCourseID}, String.class);
+			
+			String subject = "New Calendar Event for Course: "+courseName;
+			String content = "Event details: "+eventDetails+"\n\nTime: "+eventTimestamp;
+			
+			for (String email : studentsEmail) {
+				// Send email
+				sendEmail(email, subject, content);
+			}
+		} else {
+			// Personal event
+			// Send email only to the concerned person
+			String getEmailOfLoggedInPerson = "SELECT email FROM users where username=?";
+			JdbcTemplate getEmailTemplate = new JdbcTemplate(dataSource);
+			
+			String emailOfLoggedInPerson = getEmailTemplate.queryForObject(getEmailOfLoggedInPerson, 
+					new Object[] {loggedInPersonsName}, String.class);
+			
+			String subject = "New Calendar Event";
+			String content = "Event details: "+eventDetails+"\n\nTime: "+eventTimestamp;
+			
+			sendEmail(emailOfLoggedInPerson, subject, content);
 		}
-		
 		return "Event successfully created.";
 	}
 
