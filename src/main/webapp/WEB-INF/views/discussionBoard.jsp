@@ -134,8 +134,8 @@
 														<!-- Align properly -->
 														<c:forEach var="threadInfo" items="${getThreadInformation}">
 															<tr>
-																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadid}</a></td>
-																<td>${threadInfo.threadname}</td>
+																<td>${threadInfo.threadid}</td>
+																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadname}</a></td>
 																<td>${threadInfo.threadsubject}</td>
 																<td>${threadInfo.threadcontent}</td>
 																<td>${threadInfo.createdby}</td>

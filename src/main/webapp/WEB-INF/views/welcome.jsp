@@ -135,8 +135,8 @@
 														<!-- Align properly -->
 														<c:forEach var="courseInfo" items="${getMyCourses}">
 															<tr>
-																<td><a href="welcome/discussionBoard/${courseInfo.courseid}">${courseInfo.courseid}</a></td>
-																<td>${courseInfo.coursename}</td>
+																<td>${courseInfo.courseid}</td>
+																<td><a href="welcome/discussionBoard/${courseInfo.courseid}">${courseInfo.coursename}</a></td>
 																<td>${courseInfo.instructor}</td>
 																<td>${courseInfo.coursedescription}</td>
 															</tr>
