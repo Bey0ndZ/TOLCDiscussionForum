@@ -348,6 +348,33 @@ public class UsersDAOImpl implements UsersDAO {
 		JdbcTemplate createCalendarEventTemplate = new JdbcTemplate(dataSource);
 		createCalendarEventTemplate.update(createCalendarEventQuery, new Object[] {globalCourseID,
 				eventDetails, loggedInPersonsName, personalEvent, eventTimestamp});
+		
+		// Send email to everyone registered in the course
+		String getStudentsRegisteredForCourse = "SELECT email FROM users where username=(SELECT studentregistered FROM enrollment WHERE courseid=?)";
+		JdbcTemplate getStudentsTemplate = new JdbcTemplate(dataSource);
+		
+		List<String> studentsEmail = getStudentsTemplate.query(getStudentsRegisteredForCourse, 
+				new Object[]{globalCourseID}, new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getString(1);
+					}
+				});
+		
+		// Get coursename
+		String getCourseNameQuery = "SELECT coursename FROM courses WHERE courseid=?";
+		JdbcTemplate getCourseNameTemplate = new JdbcTemplate(dataSource);
+		
+		String courseName = getCourseNameTemplate.queryForObject(getCourseNameQuery, new Object[]{
+				globalCourseID}, String.class);
+		
+		String subject = "New calendar event for course: "+courseName;
+		String content = "Event details: "+eventDetails+"\n\nTime: "+eventTimestamp;
+		
+		for (String email : studentsEmail) {
+			// Send email
+			sendEmail(email, subject, content);
+		}
+		
 		return "Event successfully created.";
 	}
 
