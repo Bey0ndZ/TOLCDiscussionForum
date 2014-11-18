@@ -12,11 +12,17 @@ TOLCDiscussionForum
 
 TODO (Dt. 11/17/2014)
 Sumanth's tasks:
-1. Subscribe to threads
+Immediate: 
+
+1. Calendar - The personalEvents thing is not working. Fix it in the DAOImpl layer I guess. TODO. Utmost importance.
 
 2. Create a new firepad for every discussion thread which is active
 
 3. Try getting the username of the person editing the firebug space
+
+4. Innovative features - Follow a person, 2nd degree connections, give stars to people
+
+
 
 
  
