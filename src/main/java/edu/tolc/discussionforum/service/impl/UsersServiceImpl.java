@@ -134,4 +134,9 @@ public class UsersServiceImpl implements UsersService{
 	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName) {
 		return userDAO.getAllEnrolledStudents(instructorsName);
 	}
+
+	@Override
+	public String deleteCourse(String courseid) {
+		return userDAO.deleteCourse(courseid);
+	}
 }	

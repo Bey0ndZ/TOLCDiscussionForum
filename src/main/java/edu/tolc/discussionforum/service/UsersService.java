@@ -62,5 +62,7 @@ public interface UsersService {
 	public List<UserInformationDTO> getUserInformation(String loggedInPerson);
 	// Get all enrolled students for instructor
 	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName);
+	// Delete course from all tables
+	public String deleteCourse(String courseid);
 	
 }

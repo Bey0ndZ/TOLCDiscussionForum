@@ -70,4 +70,6 @@ public interface UsersDAO {
 	public List<UserInformationDTO> getUserInformation(String loggedInPerson);
 	// Get all enrolled students
 	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName);
+	// Delete course
+	public String deleteCourse(String courseid);
 }

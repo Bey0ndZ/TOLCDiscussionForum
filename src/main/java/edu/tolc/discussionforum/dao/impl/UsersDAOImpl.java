@@ -465,4 +465,16 @@ public class UsersDAOImpl implements UsersDAO {
 		});
 		return enrolledStudents;
 	}
+
+	@Override
+	public String deleteCourse(String courseid) {
+		String deleteCourseQuery = "DELETE FROM courses WHERE courseid=?";
+		JdbcTemplate deleteCourseTemplate = new JdbcTemplate(dataSource);
+		
+		deleteCourseTemplate.update(deleteCourseQuery, new Object[] {courseid});
+		
+		// Delete from discussionboard
+		
+		
+	}
 }

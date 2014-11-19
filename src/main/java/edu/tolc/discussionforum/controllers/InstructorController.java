@@ -218,17 +218,35 @@ public class InstructorController {
 	@RequestMapping(value="/deleteCourse", method=RequestMethod.GET)
 	public ModelAndView deleteCourseGET() {
 		ModelAndView modelAndView = new ModelAndView();
+		List<GetCoursesDTO> getAllCourses = new ArrayList<GetCoursesDTO>();
 		
-		// Get the logged in person
+		// Get the instructors name
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String instructorsName = userDetail.getUsername();
+			
+			// Reuse method which has been already created
+			getAllCourses = userService.getCourseList(instructorsName);
+			modelAndView.addObject("getAllCourses", getAllCourses);			
 		} else {
 			// permission-denied
 			// user must be logged in
 		}
+		modelAndView.setViewName("deleteCourse");
+		return modelAndView;
+	}
+	
+	// Delete course
+	// POST method
+	@RequestMapping(value="/deleteCourse", method=RequestMethod.POST)
+	public ModelAndView deleteCoursePOST(@RequestParam("courseToDelete") String courseid) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		// Delete the course from all tables
+		String courseDeletionMsg = userService.deleteCourse(courseid);
+		
 		modelAndView.setViewName("deleteCourse");
 		return modelAndView;
 	}
