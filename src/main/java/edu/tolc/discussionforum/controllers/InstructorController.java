@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.service.UsersService;
 
 @Controller
@@ -146,6 +146,23 @@ public class InstructorController {
 		}
 		
 		modelAndView.setViewName("courseCalendar");
+		return modelAndView;
+	}
+	
+	// Get the enrolled students list
+	// This method could be reused for the follow concept
+	// for an individual student
+	@RequestMapping(value="/getMyCourses/discussionBoard/getEnrolledStudentsList", method=RequestMethod.GET)
+	public ModelAndView getEnrolledStudentsListGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		// Get the students who are enrolled in course
+		List<UserInformationDTO> getEnrolledUsersInfo = new ArrayList<UserInformationDTO>();
+		getEnrolledUsersInfo = userService.getEnrolledStudents(globalCourseID);
+		
+		modelAndView.addObject("enrolledStudents", getEnrolledUsersInfo);
+		
+		modelAndView.setViewName("enrolledStudentsForInstructor");
 		return modelAndView;
 	}
 }

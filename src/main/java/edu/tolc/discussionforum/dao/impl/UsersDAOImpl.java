@@ -22,12 +22,14 @@ import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.GetTickrDTO;
+import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.mail.EmailService;
 import edu.tolc.discussionforum.mappersandextractors.GetCalendarEventsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetPostsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetThreadInfoMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetTickrMapper;
+import edu.tolc.discussionforum.mappersandextractors.UserInformationMapper;
 import edu.tolc.discussionforum.model.UserInformation;
 
 // Perform CRUD Operations
@@ -405,5 +407,19 @@ public class UsersDAOImpl implements UsersDAO {
 		getCalendarEventInformation = getEventInfoTemplate.query(getEventInfoQuery, 
 				new Object[] {courseid}, new GetCalendarEventsMapper());
 		return getCalendarEventInformation;
+	}
+
+	@Override
+	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID) {
+		System.out.println(globalCourseID);
+		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
+		String getEnrolledStudentsQuery = "SELECT firstname, lastname, username, email FROM users WHERE "
+				+ "username=(SELECT studentregistered FROM enrollment WHERE courseid=?)";
+		JdbcTemplate getEnrolledStudentsTemplate = new JdbcTemplate(dataSource);
+		
+		getEnrolledStudents = getEnrolledStudentsTemplate.query(getEnrolledStudentsQuery, 
+				new Object[] {globalCourseID}, new UserInformationMapper());
+		
+		return getEnrolledStudents;
 	}
 }

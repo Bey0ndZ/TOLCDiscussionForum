@@ -26,6 +26,7 @@ import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.GetTickrDTO;
+import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.service.UsersService;
 
 @Controller
@@ -415,6 +416,18 @@ public class StudentController {
 		}
 		
 		modelAndView.setViewName("courseCalendar");
+		return modelAndView;
+	}
+	
+	// Get enrolled students list for student
+	@RequestMapping(value="welcome/discussionBoard/viewEnrolledStudents", method=RequestMethod.GET)
+	public ModelAndView viewEnrolledStudentsGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
+		getEnrolledStudents = userService.getEnrolledStudents(getCourseID);
+		
+		modelAndView.addObject("enrolledStudents", getEnrolledStudents);
+		modelAndView.setViewName("enrolledInSameCourse");
 		return modelAndView;
 	}
 }

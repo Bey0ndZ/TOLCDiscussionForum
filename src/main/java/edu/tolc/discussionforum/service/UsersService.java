@@ -8,6 +8,7 @@ import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.GetTickrDTO;
+import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 
 public interface UsersService {
@@ -51,5 +52,7 @@ public interface UsersService {
 			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp);
 	// Get calendar events
 	public List<GetCalendarEventsDTO> getCalendarEventInfo(int courseid);
+	// Get enrolled users
+	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID);
 	
 }

@@ -11,6 +11,7 @@ import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.GetTickrDTO;
+import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 import edu.tolc.discussionforum.service.UsersService;
 
@@ -110,5 +111,10 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public List<GetCalendarEventsDTO> getCalendarEventInfo(int courseid) {
 		return userDAO.getCalendarEventInfo(courseid);
+	}
+
+	@Override
+	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID) {
+		return userDAO.getEnrolledStudents(globalCourseID);
 	}
 }	

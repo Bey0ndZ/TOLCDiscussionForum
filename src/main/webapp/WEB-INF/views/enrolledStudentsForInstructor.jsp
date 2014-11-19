@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Welcome, ${pageContext.request.userPrincipal.name}</title>
+<title>Welcome, ${username }</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -35,7 +35,7 @@
 </head>
 
 <body oncontextmenu="return false">
-	<sec:authorize access="hasRole('ROLE_STUDENT')">
+	<sec:authorize access="hasRole('ROLE_INSTRUCTOR')">
 		<div id="wrapper">
 
 			<!-- Navigation -->
@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Welcome, ${pageContext.request.userPrincipal.name}</a>
+					<a class="navbar-brand" href="index">Instructor</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -86,14 +86,16 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li><a href="/discussionforum/welcome"><i
-								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
-						<li><a href="createThread"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Create New Thread</a></li>
-						<li><a href="viewEnrolledStudents"><i
-								class="fa fa-fw fa-dashboard"></i> View Enrolled Students</a></li>
-						<li><a href="courseCalendar"><i
-								class="fa fa-fw fa-dashboard"></i> Calendar Event (Self)</a></li>
+						<li class="active"><a href="addCourse"><i
+								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
+						<li><a href="getMyCourses"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Get My Courses</a></li>
+						<li><a href="getEnrolledStudentsList"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Get Enrolled Students</a></li>
+						<li><a href="deleteCourse"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
+						<li><a href="/discussionforum/getMyCourses/discussionBoard/courseCalendar"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Course Calendar</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -106,7 +108,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Discussion Board</h1>
+							<h1 class="page-header">Enrolled Students</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -116,38 +118,41 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Threads
+										<i class="fa fa-bar-chart-o fa-fw"></i> Enrolled Students Information
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getThreadInformation}">
+											<c:if test="${not empty enrolledStudents}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
-															<th>Thread ID</th>
-															<th>Thread Name</th>
-															<th>Thread Subject</th>
-															<th>Thread Content</th>
-															<th>Created By</th>
+															<th>Firstname</th>
+															<th>Lastname</th>
+															<th>Username</th>
+															<th>Email</th>
 														</tr>
 													</thead>
 													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="threadInfo" items="${getThreadInformation}">
+
+														<c:forEach var="enrolledStudents" items="${enrolledStudents}">
 															<tr>
-																<td>${threadInfo.threadid}</td>
-																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadname}</a></td>
-																<td>${threadInfo.threadsubject}</td>
-																<td>${threadInfo.threadcontent}</td>
-																<td>${threadInfo.createdby}</td>
+																<td>${enrolledStudents.firstname}</td>
+																<td>${enrolledStudents.lastname}</td>
+																<td>${enrolledStudents.username}</td>
+																<td>${enrolledStudents.email}</td>
 															</tr>
 														</c:forEach>
 													</tbody>
 												</table>
 											</c:if>
+											
+											<div class="text-right">
+												<a href="modifyUserExternal">Update Details <i
+													class="fa fa-arrow-circle-right"></i></a>
+											</div>
 										</div>
 									</div>
 								</div>

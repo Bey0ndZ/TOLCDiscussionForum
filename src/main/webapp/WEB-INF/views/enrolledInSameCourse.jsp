@@ -106,7 +106,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Discussion Board</h1>
+							<h1 class="page-header">Enrolled Students</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -116,33 +116,33 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Threads
+										<i class="fa fa-bar-chart-o fa-fw"></i> Enrolled Students Information
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty getThreadInformation}">
+											<c:if test="${not empty enrolledStudents}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
-															<th>Thread ID</th>
-															<th>Thread Name</th>
-															<th>Thread Subject</th>
-															<th>Thread Content</th>
-															<th>Created By</th>
+															<th>Firstname</th>
+															<th>Lastname</th>
+															<th>Username</th>
+															<th>Email</th>
+															<th>Follow</th>
 														</tr>
 													</thead>
 													<tbody>
-														<!-- Align properly -->
-														<c:forEach var="threadInfo" items="${getThreadInformation}">
+
+														<c:forEach var="enrolledStudents" items="${enrolledStudents}">
 															<tr>
-																<td>${threadInfo.threadid}</td>
-																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadname}</a></td>
-																<td>${threadInfo.threadsubject}</td>
-																<td>${threadInfo.threadcontent}</td>
-																<td>${threadInfo.createdby}</td>
+																<td>${enrolledStudents.firstname}</td>
+																<td>${enrolledStudents.lastname}</td>
+																<td>${enrolledStudents.username}</td>
+																<td>${enrolledStudents.email}</td>
+																<td><button type="submit" class="btn btn-default">Follow</button>
 															</tr>
 														</c:forEach>
 													</tbody>

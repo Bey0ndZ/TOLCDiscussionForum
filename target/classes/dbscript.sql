@@ -82,3 +82,7 @@ CREATE  TABLE users (
   PRIMARY KEY(eventnumber),
   FOREIGN KEY(courseid) REFERENCES courses(courseid));
   
+  CREATE TABLE follow (
+  username VARCHAR(45) NOT NULL,
+  following VARCHAR(45) NOT NULL);
+  
