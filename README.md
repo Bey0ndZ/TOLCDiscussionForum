@@ -20,7 +20,9 @@ Immediate:
 
 3. Try getting the username of the person editing the firebug space
 
-4. Innovative features - Follow a person, 2nd degree connections, give stars to people
+4. Innovative features - Follow a person, 2nd degree connections, give stars to people - Following a person is done, with the exception of the button being shown for every log in. Now, in every thread post, see whether the person exists in the follow table and then send the email and update tickr on the person who is following this person. Should work both ways.
+
+5. Spend the day fixing stuff instead of implementing new things.
 
 
 
