@@ -138,20 +138,11 @@
 
 														<c:forEach var="enrolledStudents" items="${enrolledStudents}">
 															<tr>
-																<form:form method="POST" action="/discussionforum/welcome/discussionBoard/follow">
-																	<td>${enrolledStudents.firstname}</td>
-																	<td>${enrolledStudents.lastname}</td>
-																	<td>${enrolledStudents.username}<input type="hidden" name="username" value="${enrolledStudents.username}" /></td>
-																	<td>${enrolledStudents.email}</td>
-																	<c:choose>
-																		<c:when test="${empty followingMsg}">
-																			<td><button type="submit" class="btn btn-default" id="followButton">Follow</button><p id="displayFollowingMsg"></p></td>
-																		</c:when>
-																		<c:when test="${not empty followingMsg}">
-																			<td>${followingMsg }</td>
-																		</c:when>
-																	</c:choose>
-																</form:form>
+																<td>${enrolledStudents.firstname}</td>
+																<td>${enrolledStudents.lastname}</td>
+																<td>${enrolledStudents.username}<input type="hidden" name="username" value="${enrolledStudents.username}" /></td>
+																<td>${enrolledStudents.email}</td>
+																<td>${followingMsg}</td>
 															</tr>
 														</c:forEach>
 													</tbody>
@@ -181,14 +172,6 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-			
-		<!-- Script to disable the follow button after it is clicked -->
-		<script type="text/javascript">
-			$('#followButton').on('click', function() {
-				$('#followButton').hide();
-				$('#displayFollowingMsg').text("You are now following this person.");
-			});
-		</script>
 	</sec:authorize>
 </body>
 

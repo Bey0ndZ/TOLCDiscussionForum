@@ -54,5 +54,7 @@ public interface UsersService {
 	public List<GetCalendarEventsDTO> getCalendarEventInfo(int courseid);
 	// Get enrolled users
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID);
+	// Add followers
+	public String addFollower(String studentName, String username);
 	
 }

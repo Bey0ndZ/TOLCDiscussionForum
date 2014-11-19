@@ -411,7 +411,6 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID) {
-		System.out.println(globalCourseID);
 		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
 		String getEnrolledStudentsQuery = "SELECT firstname, lastname, username, email FROM users WHERE "
 				+ "username=(SELECT studentregistered FROM enrollment WHERE courseid=?)";
@@ -421,5 +420,14 @@ public class UsersDAOImpl implements UsersDAO {
 				new Object[] {globalCourseID}, new UserInformationMapper());
 		
 		return getEnrolledStudents;
+	}
+
+	@Override
+	public String addFollower(String studentName, String username) {
+		String addFollowerQuery = "INSERT INTO follow VALUES (?,?)";
+		JdbcTemplate addFollowerTemplate = new JdbcTemplate(dataSource);
+		
+		addFollowerTemplate.update(addFollowerQuery, new Object[] {studentName, username});
+		return "You are now following this person.";
 	}
 }

@@ -430,4 +430,34 @@ public class StudentController {
 		modelAndView.setViewName("enrolledInSameCourse");
 		return modelAndView;
 	}
+	
+	// POST method for follow
+	@RequestMapping(value="welcome/discussionBoard/follow", method=RequestMethod.POST)
+	public ModelAndView addFollowers(@RequestParam("username") String username) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		// Get the logged in person
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String studentName = userDetail.getUsername();
+			
+			// Save to the following table
+			String followingMsg = userService.addFollower(studentName, username);
+			System.out.println(followingMsg);
+			modelAndView.addObject("followingMsg", followingMsg);
+		} else {
+			// permission-denied
+			// must log in
+		}
+		
+		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
+		getEnrolledStudents = userService.getEnrolledStudents(getCourseID);
+		
+		modelAndView.addObject("enrolledStudents", getEnrolledStudents);
+
+		modelAndView.setViewName("enrolledInSameCourse");
+		return modelAndView;
+	}
 }

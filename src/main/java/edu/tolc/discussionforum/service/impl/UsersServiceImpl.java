@@ -117,4 +117,9 @@ public class UsersServiceImpl implements UsersService{
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID) {
 		return userDAO.getEnrolledStudents(globalCourseID);
 	}
+
+	@Override
+	public String addFollower(String studentName, String username) {
+		return userDAO.addFollower(studentName, username);
+	}
 }	
