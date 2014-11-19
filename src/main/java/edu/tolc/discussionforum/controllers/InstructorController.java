@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.service.UsersService;
@@ -32,8 +35,27 @@ public class InstructorController {
 	// TODO: Get all the list of courses as soon as the instructor 
 	// logs in the system
 	@RequestMapping(value="/welcomeInstructor", method=RequestMethod.GET)
-	public String welcomeInstructorGET() {
-		return "welcomeInstructor";
+	public ModelAndView welcomeInstructorGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		List<UserInformationDTO> getInstructorInformation = new ArrayList<UserInformationDTO>();
+		
+		// Get the instructor name via session attribute
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInPerson = userDetail.getUsername();
+			
+			getInstructorInformation = userService.getUserInformation(loggedInPerson);
+			modelAndView.addObject("getUserInfo", getInstructorInformation);
+			
+		} else {
+			// permission-denied page
+			// must be logged in
+		}
+		
+		modelAndView.setViewName("welcomeInstructor");
+		return modelAndView;
 	}
 	
 	@RequestMapping(value="/addCourse", method=RequestMethod.GET)
@@ -163,6 +185,51 @@ public class InstructorController {
 		modelAndView.addObject("enrolledStudents", getEnrolledUsersInfo);
 		
 		modelAndView.setViewName("enrolledStudentsForInstructor");
+		return modelAndView;
+	}
+	
+	// View all enrolled students in all courses taken by the professor
+	@RequestMapping(value="/viewAllEnrolledStudents", method=RequestMethod.GET)
+	public ModelAndView returnAllEnrolledStudentsGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		List<CourseEnrollmentDTO> enrolledStudents = new ArrayList<CourseEnrollmentDTO>();
+		
+		// Get the logged in person
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String instructorsName = userDetail.getUsername();
+			
+			enrolledStudents = userService.getAllEnrolledStudents(instructorsName);
+			modelAndView.addObject("enrolledStudents", enrolledStudents);
+			
+		} else {
+			// permission-denied
+			// must be logged in
+		}
+		
+		modelAndView.setViewName("getAllEnrolledStudents");
+		return modelAndView;
+	}
+	
+	// Delete course 
+	// GET request
+	@RequestMapping(value="/deleteCourse", method=RequestMethod.GET)
+	public ModelAndView deleteCourseGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		// Get the logged in person
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String instructorsName = userDetail.getUsername();
+		} else {
+			// permission-denied
+			// user must be logged in
+		}
+		modelAndView.setViewName("deleteCourse");
 		return modelAndView;
 	}
 }

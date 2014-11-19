@@ -2,10 +2,12 @@ package edu.tolc.discussionforum.service.impl;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
+import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -121,5 +123,15 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public String addFollower(String studentName, String username) {
 		return userDAO.addFollower(studentName, username);
+	}
+
+	@Override
+	public List<UserInformationDTO> getUserInformation(String loggedInPerson) {
+		return userDAO.getUserInformation(loggedInPerson);
+	}
+
+	@Override
+	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName) {
+		return userDAO.getAllEnrolledStudents(instructorsName);
 	}
 }	

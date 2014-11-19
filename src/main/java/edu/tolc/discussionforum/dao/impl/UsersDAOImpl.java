@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -17,6 +19,7 @@ import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
+import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -429,5 +432,37 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		addFollowerTemplate.update(addFollowerQuery, new Object[] {studentName, username});
 		return "You are now following this person.";
+	}
+
+	@Override
+	public List<UserInformationDTO> getUserInformation(String loggedInPerson) {
+		List<UserInformationDTO> getUserInfo = new ArrayList<UserInformationDTO>();
+		String userInfoQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=?";
+		JdbcTemplate userInfoTemplate = new JdbcTemplate(dataSource);
+		
+		getUserInfo = userInfoTemplate.query(userInfoQuery, new Object[] {loggedInPerson},
+				new UserInformationMapper());
+		
+		return getUserInfo;
+	}
+
+	@Override
+	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName) {
+		List<CourseEnrollmentDTO> enrolledStudents = new ArrayList<CourseEnrollmentDTO>();
+		String enrolledStudentsQuery = "SELECT courses.coursename, enrollment.studentregistered "
+				+ "FROM enrollment INNER JOIN courses ON enrollment.courseid=courses.courseid WHERE "
+				+ "instructor=?";
+		JdbcTemplate enrolledStudentsTemplate = new JdbcTemplate(dataSource);
+		
+		enrolledStudents = enrolledStudentsTemplate.query(enrolledStudentsQuery, 
+				new Object[] {instructorsName}, new RowMapper<CourseEnrollmentDTO>() {
+			public CourseEnrollmentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CourseEnrollmentDTO enrollment = new CourseEnrollmentDTO();
+				enrollment.setCoursename(rs.getString(1));
+				enrollment.setStudentregistered(rs.getString(2));
+				return enrollment;
+			}
+		});
+		return enrolledStudents;
 	}
 }

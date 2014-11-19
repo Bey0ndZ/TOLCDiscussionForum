@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Welcome, ${username }</title>
+<title>Welcome, ${pageContext.request.userPrincipal.name}</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -48,7 +48,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Instructor</a>
+					<a class="navbar-brand" href="index">Welcome, ${pageContext.request.userPrincipal.name}</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -86,10 +86,12 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active"><a href="addCourse"><i
+						<li><a href="addCourse"><i
 								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
 						<li><a href="getMyCourses"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Get My Courses</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> Get Courses</a></li>
+						<li><a href="viewAllEnrolledStudents"><i
+								class="fa fa-fw fa-bar-chart-o"></i> View All Enrolled Students</a></li>
 						<li><a href="deleteCourse"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
 					</ul>
@@ -104,7 +106,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Information</h1>
+							<h1 class="page-header">Welcome Instructor!</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -114,39 +116,36 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Summary
+										<i class="fa fa-bar-chart-o fa-fw"></i>Instructor Information
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty courseInformationForInstructor}">
+											<c:if test="${not empty getUserInfo}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Number of Students</th>
+															<th>Firstname</th>
+															<th>Lastname</th>
+															<th>Username</th>
+															<th>Email</th>
 														</tr>
 													</thead>
 													<tbody>
 
-														<c:forEach var="o" items="${courseInformationForInstructor}">
+														<c:forEach var="userInfo" items="${getUserInfo}">
 															<tr>
-																<td>${o.courseID}</td>
-																<td>${o.courseName}</td>
-																<td>${o.numberOfStudents }</td>
+																<td>${userInfo.firstname}</td>
+																<td>${userInfo.lastname}</td>
+																<td>${userInfo.username }</td>
+																<td>${userInfo.email }</td>
 															</tr>
 														</c:forEach>
 													</tbody>
 												</table>
 											</c:if>
-											
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
 										</div>
 									</div>
 								</div>

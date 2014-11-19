@@ -2,7 +2,9 @@ package edu.tolc.discussionforum.dao;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
+import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -64,4 +66,8 @@ public interface UsersDAO {
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID);
 	// Add followers
 	public String addFollower(String studentName, String username);
+	// Get user information
+	public List<UserInformationDTO> getUserInformation(String loggedInPerson);
+	// Get all enrolled students
+	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName);
 }
