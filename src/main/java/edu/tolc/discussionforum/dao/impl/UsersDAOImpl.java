@@ -5,9 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -467,14 +465,43 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public String deleteCourse(String courseid) {
+	public String deleteCourse(String courseid) {		
+		// Delete from discussionposts - it only has ids of posts
+		// this should happen before discussionboard
+		String getThreadIDsForCourses = "SELECT threadid FROM discussionboard WHERE courseid=?";
+		JdbcTemplate getThreadIDsForCoursesTemplate = new JdbcTemplate(dataSource);
+		List<Integer> allThreadIDs = new ArrayList<Integer>();
+		
+		allThreadIDs = getThreadIDsForCoursesTemplate.query(getThreadIDsForCourses, new Object[] {
+			courseid}, new RowMapper<Integer>() {
+			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getInt(1);
+			}
+		});
+		
+		String deleteDPQuery = "DELETE FROM discussionposts WHERE threadid=?";
+		String deleteSubscriptionsQuery = "DELETE FROM subscriptions WHERE threadid=?";
+		
+		JdbcTemplate deleteTemplate = new JdbcTemplate(dataSource);
+		
+		for (int threadID : allThreadIDs) {
+			deleteTemplate.update(deleteDPQuery, new Object[]{threadID});
+			deleteTemplate.update(deleteSubscriptionsQuery, new Object[] {threadID});
+		}
+		
+		// Delete from 1. courses, 2. discussionboard, 3. enrollment, 4. calendarevents		
+		String deleteCalendarEventsQuery = "DELETE FROM calendarevents WHERE courseid=?";
+		String deleteEnrollmentQuery = "DELETE FROM enrollment WHERE courseid=?";
+		String deleteDiscussionBoardQuery = "DELETE FROM discussionboard WHERE courseid=?";
 		String deleteCourseQuery = "DELETE FROM courses WHERE courseid=?";
+		
 		JdbcTemplate deleteCourseTemplate = new JdbcTemplate(dataSource);
 		
+		deleteCourseTemplate.update(deleteCalendarEventsQuery, new Object[] {courseid});
+		deleteCourseTemplate.update(deleteEnrollmentQuery, new Object[] {courseid});
+		deleteCourseTemplate.update(deleteDiscussionBoardQuery, new Object[] {courseid});
 		deleteCourseTemplate.update(deleteCourseQuery, new Object[] {courseid});
 		
-		// Delete from discussionboard
-		
-		
+		return "Course deleted.";	
 	}
 }
