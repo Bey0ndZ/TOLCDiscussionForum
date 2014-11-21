@@ -146,14 +146,12 @@
 																		<td>${enrolledStudents.lastname}</td>
 																		<td>${enrolledStudents.username}<input type="hidden" name="username" value="${enrolledStudents.username}" /></td>
 																		<td>${enrolledStudents.email}</td>
-																		<c:choose>
-																			<c:when test="${empty followingMsg}">
-																				<td><button type="submit" class="btn btn-default" id="followButton">Follow</button><p id="displayFollowingMsg"></p></td>
-																			</c:when>
-																			<c:when test="${not empty followingMsg}">
-																				<td>${followingMsg }</td>
-																			</c:when>
-																		</c:choose>
+																		<c:if test="${not empty followingMsg}">
+																			<td>${followingMsg}</td>
+																		</c:if>
+																		<c:if test="${empty followingMsg }">
+																			<td><button type="submit" class="btn btn-default">Follow</button></td>
+																		</c:if>
 																	</c:if>
 																</form:form>
 															</tr>
@@ -188,9 +186,9 @@
 			
 		<!-- Script to disable the follow button after it is clicked -->
 		<script type="text/javascript">
-			$('#followButton').on('click', function() {
+			$('#followButton').click(function() {
 				$('#followButton').hide();
-				$('#displayFollowingMsg').text("You are now following this person.");
+				$('#displayFollowingMsg').text('You are now following this person.');
 			});
 		</script>
 	</sec:authorize>
