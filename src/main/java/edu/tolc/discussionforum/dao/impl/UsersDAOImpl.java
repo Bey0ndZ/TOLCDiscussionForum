@@ -365,6 +365,7 @@ public class UsersDAOImpl implements UsersDAO {
 	// Email functionality
 	// Just call the method with params
 	public void sendEmail(String to, String subject, String msg) {
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring-mail.xml");
 		EmailService emailService = (EmailService) context.getBean("email");
@@ -441,13 +442,12 @@ public class UsersDAOImpl implements UsersDAO {
 	@Override
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID) {
 		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
-		String getEnrolledStudentsQuery = "SELECT firstname, lastname, username, email FROM users WHERE "
-				+ "username=(SELECT studentregistered FROM enrollment WHERE courseid=?)";
-		JdbcTemplate getEnrolledStudentsTemplate = new JdbcTemplate(dataSource);
 		
-		getEnrolledStudents = getEnrolledStudentsTemplate.query(getEnrolledStudentsQuery, 
-				new Object[] {globalCourseID}, new UserInformationMapper());
+		String enrolledStudentsQuery = "select firstname, lastname, username, email FROM users inner join enrollment on users.username=enrollment.studentregistered WHERE courseid=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
+		
+		getEnrolledStudents = jdbcTemplate.query(enrolledStudentsQuery, new Object[] {globalCourseID}, new UserInformationMapper());		
 		return getEnrolledStudents;
 	}
 

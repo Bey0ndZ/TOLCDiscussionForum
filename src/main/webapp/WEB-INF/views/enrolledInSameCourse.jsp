@@ -141,18 +141,20 @@
 														<c:forEach var="enrolledStudents" items="${enrolledStudents}">
 															<tr>
 																<form:form method="POST" action="/discussionforum/welcome/discussionBoard/follow">
-																	<td>${enrolledStudents.firstname}</td>
-																	<td>${enrolledStudents.lastname}</td>
-																	<td>${enrolledStudents.username}<input type="hidden" name="username" value="${enrolledStudents.username}" /></td>
-																	<td>${enrolledStudents.email}</td>
-																	<c:choose>
-																		<c:when test="${empty followingMsg}">
-																			<td><button type="submit" class="btn btn-default" id="followButton">Follow</button><p id="displayFollowingMsg"></p></td>
-																		</c:when>
-																		<c:when test="${not empty followingMsg}">
-																			<td>${followingMsg }</td>
-																		</c:when>
-																	</c:choose>
+																	<c:if test="${enrolledStudents.username !=  pageContext.request.userPrincipal.name}">
+																		<td>${enrolledStudents.firstname}</td>
+																		<td>${enrolledStudents.lastname}</td>
+																		<td>${enrolledStudents.username}<input type="hidden" name="username" value="${enrolledStudents.username}" /></td>
+																		<td>${enrolledStudents.email}</td>
+																		<c:choose>
+																			<c:when test="${empty followingMsg}">
+																				<td><button type="submit" class="btn btn-default" id="followButton">Follow</button><p id="displayFollowingMsg"></p></td>
+																			</c:when>
+																			<c:when test="${not empty followingMsg}">
+																				<td>${followingMsg }</td>
+																			</c:when>
+																		</c:choose>
+																	</c:if>
 																</form:form>
 															</tr>
 														</c:forEach>

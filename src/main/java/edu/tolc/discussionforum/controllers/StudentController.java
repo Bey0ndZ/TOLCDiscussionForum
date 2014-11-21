@@ -13,12 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
@@ -169,6 +167,7 @@ public class StudentController {
 					isanonymous = false;
 				}
 				
+				@SuppressWarnings("unused")
 				String threadCreationSuccessMsg = userService.createThread(courseid, 
 						threadName, threadSubject, threadContent, studentName, isanonymous);
 				
@@ -427,6 +426,8 @@ public class StudentController {
 		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
 		getEnrolledStudents = userService.getEnrolledStudents(getCourseID);
 		
+		// Logged in person's name should come in the list
+		// Trying to do it in JSTL client side - DONE
 		modelAndView.addObject("enrolledStudents", getEnrolledStudents);
 		modelAndView.addObject("getCourseID", getCourseID);
 		modelAndView.setViewName("enrolledInSameCourse");
@@ -447,7 +448,6 @@ public class StudentController {
 			
 			// Save to the following table
 			String followingMsg = userService.addFollower(studentName, username);
-			System.out.println(followingMsg);
 			modelAndView.addObject("followingMsg", followingMsg);
 		} else {
 			// permission-denied

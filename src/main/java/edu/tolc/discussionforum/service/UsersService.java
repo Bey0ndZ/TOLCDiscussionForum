@@ -2,7 +2,6 @@ package edu.tolc.discussionforum.service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;

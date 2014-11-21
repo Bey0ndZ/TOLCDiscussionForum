@@ -20,6 +20,7 @@ public class HomeController {
 	@Autowired
 	UsersService userService;
 	
+	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@RequestMapping(value = {"/home", "/", "/index"}, method = RequestMethod.GET)
