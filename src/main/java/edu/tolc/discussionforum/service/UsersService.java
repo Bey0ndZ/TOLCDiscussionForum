@@ -56,12 +56,14 @@ public interface UsersService {
 	// Get enrolled users
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID);
 	// Add followers
-	public String addFollower(String studentName, String username);
+	public String addFollower(String studentName, String username, int getCourseID);
 	// Get user information
 	public List<UserInformationDTO> getUserInformation(String loggedInPerson);
 	// Get all enrolled students for instructor
 	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName);
 	// Delete course from all tables
 	public String deleteCourse(String courseid);
+	public boolean isFollowing(String follower,
+			String string, int courseid);
 	
 }

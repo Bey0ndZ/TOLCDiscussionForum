@@ -120,8 +120,8 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public String addFollower(String studentName, String username) {
-		return userDAO.addFollower(studentName, username);
+	public String addFollower(String studentName, String username, int courseid) {
+		return userDAO.addFollower(studentName, username, courseid);
 	}
 
 	@Override
@@ -137,5 +137,11 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public String deleteCourse(String courseid) {
 		return userDAO.deleteCourse(courseid);
+	}
+
+	@Override
+	public boolean isFollowing(String follower,
+			String enrolledStudent, int courseid) {
+		return userDAO.isFollowing(follower, enrolledStudent, courseid);
 	}
 }	

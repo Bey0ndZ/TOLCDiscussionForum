@@ -426,10 +426,28 @@ public class StudentController {
 		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
 		getEnrolledStudents = userService.getEnrolledStudents(getCourseID);
 		
-		// Logged in person's name should come in the list
-		// Trying to do it in JSTL client side - DONE
 		modelAndView.addObject("enrolledStudents", getEnrolledStudents);
 		modelAndView.addObject("getCourseID", getCourseID);
+		
+		// Check whether the person is already following the other person
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String follower = userDetail.getUsername();
+			
+			for (UserInformationDTO enrolledStudent : getEnrolledStudents) {
+				if (userService.isFollowing(follower, enrolledStudent.getUsername(), getCourseID)) {
+					modelAndView.addObject("followingMsg", "You are following this person.");
+				} else {
+					// Do nothing
+				}
+			}
+			
+		} else {
+			
+		}
+		
 		modelAndView.setViewName("enrolledInSameCourse");
 		return modelAndView;
 	}
@@ -447,7 +465,7 @@ public class StudentController {
 			String studentName = userDetail.getUsername();
 			
 			// Save to the following table
-			String followingMsg = userService.addFollower(studentName, username);
+			String followingMsg = userService.addFollower(studentName, username, getCourseID);
 			modelAndView.addObject("followingMsg", followingMsg);
 		} else {
 			// permission-denied

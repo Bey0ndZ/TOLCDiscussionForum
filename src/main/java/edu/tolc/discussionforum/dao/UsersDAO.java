@@ -64,11 +64,14 @@ public interface UsersDAO {
 	// Get user information
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID);
 	// Add followers
-	public String addFollower(String studentName, String username);
+	public String addFollower(String studentName, String username, int courseid);
 	// Get user information
 	public List<UserInformationDTO> getUserInformation(String loggedInPerson);
 	// Get all enrolled students
 	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName);
 	// Delete course
 	public String deleteCourse(String courseid);
+
+	public boolean isFollowing(String follower,
+			String enrolledStudent, int courseid);
 }

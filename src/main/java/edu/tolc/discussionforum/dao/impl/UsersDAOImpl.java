@@ -452,12 +452,12 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public String addFollower(String studentName, String username) {
-		String addFollowerQuery = "INSERT INTO follow VALUES (?,?)";
+	public String addFollower(String studentName, String username, int courseid) {
+		String addFollowerQuery = "INSERT INTO follow VALUES (?,?,?)";
 		JdbcTemplate addFollowerTemplate = new JdbcTemplate(dataSource);
 		
-		addFollowerTemplate.update(addFollowerQuery, new Object[] {studentName, username});
-		return "You are now following this person.";
+		addFollowerTemplate.update(addFollowerQuery, new Object[] {courseid, studentName, username});
+		return "You are following this person.";
 	}
 
 	@Override
@@ -521,6 +521,7 @@ public class UsersDAOImpl implements UsersDAO {
 		String deleteCalendarEventsQuery = "DELETE FROM calendarevents WHERE courseid=?";
 		String deleteEnrollmentQuery = "DELETE FROM enrollment WHERE courseid=?";
 		String deleteDiscussionBoardQuery = "DELETE FROM discussionboard WHERE courseid=?";
+		String deleteFollowQuery = "DELETE FROM follow WHERE courseid=?";
 		String deleteCourseQuery = "DELETE FROM courses WHERE courseid=?";
 		
 		JdbcTemplate deleteCourseTemplate = new JdbcTemplate(dataSource);
@@ -528,8 +529,27 @@ public class UsersDAOImpl implements UsersDAO {
 		deleteCourseTemplate.update(deleteCalendarEventsQuery, new Object[] {courseid});
 		deleteCourseTemplate.update(deleteEnrollmentQuery, new Object[] {courseid});
 		deleteCourseTemplate.update(deleteDiscussionBoardQuery, new Object[] {courseid});
+		deleteCourseTemplate.update(deleteFollowQuery, new Object[] {courseid});
 		deleteCourseTemplate.update(deleteCourseQuery, new Object[] {courseid});
 		
 		return "Course deleted.";	
+	}
+
+	@Override
+	public boolean isFollowing(String follower,
+			String enrolledStudent, int courseid) {
+		String followingQuery = "SELECT * FROM follow WHERE courseid=? AND username=? AND following=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		RowCountCallbackHandler rowCountCallBackHandler = new RowCountCallbackHandler();
+		
+		jdbcTemplate.query(followingQuery, new Object[]{courseid, follower, enrolledStudent},
+				rowCountCallBackHandler);
+		int rowCount = rowCountCallBackHandler.getRowCount();
+		
+		if (rowCount==1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

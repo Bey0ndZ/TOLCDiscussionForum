@@ -83,6 +83,7 @@ CREATE  TABLE users (
   FOREIGN KEY(courseid) REFERENCES courses(courseid));
   
   CREATE TABLE follow (
+  courseid int(11) NOT NULL,
   username VARCHAR(45) NOT NULL,
   following VARCHAR(45) NOT NULL);
   
