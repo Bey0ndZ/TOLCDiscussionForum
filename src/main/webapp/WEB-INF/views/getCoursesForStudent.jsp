@@ -147,13 +147,7 @@
 											<c:if test="${not empty enrollmentSuccess}">
 												${enrollmentSuccess}
 											</c:if>
-											
-											<div class="text-right">
-											<c:forEach var="o" items="${courseInformation}">
-												<form:form method="POST" action="enrollInAllCourses">
-													<input type="submit" value="Enroll" />
-												</form:form>
-											</c:forEach>
+
 											</div>
 										</div>
 									</div>

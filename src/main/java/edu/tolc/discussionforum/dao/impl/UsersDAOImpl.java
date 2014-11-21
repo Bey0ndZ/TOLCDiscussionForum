@@ -152,12 +152,36 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		return allCoursesInformation;
 	}
-
+	
+	// Update 2 tables
+	// Courses and enrollment
+	// But first, get number of people enrolled in a course
+	// Check whether the person has already enrolled in that course
 	@Override
 	public String enrollStudentInCourse(String courseID, String studentName) {
-		// Update 2 tables
-				// Courses and enrollment
-				// But first, get number of people enrolled in a course
+		// Check if the course is present
+		String courseCheckQuery = "SELECT * FROM courses WHERE courseid=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		RowCountCallbackHandler checkCourseExists = new RowCountCallbackHandler();
+		jdbcTemplate.query(courseCheckQuery, new Object[] {courseID}, checkCourseExists);
+		
+		int checkCourseFlag = checkCourseExists.getRowCount();
+		
+		if (checkCourseFlag==1) {
+		
+			String checkStudentEnrollmentQuery = "SELECT * FROM enrollment "
+					+ "WHERE courseid=? AND studentregistered=?";
+			
+			RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
+			jdbcTemplate.query(checkStudentEnrollmentQuery, 
+					new Object[]{courseID, studentName}, countCallback);
+			
+			int enrollmentFlag = countCallback.getRowCount();
+			
+			if (enrollmentFlag>=1) {
+				return "You have already enrolled in the course. Please select some other course.";
+			} else {
 				String getNumberOfStudentsEnrolled = "SELECT numberofstudentsenrolled FROM "
 						+ "courses where courseid=?";
 				JdbcTemplate numberOfStudentsEnrolledTemplate = new JdbcTemplate(
@@ -165,7 +189,7 @@ public class UsersDAOImpl implements UsersDAO {
 				int numberOfStudentsEnrolled = numberOfStudentsEnrolledTemplate
 						.queryForObject(getNumberOfStudentsEnrolled,
 								new Object[] { courseID }, Integer.class);
-
+		
 				// Update the courses table
 				String updateCoursesQuery = "UPDATE courses SET numberofstudentsenrolled=? WHERE "
 						+ "courseid=?";
@@ -179,6 +203,10 @@ public class UsersDAOImpl implements UsersDAO {
 				
 				enrollmentTemplate.update(enrollmentQuery, new Object[] {courseID, studentName});
 				return "Successfully enrolled!";
+			}
+		} else {
+			return "Course ID does not exist. Please enter a valid course id.";
+		}
 	}
 
 	@Override

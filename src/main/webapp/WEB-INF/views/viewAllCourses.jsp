@@ -52,8 +52,6 @@
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
-
-
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"><i class="fa fa-user"></i> 
 						<!-- Accessing the session object -->
@@ -121,6 +119,12 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
+											<c:if test="${not empty courseEnrollmentMsg}">
+												${courseEnrollmentMsg}
+											</c:if>
+											<c:if test="${empty courseInformation}">
+												No course is available to register.
+											</c:if>
 											<c:if test="${not empty courseInformation}">
 													<table
 													class="table table-bordered table-hover table-striped">
@@ -133,7 +137,6 @@
 														</tr>
 													</thead>
 													<tbody>
-
 														<c:forEach var="o" items="${courseInformation}">
 															<tr>
 																<td>${o.courseid}</td>
@@ -146,21 +149,14 @@
 												</table>
 											</c:if>
 											
-											<c:if test="${not empty enrollmentSuccess}">
-												${enrollmentSuccess}
-											</c:if>
-											
 											<div class="text-left">
 											<c:forEach var="o" items="${courseInformation}">
 												<form:form method="POST" action="enrollInCourse">
-													Type the course IDs of courses you want to enroll in:<br/><br/>
+													Type the course ID of the course you want to enroll in:<br/><br/>
 													Course ID: <input type="text" name="enrollInCourseID" /><br/>
 													<input type="submit" value="Enroll" />
 												</form:form>
 											</c:forEach>
-											<c:if test="${not empty courseEnrollmentMsg}">
-												${courseEnrollmentMsg}
-											</c:if>
 											</div>
 										</div>
 									</div>
