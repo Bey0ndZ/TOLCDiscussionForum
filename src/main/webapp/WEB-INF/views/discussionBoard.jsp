@@ -122,6 +122,9 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
+											<c:if test="${empty getThreadInformation}">
+												No threads have been created in the discussionboard for this course. You can start a new thread by clicking on the tab in the left pane!
+											</c:if>
 											<c:if test="${not empty getThreadInformation}">
 													<table
 													class="table table-bordered table-hover table-striped">

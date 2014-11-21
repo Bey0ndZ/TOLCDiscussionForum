@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Welcome, ${username }</title>
+<title>Welcome, ${pageContext.request.userPrincipal.name}</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -50,7 +50,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index">Instructor</a>
+					<a class="navbar-brand" href="index">Welcome, ${pageContext.request.userPrincipal.name}</a>
 				</div>
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
@@ -92,8 +92,12 @@
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
 						<li><a href="createThread"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Create New Thread</a></li>
-						<li><a href="courseCalendar"><i
+						<li><a href="viewEnrolledStudents"><i
+								class="fa fa-fw fa-dashboard"></i> View Enrolled Students</a></li>
+						<li class="active"><a href="courseCalendar"><i
 								class="fa fa-fw fa-dashboard"></i> Calendar Event (Self)</a></li>
+						<li><a href="/discussionforum/welcome/discussionBoard/${getCourseID}"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Discussion Board</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->

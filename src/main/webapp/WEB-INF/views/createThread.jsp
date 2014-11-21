@@ -88,10 +88,14 @@
 					<ul class="nav navbar-nav side-nav">
 						<li><a href="/discussionforum/welcome"><i
 								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
-						<li><a href="/discussionforum/welcome/discussionBoard/${getCourseID}"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Discussion Board</a></li>
 						<li class="active"><a href="createThread"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Create New Thread</a></li>
+						<li><a href="viewEnrolledStudents"><i
+								class="fa fa-fw fa-dashboard"></i> View Enrolled Students</a></li>
+						<li><a href="courseCalendar"><i
+								class="fa fa-fw fa-dashboard"></i> Calendar Event (Self)</a></li>
+						<li><a href="/discussionforum/welcome/discussionBoard/${getCourseID}"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Discussion Board</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->

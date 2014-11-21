@@ -377,6 +377,7 @@ public class StudentController {
 	@RequestMapping(value="/welcome/discussionBoard/courseCalendar", method=RequestMethod.GET)
 	public ModelAndView courseCalendarGET() {
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("getCourseID", getCourseID);
 		modelAndView.setViewName("studentCourseCalendar");
 		return modelAndView;
 	}
@@ -427,6 +428,7 @@ public class StudentController {
 		getEnrolledStudents = userService.getEnrolledStudents(getCourseID);
 		
 		modelAndView.addObject("enrolledStudents", getEnrolledStudents);
+		modelAndView.addObject("getCourseID", getCourseID);
 		modelAndView.setViewName("enrolledInSameCourse");
 		return modelAndView;
 	}

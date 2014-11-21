@@ -121,6 +121,9 @@
 									<div id="morris-area-chart">
 										<div class="panel-body">
 											<!-- The calendarevents information goes here -->
+											<c:if test="${empty personalCalendarEvents}">
+												You have no course calendar events made by the instructor.
+											</c:if>
 											<c:if test="${not empty personalCalendarEvents}">
 												<c:forEach var="personalEvents" items="${personalCalendarEvents}">
 													<b>Event</b><br/>
