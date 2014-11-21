@@ -122,9 +122,6 @@
 											<c:if test="${not empty courseEnrollmentMsg}">
 												${courseEnrollmentMsg}
 											</c:if>
-											<c:if test="${empty courseInformation}">
-												No course is available to register.
-											</c:if>
 											<c:if test="${not empty courseInformation}">
 													<table
 													class="table table-bordered table-hover table-striped">

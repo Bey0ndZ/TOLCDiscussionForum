@@ -130,10 +130,8 @@
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
-															<th>Thread ID</th>
 															<th>Thread Name</th>
 															<th>Thread Subject</th>
-															<th>Thread Content</th>
 															<th>Created By</th>
 														</tr>
 													</thead>
@@ -141,10 +139,8 @@
 														<!-- Align properly -->
 														<c:forEach var="threadInfo" items="${getThreadInformation}">
 															<tr>
-																<td>${threadInfo.threadid}</td>
 																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadname}</a></td>
 																<td>${threadInfo.threadsubject}</td>
-																<td>${threadInfo.threadcontent}</td>
 																<td>${threadInfo.createdby}</td>
 															</tr>
 														</c:forEach>
