@@ -90,9 +90,9 @@
 								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
 						<li><a href="getMyCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Get Courses</a></li>
-						<li class="active"><a href="viewAllEnrolledStudents"><i
+						<li><a href="viewAllEnrolledStudents"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Enrolled Students</a></li>
-						<li><a href="deleteCourse"><i
+						<li class="active"><a href="deleteCourse"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
 					</ul>
 				</div>
@@ -133,6 +133,12 @@
 													<button type="submit" class="btn btn-default">Delete Course</button>
 												</form:form>
 											</c:if>
+											<c:if test="${not empty courseDeletionMsg}">
+												${courseDeletionMsg}
+											</c:if>
+											<!-- For now, just do not display anything if
+											there are no courses present for the instructor
+											to delete -->
 										</div>
 									</div>
 								</div>

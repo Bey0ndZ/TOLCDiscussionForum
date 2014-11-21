@@ -122,6 +122,9 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
+											<c:if test="${empty enrolledStudents}">
+												You have no courses. Please add a course so that students can enroll.
+											</c:if>
 											<c:if test="${not empty enrolledStudents}">
 													<table
 													class="table table-bordered table-hover table-striped">

@@ -122,6 +122,9 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
+											<c:if test="${empty courseInformationForInstructor}">
+												You have no courses. Please add a course.
+											</c:if>
 											<c:if test="${not empty courseInformationForInstructor}">
 													<table
 													class="table table-bordered table-hover table-striped">
@@ -146,11 +149,6 @@
 													</tbody>
 												</table>
 											</c:if>
-											
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
 										</div>
 									</div>
 								</div>

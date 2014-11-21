@@ -246,6 +246,7 @@ public class InstructorController {
 		
 		// Delete the course from all tables
 		String courseDeletionMsg = userService.deleteCourse(courseid);
+		modelAndView.addObject("courseDeletionMsg", courseDeletionMsg);
 		
 		modelAndView.setViewName("deleteCourse");
 		return modelAndView;
