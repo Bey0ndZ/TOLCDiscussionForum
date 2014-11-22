@@ -144,4 +144,9 @@ public class UsersServiceImpl implements UsersService{
 			String enrolledStudent, int courseid) {
 		return userDAO.isFollowing(follower, enrolledStudent, courseid);
 	}
+
+	@Override
+	public List<GetTickrDTO> getFollowerPostsTickr(String studentName) {
+		return userDAO.getFollowerPostsTickr(studentName);
+	}
 }	

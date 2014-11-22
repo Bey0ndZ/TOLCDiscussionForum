@@ -52,6 +52,7 @@ public class StudentController {
 			getMyCourses = userService.getStudentCourses(studentName);
 			
 			modelAndView.addObject("getMyCourses", getMyCourses);
+			
 		} else {
 			// permission-denied page
 			// Please log in
@@ -125,6 +126,20 @@ public class StudentController {
 				threadInfo.setCreatedby("Anonymous");
 			} 
 		}
+		
+		// Tickr for people who follow others
+		// For the tickr feature
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String studentName = userDetail.getUsername();
+		
+		List<GetTickrDTO> tickr = new ArrayList<GetTickrDTO>();
+		// Overloaded method
+		tickr = userService.getFollowerPostsTickr(studentName);
+		
+		modelAndView.addObject("tickr", tickr);
+		
 		// Adding it to the view
 		modelAndView.addObject("getThreadInformation", getThreadInformation);
 		modelAndView.setViewName("discussionBoard");

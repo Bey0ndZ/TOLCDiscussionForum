@@ -74,4 +74,6 @@ public interface UsersDAO {
 
 	public boolean isFollowing(String follower,
 			String enrolledStudent, int courseid);
+
+	public List<GetTickrDTO> getFollowerPostsTickr(String studentName);
 }

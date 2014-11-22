@@ -227,11 +227,22 @@ public class UsersDAOImpl implements UsersDAO {
 			String threadSubject, String threadContent, String creatorsName, boolean isanonymous) {
 		String createThreadQuery = "INSERT INTO discussionboard (courseid, threadname, threadsubject,"
 				+ "threadcontent, createdby, postanonymously) VALUES (?,?,?,?,?,?)";
-		JdbcTemplate createThreadTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		// Insert into DB
-		createThreadTemplate.update(createThreadQuery, 
+		jdbcTemplate.update(createThreadQuery, 
 				new Object[] {courseid, threadName, threadSubject, threadContent, creatorsName, isanonymous});
+		
+		// Send email to the individual people they are subscribed to
+		String followerQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=(SELECT username FROM follow WHERE following=? AND courseid=?)";
+		List<UserInformationDTO> userInformation = jdbcTemplate.query(followerQuery, 
+				new Object[] {creatorsName, courseid}, new UserInformationMapper());
+		String followingSubject = "A new thread has been created by: "+creatorsName;
+		String followingContent = "Thread Subject: \n"+threadSubject+"\n\n"+"Thread Content: \n"+threadContent;
+		
+		for (UserInformationDTO user : userInformation) {
+			sendEmail(user.getEmail(), followingSubject, followingContent);
+		}
 		
 		return "Thread created.";
 	}
@@ -266,22 +277,21 @@ public class UsersDAOImpl implements UsersDAO {
 	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously) {	
 		String newThreadPostQuery = "INSERT INTO discussionposts(threadid, postcontent, postedby, postanonymously, postedat) "
 				+ "VALUES (?,?,?,?,?)";
-		JdbcTemplate newThreadPostTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		// Get the timestamp
 		Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
 		
 		// Actual insert
-		newThreadPostTemplate.update(newThreadPostQuery, 
+		jdbcTemplate.update(newThreadPostQuery, 
 				new Object[] {threadid, newPost, studentName, postAnonymously, currentTimestamp});
 		
 		// Also email people who have subscribed to this thread
 		// saying so and so user modified the post
 		// we could send content too
 		String getSubscribersQuery = "SELECT studentname FROM subscriptions WHERE threadid=? AND subscription=true";
-		JdbcTemplate getSubscribersTemplate = new JdbcTemplate(dataSource);
 		
-		List<String> getAllSubscribers = getSubscribersTemplate.query(getSubscribersQuery,
+		List<String> getAllSubscribers = jdbcTemplate.query(getSubscribersQuery,
 				new Object[] {threadid}, new RowMapper<String>() {
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return rs.getString(1);
@@ -290,23 +300,37 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		// Get the thread name
 		String threadName = "SELECT threadname FROM discussionboard WHERE threadid=?";
-		JdbcTemplate threadNameTemplate = new JdbcTemplate(dataSource);
 		
-		String threadNameObject = threadNameTemplate.queryForObject(threadName, 
+		String threadNameObject = jdbcTemplate.queryForObject(threadName, 
 				new Object[] {threadid}, String.class);
 		
 		String subject = "New post has been made in: "+threadNameObject;
-		String content = "Post made by: "+studentName+"\n\nContent:\n"+newPost;
+		String content = "";
+		if (!postAnonymously) { 
+			content = "Post made by: "+studentName+"\n\nContent:\n"+newPost;
+		} else {
+			content = "Post has been made anonymously.\n\nContent:\n"+newPost;
+		}
 		
 		// Get email addresses
 		String getEmailQuery = "SELECT email from users where username=?";
-		JdbcTemplate getEmailTemplate = new JdbcTemplate(dataSource);
 		
 		// Send the email to every subscriber of the thread
 		for (String subscriber : getAllSubscribers) {
-			String emailID = getEmailTemplate.queryForObject(getEmailQuery, new Object[]{subscriber},
+			String emailID = jdbcTemplate.queryForObject(getEmailQuery, new Object[]{subscriber},
 					String.class);
 			sendEmail(emailID, subject, content);
+		}
+		
+		// Send email to the individual people they are subscribed to
+		String followerQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=(SELECT username FROM follow WHERE following=?";
+		List<UserInformationDTO> userInformation = jdbcTemplate.query(followerQuery, 
+				new Object[] {studentName}, new UserInformationMapper());
+		String followingSubject = "New post made by: "+studentName+" in thread: "+threadName;
+		String followingContent = newPost;
+		
+		for (UserInformationDTO user : userInformation) {
+			sendEmail(user.getEmail(), followingSubject, followingContent);
 		}
 	}
 
@@ -552,4 +576,12 @@ public class UsersDAOImpl implements UsersDAO {
 			return false;
 		}
 	}
+
+	@Override
+	public List<GetTickrDTO> getFollowerPostsTickr(String studentName) {
+		List<GetTickrDTO> followerPostInfo = new ArrayList<GetTickrDTO>();
+		
+		return followerPostInfo;
+	}
 }
+ 

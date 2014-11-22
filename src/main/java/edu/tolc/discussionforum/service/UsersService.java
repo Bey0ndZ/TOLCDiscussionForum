@@ -65,5 +65,6 @@ public interface UsersService {
 	public String deleteCourse(String courseid);
 	public boolean isFollowing(String follower,
 			String string, int courseid);
+	public List<GetTickrDTO> getFollowerPostsTickr(String studentName);
 	
 }
