@@ -86,13 +86,13 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active"><a href="addCourse"><i
+						<li class="active"><a href="/discussionforum/addCourse"><i
 								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
-						<li><a href="getMyCourses"><i
+						<li><a href="/discussionforum/getMyCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Get My Courses</a></li>
 						<li><a href="getEnrolledStudentsList"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Get Enrolled Students</a></li>
-						<li><a href="deleteCourse"><i
+						<li><a href="/discussionforum/deleteCourse"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
 						<li><a href="/discussionforum/getMyCourses/discussionBoard/courseCalendar"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Course Calendar</a></li>
@@ -108,7 +108,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Information</h1>
+							<h1 class="page-header">Discussion Board</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -118,31 +118,32 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> Courses Summary
+										<i class="fa fa-bar-chart-o fa-fw"></i> Thread Information
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty courseInformationForInstructor}">
+											<c:if test="${empty getThreadInformation }">
+												No threads have been created by the students.
+											</c:if>
+											<c:if test="${not empty getThreadInformation}">
 													<table
 													class="table table-bordered table-hover table-striped">
 													<thead>
 														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Course Description</th>
-															<th>Number of Students</th>
+															<th>Thread Name</th>
+															<th>Thread Subject</th>
+															<th>Created By</th>
 														</tr>
 													</thead>
 													<tbody>
-
-														<c:forEach var="o" items="${courseInformationForInstructor}">
+														<!-- Align properly -->
+														<c:forEach var="threadInfo" items="${getThreadInformation}">
 															<tr>
-																<td>${o.courseid}</td>
-																<td><a href=getMyCourses/discussionBoard/${o.courseid}>${o.coursename}</a></td>
-																<td>${o.coursedescription}</td>
-																<td>${o.numberofstudents}</td>
+																<td><a href="showThread/${threadInfo.threadid}">${threadInfo.threadname}</a></td>
+																<td>${threadInfo.threadsubject}</td>
+																<td>${threadInfo.createdby}</td>
 															</tr>
 														</c:forEach>
 													</tbody>

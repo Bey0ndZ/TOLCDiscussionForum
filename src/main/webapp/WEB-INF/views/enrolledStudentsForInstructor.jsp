@@ -86,13 +86,13 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li class="active"><a href="addCourse"><i
+						<li class="active"><a href="/discussionforum/addCourse"><i
 								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
-						<li><a href="getMyCourses"><i
+						<li><a href="/discussionforum/getMyCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Get My Courses</a></li>
 						<li><a href="getEnrolledStudentsList"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Get Enrolled Students</a></li>
-						<li><a href="deleteCourse"><i
+						<li><a href="/discussionforum/deleteCourse"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
 						<li><a href="/discussionforum/getMyCourses/discussionBoard/courseCalendar"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Course Calendar</a></li>

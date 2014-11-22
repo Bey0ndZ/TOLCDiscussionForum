@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.service.UsersService;
 
@@ -118,7 +119,23 @@ public class InstructorController {
 	@RequestMapping(value="/getMyCourses/discussionBoard/{courseid}", method=RequestMethod.GET)
 	public ModelAndView discussionBoardGET(@PathVariable int courseid) {
 		ModelAndView modelAndView = new ModelAndView();
+		// Setting the global variable
 		globalCourseID = courseid;
+		// Get the information from discussionboard table
+		// using a DTO
+		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
+		getThreadInformation = userService.getThreadInformation(courseid);
+		
+		// Check if the user has selected anonymous
+		for (GetThreadInfoDTO threadInfo : getThreadInformation) {
+			if (threadInfo.isPostanonymously()) {
+				threadInfo.setCreatedby("Anonymous");
+			} 
+		}
+		
+		// Adding it to the view
+		modelAndView.addObject("getThreadInformation", getThreadInformation);
+		
 		modelAndView.setViewName("discussionBoardForInstructor");
 		return modelAndView;	
 	}
