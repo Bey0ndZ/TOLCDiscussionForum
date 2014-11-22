@@ -146,12 +146,21 @@
 																		<td>${enrolledStudents.lastname}</td>
 																		<td>${enrolledStudents.username}<input type="hidden" name="username" value="${enrolledStudents.username}" /></td>
 																		<td>${enrolledStudents.email}</td>
-																		<c:if test="${not empty followingMsg}">
-																			<td>${followingMsg}</td>
-																		</c:if>
-																		<c:if test="${empty followingMsg }">
-																			<td><button type="submit" class="btn btn-default">Follow</button></td>
-																		</c:if>
+																		<c:choose>
+																			<c:when test="${(not empty beenFollowing && followingUsername==enrolledStudents.username)
+																			|| (not empty followingMsg) }">
+																				<c:if test="${empty followingMsg }">
+																					<td>${beenFollowing }</td>
+																				</c:if>
+																				<c:if test="${empty beenFollowing }">
+																					<td>${followingMsg }</td>
+																				</c:if>
+																			</c:when>
+																			
+																			<c:otherwise>
+																				<td><button type="submit" class="btn btn-default">Follow</button></td>
+																			</c:otherwise>
+																		</c:choose>
 																	</c:if>
 																</form:form>
 															</tr>

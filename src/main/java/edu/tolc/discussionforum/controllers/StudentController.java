@@ -438,7 +438,9 @@ public class StudentController {
 			
 			for (UserInformationDTO enrolledStudent : getEnrolledStudents) {
 				if (userService.isFollowing(follower, enrolledStudent.getUsername(), getCourseID)) {
-					modelAndView.addObject("followingMsg", "You are following this person.");
+					modelAndView.addObject("beenFollowing", "You are following this person.");
+					modelAndView.addObject("followingUsername", enrolledStudent.getUsername());
+					
 				} else {
 					// Do nothing
 				}
@@ -466,6 +468,7 @@ public class StudentController {
 			
 			// Save to the following table
 			String followingMsg = userService.addFollower(studentName, username, getCourseID);
+			modelAndView.addObject("followingUsername", username);
 			modelAndView.addObject("followingMsg", followingMsg);
 		} else {
 			// permission-denied
