@@ -122,6 +122,10 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
+											<c:if test="${not empty followingUserName && not empty followingPostTimestamp
+											&& not empty followingThread }">
+												<marquee>${followingUserName}, has posted in <b>"${followingThread}"</b> thread at ${followingPostTimestamp} (person you are following). </marquee>
+											</c:if>
 											<c:if test="${empty getThreadInformation}">
 												No threads have been created in the discussionboard for this course. You can start a new thread by clicking on the tab in the left pane!
 											</c:if>

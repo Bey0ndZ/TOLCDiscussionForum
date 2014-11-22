@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.tolc.discussionforum.dto.FollowTickrDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -127,22 +128,31 @@ public class StudentController {
 			} 
 		}
 		
-		// Tickr for people who follow others
-		// For the tickr feature
+		// Adding it to the view
+		modelAndView.addObject("getThreadInformation", getThreadInformation);
+		modelAndView.setViewName("discussionBoard");
+		
+		// Get the last persons post
+		// Check whether the person is follower later
+		List<FollowTickrDTO> lastUserPosted = userService.getLastPostInAnyThread(courseid);
+		
+		// Get studentname
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String studentName = userDetail.getUsername();
 		
-		List<GetTickrDTO> tickr = new ArrayList<GetTickrDTO>();
-		// Overloaded method
-		tickr = userService.getFollowerPostsTickr(studentName);
-		
-		modelAndView.addObject("tickr", tickr);
-		
-		// Adding it to the view
-		modelAndView.addObject("getThreadInformation", getThreadInformation);
-		modelAndView.setViewName("discussionBoard");
+		for (FollowTickrDTO followingUserName : lastUserPosted) {
+			if (userService.isFollowing(studentName, followingUserName.getPostedby(), courseid)) {
+				if (followingUserName.isPostanonymously()) {
+					// Do nothing
+				} else {
+					modelAndView.addObject("followingUserName", followingUserName.getPostedby());
+					modelAndView.addObject("followingPostTimestamp", followingUserName.getPostedat());
+					modelAndView.addObject("followingThread", followingUserName.getThreadname());
+				}
+			}
+		}
 		return modelAndView;
 	}
 	

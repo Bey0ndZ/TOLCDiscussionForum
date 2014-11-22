@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
+import edu.tolc.discussionforum.dto.FollowTickrDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -146,7 +147,7 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public List<GetTickrDTO> getFollowerPostsTickr(String studentName) {
-		return userDAO.getFollowerPostsTickr(studentName);
+	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid) {
+		return userDAO.getLastPostInAnyThread(courseid);
 	}
 }	

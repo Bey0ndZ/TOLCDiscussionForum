@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
+import edu.tolc.discussionforum.dto.FollowTickrDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -65,6 +66,6 @@ public interface UsersService {
 	public String deleteCourse(String courseid);
 	public boolean isFollowing(String follower,
 			String string, int courseid);
-	public List<GetTickrDTO> getFollowerPostsTickr(String studentName);
+	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid);
 	
 }

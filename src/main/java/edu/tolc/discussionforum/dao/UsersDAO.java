@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
+import edu.tolc.discussionforum.dto.FollowTickrDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -74,6 +75,7 @@ public interface UsersDAO {
 
 	public boolean isFollowing(String follower,
 			String enrolledStudent, int courseid);
-
-	public List<GetTickrDTO> getFollowerPostsTickr(String studentName);
+	
+	// Get last post in any discussion thread
+	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid);
 }

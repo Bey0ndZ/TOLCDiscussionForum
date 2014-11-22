@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import edu.tolc.discussionforum.dao.UsersDAO;
 import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
+import edu.tolc.discussionforum.dto.FollowTickrDTO;
 import edu.tolc.discussionforum.dto.GetCalendarEventsDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
 import edu.tolc.discussionforum.dto.GetPostsDTO;
@@ -25,6 +26,7 @@ import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
 import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.mail.EmailService;
+import edu.tolc.discussionforum.mappersandextractors.FollowTickrMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetCalendarEventsMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetCoursesMapper;
 import edu.tolc.discussionforum.mappersandextractors.GetPostsMapper;
@@ -578,10 +580,14 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public List<GetTickrDTO> getFollowerPostsTickr(String studentName) {
-		List<GetTickrDTO> followerPostInfo = new ArrayList<GetTickrDTO>();
+	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid) {
+		String lastPostInCourse = "SELECT discussionboard.threadname, discussionposts.postedby, discussionposts.postedat, discussionposts.postanonymously FROM discussionposts INNER JOIN discussionboard ON discussionboard.threadid=discussionposts.threadid INNER JOIN courses ON discussionboard.courseid=courses.courseid WHERE courses.courseid=? ORDER BY postedat DESC LIMIT 1";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
-		return followerPostInfo;
+		List<FollowTickrDTO> lastPostDetails = jdbcTemplate.query(lastPostInCourse, new Object[] {courseid},
+				new FollowTickrMapper());
+		
+		return lastPostDetails;
 	}
 }
  
