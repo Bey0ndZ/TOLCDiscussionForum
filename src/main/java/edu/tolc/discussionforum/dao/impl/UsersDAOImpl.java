@@ -238,7 +238,7 @@ public class UsersDAOImpl implements UsersDAO {
 		List<UserInformationDTO> userInformation = jdbcTemplate.query(followerQuery, 
 				new Object[] {creatorsName, courseid}, new UserInformationMapper());
 		String followingSubject = "A new thread has been created by: "+creatorsName;
-		String followingContent = "Thread Subject: \n"+threadSubject+"\n\n"+"Thread Content: \n"+threadContent;
+		String followingContent = "New post by the person you follow.\n\nThread Subject: \n"+threadSubject+"\n\n"+"Thread Content: \n"+threadContent;
 		
 		for (UserInformationDTO user : userInformation) {
 			sendEmail(user.getEmail(), followingSubject, followingContent);
@@ -323,11 +323,11 @@ public class UsersDAOImpl implements UsersDAO {
 		}
 		
 		// Send email to the individual people they are subscribed to
-		String followerQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=(SELECT username FROM follow WHERE following=?";
+		String followerQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=(SELECT username FROM follow WHERE following=?)";
 		List<UserInformationDTO> userInformation = jdbcTemplate.query(followerQuery, 
 				new Object[] {studentName}, new UserInformationMapper());
-		String followingSubject = "New post made by: "+studentName+" in thread: "+threadName;
-		String followingContent = newPost;
+		String followingSubject = "New post made by: "+studentName+" in thread: "+threadNameObject;
+		String followingContent = "A new post has been made by the person you follow.\n\nPost content: \n"+newPost;
 		
 		for (UserInformationDTO user : userInformation) {
 			sendEmail(user.getEmail(), followingSubject, followingContent);
