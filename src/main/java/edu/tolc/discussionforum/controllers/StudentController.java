@@ -1,5 +1,6 @@
 package edu.tolc.discussionforum.controllers;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -195,7 +196,6 @@ public class StudentController {
 				@SuppressWarnings("unused")
 				String threadCreationSuccessMsg = userService.createThread(courseid, 
 						threadName, threadSubject, threadContent, studentName, isanonymous);
-				
 			} else {
 				// permission-denied page
 				// Must log in
