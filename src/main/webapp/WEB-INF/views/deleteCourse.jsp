@@ -89,7 +89,7 @@
 						<li><a href="addCourse"><i
 								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
 						<li><a href="getMyCourses"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Get Courses</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> My Courses</a></li>
 						<li><a href="viewAllEnrolledStudents"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Enrolled Students</a></li>
 						<li class="active"><a href="deleteCourse"><i
@@ -106,7 +106,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Enrollment</h1>
+							<h1 class="page-header">Delete Course</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -116,7 +116,7 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> All students enrolled in my courses
+										<i class="fa fa-bar-chart-o fa-fw"></i> Select the Course You Want To Delete
 									</h3>
 								</div>
 								<div class="panel-body">

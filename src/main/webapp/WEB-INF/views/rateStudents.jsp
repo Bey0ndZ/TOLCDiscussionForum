@@ -31,6 +31,11 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome-4.1.0/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+	
+<!-- Star rating -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/star-rating.min.css"
+	rel="stylesheet" type="text/css">
 
 </head>
 
@@ -86,14 +91,14 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li><a href="addCourse"><i
-								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
-						<li><a href="getMyCourses"><i
+						<li><a href="/discussionforum/getMyCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> My Courses</a></li>
-						<li class="active"><a href="viewAllEnrolledStudents"><i
-								class="fa fa-fw fa-bar-chart-o"></i> View All Enrolled Students</a></li>
-						<li><a href="deleteCourse"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Delete Course</a></li>
+						<li><a href="getEnrolledStudentsList"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Get Enrolled Students</a></li>
+						<li><a href="/discussionforum/getMyCourses/rateStudents"><i 
+								class="fa fa-fw fa-bar-chart-o"></i> Rate Students</a>
+						<li><a href="/discussionforum/getMyCourses/discussionBoard/courseCalendar"><i
+								class="fa fa-fw fa-bar-chart-o"></i> Course Calendar</a></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -106,7 +111,7 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Enrollment</h1>
+							<h1 class="page-header">Rate Students</h1>
 						</div>
 					</div>
 					<!-- /.row -->
@@ -116,35 +121,25 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i>All Enrolled Students in Courses
+										<i class="fa fa-bar-chart-o fa-fw"></i> Select the Student You Want To Rate
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${empty enrolledStudents}">
-												You have no courses. Please add a course so that students can enroll.
+											<!-- Get the students as a drop down list -->
+											<c:if test="${not empty ratingGiven}">
+												${ratingGiven}
 											</c:if>
-											<c:if test="${not empty enrolledStudents}">
-													<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
-														<tr>
-															<th>Coursename</th>
-															<th>Username</th>
-														</tr>
-													</thead>
-													<tbody>
-
-														<c:forEach var="enrollment" items="${enrolledStudents}">
-															<tr>
-																<td>${enrollment.coursename}</td>
-																<td>${enrollment.studentregistered}</td>
-															</tr>
+											<form:form method="POST" action="/discussionforum/getMyCourses/rateStudents">
+													<select name="rateStudentList">
+														<c:forEach var="student" items="${getAllEnrolledStudents}">
+															<option value="${student.username}">${student.firstname } ${student.lastname}</option>
 														</c:forEach>
-													</tbody>
-												</table>
-											</c:if>
+													</select><br/><br/>
+													<input id="star-rating" name="starRating" />
+												<button type="submit" class="btn btn-default">Rate Student</button>
+											</form:form>
 										</div>
 									</div>
 								</div>
@@ -169,6 +164,13 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+			
+		<!-- Star rating -->
+		<script
+			src="${pageContext.request.contextPath}/resources/js/star-rating.min.js"></script>
+		<script type="text/javascript">
+			$('#star-rating').rating();
+		</script>
 	</sec:authorize>
 </body>
 

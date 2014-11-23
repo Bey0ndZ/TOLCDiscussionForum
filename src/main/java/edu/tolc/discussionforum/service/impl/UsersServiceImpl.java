@@ -150,4 +150,9 @@ public class UsersServiceImpl implements UsersService{
 	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid) {
 		return userDAO.getLastPostInAnyThread(courseid);
 	}
+
+	@Override
+	public void sendRatingEmail(int globalCourseID, String userRated) {
+		userDAO.sendRatingEmail(globalCourseID, userRated);
+	}
 }	

@@ -589,5 +589,26 @@ public class UsersDAOImpl implements UsersDAO {
 		
 		return lastPostDetails;
 	}
+
+	@Override
+	public void sendRatingEmail(int globalCourseID, String userRated) {
+		String sendRatingEmailQuery = "SELECT email FROM users INNER JOIN enrollment ON users.username=enrollment.studentregistered WHERE enrollment.courseid=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		List<String> emailList = new ArrayList<String>();
+		emailList = jdbcTemplate.query(sendRatingEmailQuery, new Object[] {globalCourseID}, 
+				new RowMapper<String>() {
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString(1);
+			}
+		});
+		
+		String subject = "New Student of the Week Rating";
+		String content = "Hello Students,\n\nOne of your peers has performed extremely well this week and has been given 5 stars rating.\n\n"
+				+ "The username of the person receiving this is: "+userRated+"\n\nI hope that everyone gets motivated by this rating and tries to get the same through hardwork and deligence.\n\nBests,\nProfessor";
+		for (String email : emailList) {
+			sendEmail(email, subject, content);
+		}
+	}
 }
  

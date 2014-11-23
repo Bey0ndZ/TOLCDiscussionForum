@@ -266,4 +266,43 @@ public class InstructorController {
 		modelAndView.setViewName("deleteCourse");
 		return modelAndView;
 	}
+	
+	// Rate Students
+	// Get Request
+	@RequestMapping(value="/getMyCourses/rateStudents", method=RequestMethod.GET)
+	public ModelAndView rateStudentsGET() {
+		ModelAndView modelAndView = new ModelAndView();
+		// Get the students who are enrolled in course
+		List<UserInformationDTO> getEnrolledUsersInfo = new ArrayList<UserInformationDTO>();
+		getEnrolledUsersInfo = userService.getEnrolledStudents(globalCourseID);
+		
+		modelAndView.addObject("getAllEnrolledStudents", getEnrolledUsersInfo);
+		modelAndView.setViewName("rateStudents");
+		return modelAndView;
+	}
+	
+	// Rate Students
+	// POST Request
+	@RequestMapping(value="/getMyCourses/rateStudents", method=RequestMethod.POST)
+	public ModelAndView rateStudentsPOST(@RequestParam("rateStudentList") String userRated,
+			@RequestParam("starRating") String ratingGiven) {
+		ModelAndView modelAndView = new ModelAndView();
+		List<UserInformationDTO> getEnrolledUsersInfo = new ArrayList<UserInformationDTO>();
+		getEnrolledUsersInfo = userService.getEnrolledStudents(globalCourseID);
+		
+		modelAndView.addObject("getAllEnrolledStudents", getEnrolledUsersInfo);
+		modelAndView.addObject("ratingGiven","Rating has been posted. Email has been send to everyone in class.");
+		
+		// No need to store the values in the table
+		// Just email everyone when the rating is done
+		// Return type void - nothing worth returning
+		if (ratingGiven.equalsIgnoreCase("5")) {
+			userService.sendRatingEmail(globalCourseID, userRated);
+		} else {
+			// Do not send any email
+		}
+	
+		modelAndView.setViewName("rateStudents");
+		return modelAndView;
+	}
 }

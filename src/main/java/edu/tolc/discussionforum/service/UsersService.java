@@ -67,5 +67,6 @@ public interface UsersService {
 	public boolean isFollowing(String follower,
 			String string, int courseid);
 	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid);
-	
+	// Send rating email to people in the same class
+	public void sendRatingEmail(int globalCourseID, String userRated);
 }

@@ -78,4 +78,6 @@ public interface UsersDAO {
 	
 	// Get last post in any discussion thread
 	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid);
+	// Send rating email
+	public void sendRatingEmail(int globalCourseID, String userRated);
 }
