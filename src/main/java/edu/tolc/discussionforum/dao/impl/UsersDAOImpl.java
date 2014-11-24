@@ -615,5 +615,16 @@ public class UsersDAOImpl implements UsersDAO {
 			sendEmail(email, subject, content);
 		}
 	}
+
+	@Override
+	public int getFirepadURLValue(int threadid) {
+		String urlValueQuery = "SELECT firepadurl FROM discussionboard WHERE "
+				+ "threadid=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		int urlValue = jdbcTemplate.queryForObject(urlValueQuery, new Object[] {threadid},
+				Integer.class);
+		return urlValue;
+	}
 }
  

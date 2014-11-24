@@ -155,4 +155,9 @@ public class UsersServiceImpl implements UsersService{
 	public void sendRatingEmail(int globalCourseID, String userRated) {
 		userDAO.sendRatingEmail(globalCourseID, userRated);
 	}
+
+	@Override
+	public int getFirepadURLValue(int threadid) {
+		return userDAO.getFirepadURLValue(threadid);
+	}
 }	

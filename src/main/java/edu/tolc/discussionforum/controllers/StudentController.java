@@ -273,6 +273,10 @@ public class StudentController {
 			// Not logged in
 		}		
 		
+		// Get the value for firepadURL
+		int firepadURL = userService.getFirepadURLValue(threadid);
+		modelAndView.addObject("firepadURL", firepadURL);
+		
 		modelAndView.addObject("getAllPosts", getAllPosts);
 		modelAndView.setViewName("showThread");
 		return modelAndView;

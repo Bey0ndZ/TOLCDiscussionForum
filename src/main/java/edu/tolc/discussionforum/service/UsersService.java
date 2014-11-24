@@ -69,4 +69,6 @@ public interface UsersService {
 	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid);
 	// Send rating email to people in the same class
 	public void sendRatingEmail(int globalCourseID, String userRated);
+	// Get the firepad url value
+	public int getFirepadURLValue(int threadid);
 }

@@ -80,4 +80,6 @@ public interface UsersDAO {
 	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid);
 	// Send rating email
 	public void sendRatingEmail(int globalCourseID, String userRated);
+	// Get firepad url value
+	public int getFirepadURLValue(int threadid);
 }

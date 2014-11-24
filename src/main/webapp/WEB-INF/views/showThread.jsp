@@ -227,10 +227,11 @@
 		3. Initialize firepad
 		 -->
 		<script>
-			var firepadRef = new Firebase('https://blinding-torch-1602.firebaseio.com/');
+			var uniqueID = <c:out value="${firepadURL}" />;
+			var firepadRef = new Firebase('https://blinding-torch-1602.firebaseio.com/firepads/'+uniqueID);
 			var codeMirror = CodeMirror(document.getElementById('firepad'), { lineWrapping: true });
 			var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
-				      { richTextShortcuts: true, richTextToolbar: true, defaultText: 'Hello, World!' });
+				      { richTextShortcuts: true, richTextToolbar: true, defaultText: 'Collaborative Editing Area' });
 		</script>
 	</sec:authorize>
 </body>
