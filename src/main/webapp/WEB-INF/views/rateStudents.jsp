@@ -93,7 +93,7 @@
 					<ul class="nav navbar-nav side-nav">
 						<li><a href="/discussionforum/getMyCourses"><i
 								class="fa fa-fw fa-bar-chart-o"></i> My Courses</a></li>
-						<li><a href="getEnrolledStudentsList"><i
+						<li><a href="/discussionforum/getMyCourses/discussionBoard/getEnrolledStudentsList"><i
 								class="fa fa-fw fa-bar-chart-o"></i> Get Enrolled Students</a></li>
 						<li><a href="/discussionforum/getMyCourses/rateStudents"><i 
 								class="fa fa-fw fa-bar-chart-o"></i> Rate Students</a>

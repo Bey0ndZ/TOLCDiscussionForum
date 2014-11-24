@@ -89,7 +89,7 @@
 						<li class="active"><a href="/discussionforum/addCourse"><i
 								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
 						<li><a href="/discussionforum/getMyCourses"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Get Courses</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> My Courses</a></li>
 						<li><a href="/discussionforum/viewAllEnrolledStudents"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Enrolled Students</a></li>
 						<li><a href="/discussionforum/deleteCourse"><i
