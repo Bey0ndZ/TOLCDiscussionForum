@@ -20,6 +20,11 @@ public class AdminController {
 		return "welcomeAdmin";
 	}
 	
+	@RequestMapping(value="/viewInstructor", method=RequestMethod.GET)
+	public String viewInstructorGET() {
+		return "welcomeAdmin";
+	}
+	
 	@RequestMapping(value="/addNewInstructor", method=RequestMethod.GET)
 	public String addNewInstructorGET() {
 		return "addNewInstructor";
