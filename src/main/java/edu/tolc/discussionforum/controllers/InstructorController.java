@@ -21,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.tolc.discussionforum.dto.CourseEnrollmentDTO;
 import edu.tolc.discussionforum.dto.GetCoursesDTO;
+import edu.tolc.discussionforum.dto.GetPostsDTO;
 import edu.tolc.discussionforum.dto.GetThreadInfoDTO;
+import edu.tolc.discussionforum.dto.GetTickrDTO;
 import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.service.UsersService;
 
@@ -30,6 +32,7 @@ public class InstructorController {
 	@Autowired
 	UsersService userService;
 	int globalCourseID = 0;
+	int globalThreadID = 0;
 	
 	// TODO: Get all the list of courses as soon as the instructor 
 	// logs in the system
@@ -303,6 +306,84 @@ public class InstructorController {
 		}
 	
 		modelAndView.setViewName("rateStudents");
+		return modelAndView;
+	}
+	
+	// Show thread
+	// GET Request
+	// GET the showThread page
+	@RequestMapping(value="getMyCourses/discussionBoard/showThread/{threadid}", method=RequestMethod.GET)
+	public ModelAndView getThread(@PathVariable int threadid) {
+		ModelAndView modelAndView = new ModelAndView();
+		// Get the threadname, threadsubject and threadcontent
+		List<GetThreadInfoDTO> getThreadInformation = new ArrayList<GetThreadInfoDTO>();
+		getThreadInformation = userService.getThreadInfoByThreadID(threadid);
+		
+		// Store the threadid in the global variable to be used during insertion
+		globalThreadID = threadid;
+		
+		for (GetThreadInfoDTO threadInfo : getThreadInformation) {
+			modelAndView.addObject("threadid", threadInfo.getThreadid());
+			modelAndView.addObject("threadname", threadInfo.getThreadname());
+			modelAndView.addObject("threadsubject", threadInfo.getThreadsubject());
+			modelAndView.addObject("threadcontent", threadInfo.getThreadcontent());
+			modelAndView.addObject("createdby", threadInfo.getCreatedby());
+		}
+		
+		// For the tickr feature
+		List<GetTickrDTO> tickr = new ArrayList<GetTickrDTO>();
+		tickr = userService.getDetailsForTickr(threadid);
+		
+		// If the person checks anonymous functionality
+		// do not display his name
+		for (GetTickrDTO tickrInformation : tickr) {
+			if (tickrInformation.isPostanonymously()) {
+				tickrInformation.setPostedby("Anonymous");
+			} else {
+				// Do nothing
+			}
+		}
+		modelAndView.addObject("tickr", tickr);
+		// Adding the global variable courseid so that
+		// we can redirect at the showThread page
+		modelAndView.addObject("globalCourseIDSet", globalCourseID);
+		
+		// Populate the remaining discussions going on
+		// When adding the object to the model, add the html tags with them
+		// Get discussion posts
+		List<GetPostsDTO> getAllPosts = new ArrayList<GetPostsDTO>();
+		getAllPosts = userService.getPosts(threadid);
+		for (GetPostsDTO post : getAllPosts) {
+			if (post.isPostanonymously()) {
+				post.setPostedby("Anonymous");
+			}
+		}
+		
+		// Check if the user is subscribed to the current thread
+		// if he or she haven't subscribed, only then display the form
+		// Get the username of the student logged in
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String studentName = userDetail.getUsername();
+			
+			if (userService.hasSubscribed(threadid, studentName)) {
+				modelAndView.addObject("subscriptionMsg", "You have been subscribed to this thread.");
+			} else {
+				modelAndView.addObject("displayForm", "Subscription form");
+			}
+			
+		} else {
+			// Not logged in
+		}		
+		
+		// Get the value for firepadURL
+		int firepadURL = userService.getFirepadURLValue(threadid);
+		modelAndView.addObject("firepadURL", firepadURL);
+		
+		modelAndView.addObject("getAllPosts", getAllPosts);
+		modelAndView.setViewName("showThread");
 		return modelAndView;
 	}
 }

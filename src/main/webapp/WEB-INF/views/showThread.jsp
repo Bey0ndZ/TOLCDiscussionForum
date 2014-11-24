@@ -61,7 +61,7 @@
 </head>
 
 <body oncontextmenu="return false">
-	<sec:authorize access="hasRole('ROLE_STUDENT')">
+	<sec:authorize access="hasAnyRole('ROLE_STUDENT', 'ROLE_INSTRUCTOR')">
 		<div id="wrapper">
 
 			<!-- Navigation -->
@@ -112,10 +112,18 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li><a href="/discussionforum/welcome"><i
-								class="fa fa-fw fa-dashboard"></i> View My Courses</a></li>
-						<li><a href="/discussionforum/welcome/discussionBoard/${globalCourseIDSet}"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Discussion Board</a></li>
+						<sec:authorize access="hasRole('ROLE_STUDENT')">
+							<li><a href="/discussionforum/welcome"><i
+									class="fa fa-fw fa-dashboard"></i> My Courses</a></li>
+							<li><a href="/discussionforum/welcome/discussionBoard/${globalCourseIDSet}"><i
+									class="fa fa-fw fa-bar-chart-o"></i> Discussion Board</a></li>
+						</sec:authorize>
+						<sec:authorize access="hasRole('ROLE_INSTRUCTOR')">
+							<li><a href="/discussionforum/welcomeInstructor"><i
+									class="fa fa-fw fa-dashboard"></i> My Courses</a></li>
+							<li><a href="/discussionforum/getMyCourses/discussionBoard/${globalCourseIDSet}"><i
+									class="fa fa-fw fa-bar-chart-o"></i> Discussion Board</a></li>
+						</sec:authorize>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
