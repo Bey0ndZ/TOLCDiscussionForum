@@ -89,7 +89,7 @@
 						<li><a href="addCourse"><i
 								class="fa fa-fw fa-dashboard"></i> Add Course</a></li>
 						<li><a href="getMyCourses"><i
-								class="fa fa-fw fa-bar-chart-o"></i> Get Courses</a></li>
+								class="fa fa-fw fa-bar-chart-o"></i> My Courses</a></li>
 						<li><a href="viewAllEnrolledStudents"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Enrolled Students</a></li>
 						<li><a href="deleteCourse"><i

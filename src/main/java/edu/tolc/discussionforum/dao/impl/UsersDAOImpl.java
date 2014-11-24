@@ -1,5 +1,6 @@
 package edu.tolc.discussionforum.dao.impl;
 
+import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -228,12 +229,16 @@ public class UsersDAOImpl implements UsersDAO {
 	public String createThread(int courseid, String threadName,
 			String threadSubject, String threadContent, String creatorsName, boolean isanonymous) {
 		String createThreadQuery = "INSERT INTO discussionboard (courseid, threadname, threadsubject,"
-				+ "threadcontent, createdby, postanonymously) VALUES (?,?,?,?,?,?)";
+				+ "threadcontent, createdby, postanonymously, firepadurl) VALUES (?,?,?,?,?,?,?)";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		// Create a random number for firepad URL
+		SecureRandom rand = new SecureRandom();
 		
 		// Insert into DB
 		jdbcTemplate.update(createThreadQuery, 
-				new Object[] {courseid, threadName, threadSubject, threadContent, creatorsName, isanonymous});
+				new Object[] {courseid, threadName, threadSubject, threadContent, creatorsName, isanonymous,
+				rand.nextInt()});
 		
 		// Send email to the individual people they are subscribed to
 		String followerQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=(SELECT username FROM follow WHERE following=? AND courseid=?)";

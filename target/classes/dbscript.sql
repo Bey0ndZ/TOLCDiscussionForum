@@ -51,6 +51,7 @@ CREATE  TABLE users (
   threadcontent VARCHAR(1000) NOT NULL,
   createdby VARCHAR(45) NOT NULL,
   postanonymously TINYINT NOT NULL,
+  firepadurl VARCHAR(255) NOT NULL,
   PRIMARY KEY (threadid),
   FOREIGN KEY (courseid) REFERENCES courses(courseid));
   

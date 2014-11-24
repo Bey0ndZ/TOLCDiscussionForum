@@ -1,6 +1,5 @@
 package edu.tolc.discussionforum.controllers;
 
-import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -272,8 +271,7 @@ public class StudentController {
 			
 		} else {
 			// Not logged in
-		}
-		
+		}		
 		
 		modelAndView.addObject("getAllPosts", getAllPosts);
 		modelAndView.setViewName("showThread");
