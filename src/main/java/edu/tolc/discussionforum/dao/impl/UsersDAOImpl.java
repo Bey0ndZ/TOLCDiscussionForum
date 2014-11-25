@@ -314,9 +314,9 @@ public class UsersDAOImpl implements UsersDAO {
 		String subject = "New post has been made in: "+threadNameObject;
 		String content = "";
 		if (!postAnonymously) { 
-			content = "Post made by: "+studentName+"\n\nContent:\n"+newPost;
+			content = "Post made by: "+studentName+"\n\n<b>Content:</b>\n"+newPost;
 		} else {
-			content = "Post has been made anonymously.\n\nContent:\n"+newPost;
+			content = "Post has been made anonymously.\n\n<b>Content:</b>\n"+newPost;
 		}
 		
 		// Get email addresses
@@ -334,7 +334,7 @@ public class UsersDAOImpl implements UsersDAO {
 		List<UserInformationDTO> userInformation = jdbcTemplate.query(followerQuery, 
 				new Object[] {studentName}, new UserInformationMapper());
 		String followingSubject = "New post made by: "+studentName+" in thread: "+threadNameObject;
-		String followingContent = "A new post has been made by the person you follow.\n\nPost content: \n"+newPost;
+		String followingContent = "A new post has been made by the person you follow.\n\n<b>Post content:</b>\n"+newPost;
 		
 		for (UserInformationDTO user : userInformation) {
 			sendEmail(user.getEmail(), followingSubject, followingContent);
@@ -413,7 +413,7 @@ public class UsersDAOImpl implements UsersDAO {
 				eventDetails, loggedInPersonsName, personalEvent, eventTimestamp});
 		
 		// Send email to everyone registered in the course
-		String getStudentsRegisteredForCourse = "SELECT email FROM users where username=(SELECT studentregistered FROM enrollment WHERE courseid=?)";
+		String getStudentsRegisteredForCourse = "SELECT email FROM users INNER JOIN enrollment ON users.username=enrollment.studentregistered INNER JOIN courses ON courses.courseid=?";
 		JdbcTemplate getStudentsTemplate = new JdbcTemplate(dataSource);
 		
 		List<String> studentsEmail = getStudentsTemplate.query(getStudentsRegisteredForCourse, 
@@ -434,7 +434,7 @@ public class UsersDAOImpl implements UsersDAO {
 					globalCourseID}, String.class);
 			
 			String subject = "New Calendar Event for Course: "+courseName;
-			String content = "Event details: "+eventDetails+"\n\nTime: "+eventTimestamp;
+			String content = "<b>Event details:</b> "+eventDetails+"\n\n<b>Time:</b> "+eventTimestamp;
 			
 			for (String email : studentsEmail) {
 				// Send email
@@ -450,7 +450,7 @@ public class UsersDAOImpl implements UsersDAO {
 					new Object[] {loggedInPersonsName}, String.class);
 			
 			String subject = "New Calendar Event";
-			String content = "Event details: "+eventDetails+"\n\nTime: "+eventTimestamp;
+			String content = "<b>Event details: </b>"+eventDetails+"\n\n<b>Time:</b> "+eventTimestamp;
 			
 			sendEmail(emailOfLoggedInPerson, subject, content);
 		}
