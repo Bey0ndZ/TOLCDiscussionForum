@@ -93,7 +93,7 @@
 								class="fa fa-fw fa-dashboard"></i> Add Instructor</a></li>
 						<li><a href="viewInstructor"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Instructors</a></li>
-						<li><a href="deleteAccount"><i
+						<li><a href="deleteInstructor"><i
 								class="fa fa-fw fa-bar-chart-o"></i>Delete Instructor</a></li>
 					</ul>
 				</div>
