@@ -87,9 +87,9 @@
 				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-	<li class="active"><a href="welcomeAdmin"><i
+						<li class="active"><a href="welcomeAdmin"><i
 								class="fa fa-fw fa-dashboard"></i> Home</a></li>
-						<li class="active"><a href="addNewInstructor"><i
+						<li><a href="addNewInstructor"><i
 								class="fa fa-fw fa-dashboard"></i> Add Instructor</a></li>
 						<li><a href="viewInstructor"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Instructors</a></li>
@@ -117,7 +117,8 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> List of all Instructors
+										<i class="fa fa-bar-chart-o fa-fw"></i> List of all
+										Instructors
 									</h3>
 								</div>
 								<div class="panel-body">

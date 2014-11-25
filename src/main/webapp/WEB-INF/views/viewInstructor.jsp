@@ -89,9 +89,9 @@
 					<ul class="nav navbar-nav side-nav">
 						<li><a href="welcomeAdmin"><i
 								class="fa fa-fw fa-dashboard"></i> Home</a></li>
-						<li class="active"><a href="addNewInstructor"><i
+						<li><a href="addNewInstructor"><i
 								class="fa fa-fw fa-dashboard"></i> Add Instructor</a></li>
-						<li><a href="viewInstructor"><i
+						<li class="active"><a href="viewInstructor"><i
 								class="fa fa-fw fa-bar-chart-o"></i> View All Instructors</a></li>
 						<li><a href="deleteAccount"><i
 								class="fa fa-fw fa-bar-chart-o"></i>Delete Instructor</a></li>
