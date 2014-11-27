@@ -14,26 +14,33 @@ import edu.tolc.discussionforum.service.UsersService;
 public class AdminController {
 	@Autowired
 	UsersService userService;
-	
-	@RequestMapping(value="/welcomeAdmin", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/welcomeAdmin", method = RequestMethod.GET)
 	public String welcomeAdminGET() {
 		return "welcomeAdmin";
 	}
-	
-	@RequestMapping(value="/viewInstructor", method=RequestMethod.GET)
-	public String viewInstructorGET() {
-		return "welcomeAdmin";
-	}
-	
-	@RequestMapping(value="/addNewInstructor", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/addNewInstructor", method = RequestMethod.GET)
 	public String addNewInstructorGET() {
 		return "addNewInstructor";
 	}
-	
-	@RequestMapping(value="/addNewInstructor", method=RequestMethod.POST)
-	public String addNewInstructorPOST(@ModelAttribute("registrationInformation") UserInformation userInfo, Model model) {
+
+	@RequestMapping(value = "/addNewInstructor", method = RequestMethod.POST)
+	public String addNewInstructorPOST(
+			@ModelAttribute("registrationInformation") UserInformation userInfo,
+			Model model) {
 		String successMsg = userService.instructorRegistration(userInfo);
 		model.addAttribute("successMsg", successMsg);
 		return "addNewInstructor";
+	}
+
+	@RequestMapping(value = "/viewInstructor", method = RequestMethod.GET)
+	public String viewInstructorGET() {
+		return "viewInstructor";
+	}
+
+	@RequestMapping(value = "/deleteInstructor", method = RequestMethod.GET)
+	public String deleteInstructorGET() {
+		return "deleteInstructor";
 	}
 }
