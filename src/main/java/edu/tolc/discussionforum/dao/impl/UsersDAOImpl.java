@@ -126,11 +126,11 @@ public class UsersDAOImpl implements UsersDAO {
 	@Override
 	public List<String> getInstructorsList() {
 		// Get the instructors list from user_roles table
-		String getInstructorsQuery = "SELECT username FROM user_roles WHERE "
+		String getInstructorUserNameQuery = "SELECT username FROM user_roles WHERE "
 				+ "role=?";
 		JdbcTemplate getInstructorsTemplate = new JdbcTemplate(dataSource);
 		List<String> instructorsList = getInstructorsTemplate.query(
-				getInstructorsQuery, new Object[] { "ROLE_INSTRUCTOR" },
+				getInstructorUserNameQuery, new Object[] { "ROLE_INSTRUCTOR" },
 				new RowMapper<String>() {
 					public String mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
@@ -140,22 +140,40 @@ public class UsersDAOImpl implements UsersDAO {
 						return instructor;
 					}
 				});
-		return instructorsList;
+		List<String> instructorNameList = new ArrayList<String>();
+		for (String instructor : instructorsList) {
+			// Get the instructors details from users table
+			String getInstructorNameQuery = "SELECT firstname , lastname FROM users WHERE "
+					+ "username=?";
+			instructorNameList.addAll(getInstructorsTemplate.query(
+					getInstructorNameQuery, new Object[] { instructor },
+					new RowMapper<String>() {
+						public String mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+
+							String instructor;
+							instructor = rs.getString(1) + " "
+									+ rs.getString(2);
+							return instructor;
+						}
+					}));
+		}
+		return instructorNameList;
 	}
 
 	@Override
 	public List<GetCoursesDTO> getCourseList() {
 		List<GetCoursesDTO> allCoursesInformation = new ArrayList<GetCoursesDTO>();
-		
+
 		String getAllCourseInformation = "SELECT * from courses";
 		JdbcTemplate getAllCoursesInformation = new JdbcTemplate(dataSource);
-		
-		allCoursesInformation = getAllCoursesInformation.query(getAllCourseInformation,
-				new GetCoursesMapper());
-		
+
+		allCoursesInformation = getAllCoursesInformation.query(
+				getAllCourseInformation, new GetCoursesMapper());
+
 		return allCoursesInformation;
 	}
-	
+
 	// Update 2 tables
 	// Courses and enrollment
 	// But first, get number of people enrolled in a course
@@ -165,24 +183,25 @@ public class UsersDAOImpl implements UsersDAO {
 		// Check if the course is present
 		String courseCheckQuery = "SELECT * FROM courses WHERE courseid=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
+
 		RowCountCallbackHandler checkCourseExists = new RowCountCallbackHandler();
-		jdbcTemplate.query(courseCheckQuery, new Object[] {courseID}, checkCourseExists);
-		
+		jdbcTemplate.query(courseCheckQuery, new Object[] { courseID },
+				checkCourseExists);
+
 		int checkCourseFlag = checkCourseExists.getRowCount();
-		
-		if (checkCourseFlag==1) {
-		
+
+		if (checkCourseFlag == 1) {
+
 			String checkStudentEnrollmentQuery = "SELECT * FROM enrollment "
 					+ "WHERE courseid=? AND studentregistered=?";
-			
+
 			RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
-			jdbcTemplate.query(checkStudentEnrollmentQuery, 
-					new Object[]{courseID, studentName}, countCallback);
-			
+			jdbcTemplate.query(checkStudentEnrollmentQuery, new Object[] {
+					courseID, studentName }, countCallback);
+
 			int enrollmentFlag = countCallback.getRowCount();
-			
-			if (enrollmentFlag>=1) {
+
+			if (enrollmentFlag >= 1) {
 				return "You have already enrolled in the course. Please select some other course.";
 			} else {
 				String getNumberOfStudentsEnrolled = "SELECT numberofstudentsenrolled FROM "
@@ -192,19 +211,21 @@ public class UsersDAOImpl implements UsersDAO {
 				int numberOfStudentsEnrolled = numberOfStudentsEnrolledTemplate
 						.queryForObject(getNumberOfStudentsEnrolled,
 								new Object[] { courseID }, Integer.class);
-		
+
 				// Update the courses table
 				String updateCoursesQuery = "UPDATE courses SET numberofstudentsenrolled=? WHERE "
 						+ "courseid=?";
-				JdbcTemplate updateCoursesTemplate = new JdbcTemplate(dataSource);
-				updateCoursesTemplate.update(updateCoursesQuery,
-						new Object[] { numberOfStudentsEnrolled + 1, courseID });
-				
+				JdbcTemplate updateCoursesTemplate = new JdbcTemplate(
+						dataSource);
+				updateCoursesTemplate.update(updateCoursesQuery, new Object[] {
+						numberOfStudentsEnrolled + 1, courseID });
+
 				// Query to insert in enrollment table
 				String enrollmentQuery = "INSERT INTO enrollment VALUES (?, ?)";
 				JdbcTemplate enrollmentTemplate = new JdbcTemplate(dataSource);
-				
-				enrollmentTemplate.update(enrollmentQuery, new Object[] {courseID, studentName});
+
+				enrollmentTemplate.update(enrollmentQuery, new Object[] {
+						courseID, studentName });
 				return "Successfully enrolled!";
 			}
 		} else {
@@ -217,40 +238,45 @@ public class UsersDAOImpl implements UsersDAO {
 		// Get the courseid
 		String getStudentCoursesQuery = "select courses.courseid, courses.coursename, courses.instructor, courses.coursedescription, courses.numberofstudentsenrolled from courses inner join enrollment on courses.courseid=enrollment.courseid AND studentregistered=?";
 		JdbcTemplate getStudentCoursesTemplate = new JdbcTemplate(dataSource);
-		
+
 		// Ignoring the last two rows after joining the two tables
-		List<GetCoursesDTO> getStudentCourses = getStudentCoursesTemplate.query(getStudentCoursesQuery, 
-				new Object[] {studentName}, new GetCoursesMapper());
-		
+		List<GetCoursesDTO> getStudentCourses = getStudentCoursesTemplate
+				.query(getStudentCoursesQuery, new Object[] { studentName },
+						new GetCoursesMapper());
+
 		return getStudentCourses;
 	}
 
 	@Override
 	public String createThread(int courseid, String threadName,
-			String threadSubject, String threadContent, String creatorsName, boolean isanonymous) {
+			String threadSubject, String threadContent, String creatorsName,
+			boolean isanonymous) {
 		String createThreadQuery = "INSERT INTO discussionboard (courseid, threadname, threadsubject,"
 				+ "threadcontent, createdby, postanonymously, firepadurl) VALUES (?,?,?,?,?,?,?)";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
+
 		// Create a random number for firepad URL
 		SecureRandom rand = new SecureRandom();
-		
+
 		// Insert into DB
-		jdbcTemplate.update(createThreadQuery, 
-				new Object[] {courseid, threadName, threadSubject, threadContent, creatorsName, isanonymous,
-				rand.nextInt()});
-		
+		jdbcTemplate.update(createThreadQuery, new Object[] { courseid,
+				threadName, threadSubject, threadContent, creatorsName,
+				isanonymous, rand.nextInt() });
+
 		// Send email to the individual people they are subscribed to
 		String followerQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=(SELECT username FROM follow WHERE following=? AND courseid=?)";
-		List<UserInformationDTO> userInformation = jdbcTemplate.query(followerQuery, 
-				new Object[] {creatorsName, courseid}, new UserInformationMapper());
-		String followingSubject = "A new thread has been created by: "+creatorsName;
-		String followingContent = "New post by the person you follow.\n\nThread Subject: \n"+threadSubject+"\n\n"+"Thread Content: \n"+threadContent;
-		
+		List<UserInformationDTO> userInformation = jdbcTemplate.query(
+				followerQuery, new Object[] { creatorsName, courseid },
+				new UserInformationMapper());
+		String followingSubject = "A new thread has been created by: "
+				+ creatorsName;
+		String followingContent = "New post by the person you follow.\n\nThread Subject: \n"
+				+ threadSubject + "\n\n" + "Thread Content: \n" + threadContent;
+
 		for (UserInformationDTO user : userInformation) {
 			sendEmail(user.getEmail(), followingSubject, followingContent);
 		}
-		
+
 		return "Thread created.";
 	}
 
@@ -260,10 +286,10 @@ public class UsersDAOImpl implements UsersDAO {
 		String getThreadInfoQuery = "SELECT courseid, threadid, threadname, threadsubject, threadcontent,"
 				+ "createdby, postanonymously FROM discussionboard WHERE courseid=?";
 		JdbcTemplate getThreadInfoTemplate = new JdbcTemplate(dataSource);
-		
-		getThreadInformation = getThreadInfoTemplate.query(getThreadInfoQuery, 
-				new Object[] {courseid}, new GetThreadInfoMapper());
-		
+
+		getThreadInformation = getThreadInfoTemplate.query(getThreadInfoQuery,
+				new Object[] { courseid }, new GetThreadInfoMapper());
+
 		return getThreadInformation;
 	}
 
@@ -274,68 +300,77 @@ public class UsersDAOImpl implements UsersDAO {
 				+ "createdby, postanonymously FROM discussionboard "
 				+ "WHERE threadid=?";
 		JdbcTemplate getThreadInfoTemplate = new JdbcTemplate(dataSource);
-		
-		getThreadInformation = getThreadInfoTemplate.query(getThreadInfoQuery, 
-				new Object[] {threadid}, new GetThreadInfoMapper());
+
+		getThreadInformation = getThreadInfoTemplate.query(getThreadInfoQuery,
+				new Object[] { threadid }, new GetThreadInfoMapper());
 		return getThreadInformation;
 	}
 
 	@Override
-	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously) {	
+	public void postToThread(int threadid, String newPost, String studentName,
+			boolean postAnonymously) {
 		String newThreadPostQuery = "INSERT INTO discussionposts(threadid, postcontent, postedby, postanonymously, postedat) "
 				+ "VALUES (?,?,?,?,?)";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
+
 		// Get the timestamp
-		Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
-		
+		Timestamp currentTimestamp = new Timestamp(Calendar.getInstance()
+				.getTime().getTime());
+
 		// Actual insert
-		jdbcTemplate.update(newThreadPostQuery, 
-				new Object[] {threadid, newPost, studentName, postAnonymously, currentTimestamp});
-		
+		jdbcTemplate.update(newThreadPostQuery, new Object[] { threadid,
+				newPost, studentName, postAnonymously, currentTimestamp });
+
 		// Also email people who have subscribed to this thread
 		// saying so and so user modified the post
 		// we could send content too
 		String getSubscribersQuery = "SELECT studentname FROM subscriptions WHERE threadid=? AND subscription=true";
-		
-		List<String> getAllSubscribers = jdbcTemplate.query(getSubscribersQuery,
-				new Object[] {threadid}, new RowMapper<String>() {
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString(1);
-			}
-		});
-		
+
+		List<String> getAllSubscribers = jdbcTemplate.query(
+				getSubscribersQuery, new Object[] { threadid },
+				new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return rs.getString(1);
+					}
+				});
+
 		// Get the thread name
 		String threadName = "SELECT threadname FROM discussionboard WHERE threadid=?";
-		
-		String threadNameObject = jdbcTemplate.queryForObject(threadName, 
-				new Object[] {threadid}, String.class);
-		
-		String subject = "New post has been made in: "+threadNameObject;
+
+		String threadNameObject = jdbcTemplate.queryForObject(threadName,
+				new Object[] { threadid }, String.class);
+
+		String subject = "New post has been made in: " + threadNameObject;
 		String content = "";
-		if (!postAnonymously) { 
-			content = "Post made by: "+studentName+"\n\n<b>Content:</b>\n"+newPost;
+		if (!postAnonymously) {
+			content = "Post made by: " + studentName + "\n\n<b>Content:</b>\n"
+					+ newPost;
 		} else {
-			content = "Post has been made anonymously.\n\n<b>Content:</b>\n"+newPost;
+			content = "Post has been made anonymously.\n\n<b>Content:</b>\n"
+					+ newPost;
 		}
-		
+
 		// Get email addresses
 		String getEmailQuery = "SELECT email from users where username=?";
-		
+
 		// Send the email to every subscriber of the thread
 		for (String subscriber : getAllSubscribers) {
-			String emailID = jdbcTemplate.queryForObject(getEmailQuery, new Object[]{subscriber},
-					String.class);
+			String emailID = jdbcTemplate.queryForObject(getEmailQuery,
+					new Object[] { subscriber }, String.class);
 			sendEmail(emailID, subject, content);
 		}
-		
+
 		// Send email to the individual people they are subscribed to
 		String followerQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=(SELECT username FROM follow WHERE following=?)";
-		List<UserInformationDTO> userInformation = jdbcTemplate.query(followerQuery, 
-				new Object[] {studentName}, new UserInformationMapper());
-		String followingSubject = "New post made by: "+studentName+" in thread: "+threadNameObject;
-		String followingContent = "A new post has been made by the person you follow.\n\n<b>Post content:</b>\n"+newPost;
-		
+		List<UserInformationDTO> userInformation = jdbcTemplate.query(
+				followerQuery, new Object[] { studentName },
+				new UserInformationMapper());
+		String followingSubject = "New post made by: " + studentName
+				+ " in thread: " + threadNameObject;
+		String followingContent = "A new post has been made by the person you follow.\n\n<b>Post content:</b>\n"
+				+ newPost;
+
 		for (UserInformationDTO user : userInformation) {
 			sendEmail(user.getEmail(), followingSubject, followingContent);
 		}
@@ -347,9 +382,9 @@ public class UsersDAOImpl implements UsersDAO {
 				+ "FROM discussionposts WHERE threadid=?";
 		JdbcTemplate getPostsTemplate = new JdbcTemplate(dataSource);
 		List<GetPostsDTO> getAllPosts = new ArrayList<GetPostsDTO>();
-		
-		getAllPosts = getPostsTemplate.query(getPostsQuery, 
-				new Object[] {threadid}, new GetPostsMapper());
+
+		getAllPosts = getPostsTemplate.query(getPostsQuery,
+				new Object[] { threadid }, new GetPostsMapper());
 		return getAllPosts;
 	}
 
@@ -357,10 +392,10 @@ public class UsersDAOImpl implements UsersDAO {
 	public List<GetTickrDTO> getDetailsForTickr(int threadid) {
 		String getDetailsQuery = "SELECT postedby, postedat, postanonymously FROM discussionposts WHERE threadid=? ORDER BY postedat desc LIMIT 1";
 		JdbcTemplate getDetailsTemplate = new JdbcTemplate(dataSource);
-		
+
 		List<GetTickrDTO> getNameAndTimeForTickr = new ArrayList<GetTickrDTO>();
-		getNameAndTimeForTickr = getDetailsTemplate.query(getDetailsQuery, new Object[] {threadid},
-				new GetTickrMapper());
+		getNameAndTimeForTickr = getDetailsTemplate.query(getDetailsQuery,
+				new Object[] { threadid }, new GetTickrMapper());
 		return getNameAndTimeForTickr;
 	}
 
@@ -370,9 +405,9 @@ public class UsersDAOImpl implements UsersDAO {
 		String subscribeQuery = "INSERT INTO subscriptions (threadid, studentname, "
 				+ "subscription) VALUES (?,?,?)";
 		JdbcTemplate subscribeTemplate = new JdbcTemplate(dataSource);
-		
-		subscribeTemplate.update(subscribeQuery, new Object[] {getThreadID, studentName,
-				subscribe});
+
+		subscribeTemplate.update(subscribeQuery, new Object[] { getThreadID,
+				studentName, subscribe });
 		return "You have been subscribed to this thread.";
 	}
 
@@ -382,17 +417,18 @@ public class UsersDAOImpl implements UsersDAO {
 				+ "threadid=? AND studentname=?";
 		JdbcTemplate userSubscribedTemplate = new JdbcTemplate(dataSource);
 		RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
-		
-		userSubscribedTemplate.query(userSubscribedQuery, new Object[] {threadid, studentName}, countCallback);
+
+		userSubscribedTemplate.query(userSubscribedQuery, new Object[] {
+				threadid, studentName }, countCallback);
 		int rowCount = countCallback.getRowCount();
-		
-		if (rowCount==1) {
+
+		if (rowCount == 1) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	// Email functionality
 	// Just call the method with params
 	public void sendEmail(String to, String subject, String msg) {
@@ -400,42 +436,49 @@ public class UsersDAOImpl implements UsersDAO {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring-mail.xml");
 		EmailService emailService = (EmailService) context.getBean("email");
-		emailService.sendMail("tolcdiscussionforum@gmail.com", to, subject, msg);
+		emailService
+				.sendMail("tolcdiscussionforum@gmail.com", to, subject, msg);
 	}
 
 	@Override
 	public String createCalendarEvent(int globalCourseID, String eventDetails,
-			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp) {
+			String loggedInPersonsName, boolean personalEvent,
+			Timestamp eventTimestamp) {
 		String createCalendarEventQuery = "INSERT INTO calendarevents(courseid,"
 				+ "eventinformation, eventcreatedby, personalevent, eventtimestamp) VALUES (?,?,?,?,?)";
 		JdbcTemplate createCalendarEventTemplate = new JdbcTemplate(dataSource);
-		createCalendarEventTemplate.update(createCalendarEventQuery, new Object[] {globalCourseID,
-				eventDetails, loggedInPersonsName, personalEvent, eventTimestamp});
-		
+		createCalendarEventTemplate.update(createCalendarEventQuery,
+				new Object[] { globalCourseID, eventDetails,
+						loggedInPersonsName, personalEvent, eventTimestamp });
+
 		// Send email to everyone registered in the course
 		String getStudentsRegisteredForCourse = "SELECT email FROM users INNER JOIN enrollment ON users.username=enrollment.studentregistered INNER JOIN courses ON courses.courseid=?";
 		JdbcTemplate getStudentsTemplate = new JdbcTemplate(dataSource);
-		
-		List<String> studentsEmail = getStudentsTemplate.query(getStudentsRegisteredForCourse, 
-				new Object[]{globalCourseID}, new RowMapper<String>() {
-					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+		List<String> studentsEmail = getStudentsTemplate.query(
+				getStudentsRegisteredForCourse,
+				new Object[] { globalCourseID }, new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
 						return rs.getString(1);
 					}
 				});
-		
+
 		// Get coursename
 		// Send it only if personalEvent has been set to false
 		if (!personalEvent) {
 			// Not a personalEvent
 			String getCourseNameQuery = "SELECT coursename FROM courses WHERE courseid=?";
 			JdbcTemplate getCourseNameTemplate = new JdbcTemplate(dataSource);
-			
-			String courseName = getCourseNameTemplate.queryForObject(getCourseNameQuery, new Object[]{
-					globalCourseID}, String.class);
-			
-			String subject = "New Calendar Event for Course: "+courseName;
-			String content = "<b>Event details:</b> "+eventDetails+"\n\n<b>Time:</b> "+eventTimestamp;
-			
+
+			String courseName = getCourseNameTemplate.queryForObject(
+					getCourseNameQuery, new Object[] { globalCourseID },
+					String.class);
+
+			String subject = "New Calendar Event for Course: " + courseName;
+			String content = "<b>Event details:</b> " + eventDetails
+					+ "\n\n<b>Time:</b> " + eventTimestamp;
+
 			for (String email : studentsEmail) {
 				// Send email
 				sendEmail(email, subject, content);
@@ -445,13 +488,15 @@ public class UsersDAOImpl implements UsersDAO {
 			// Send email only to the concerned person
 			String getEmailOfLoggedInPerson = "SELECT email FROM users where username=?";
 			JdbcTemplate getEmailTemplate = new JdbcTemplate(dataSource);
-			
-			String emailOfLoggedInPerson = getEmailTemplate.queryForObject(getEmailOfLoggedInPerson, 
-					new Object[] {loggedInPersonsName}, String.class);
-			
+
+			String emailOfLoggedInPerson = getEmailTemplate.queryForObject(
+					getEmailOfLoggedInPerson,
+					new Object[] { loggedInPersonsName }, String.class);
+
 			String subject = "New Calendar Event";
-			String content = "<b>Event details: </b>"+eventDetails+"\n\n<b>Time:</b> "+eventTimestamp;
-			
+			String content = "<b>Event details: </b>" + eventDetails
+					+ "\n\n<b>Time:</b> " + eventTimestamp;
+
 			sendEmail(emailOfLoggedInPerson, subject, content);
 		}
 		return "Event successfully created.";
@@ -460,25 +505,26 @@ public class UsersDAOImpl implements UsersDAO {
 	@Override
 	public List<GetCalendarEventsDTO> getCalendarEventInfo(int courseid) {
 		List<GetCalendarEventsDTO> getCalendarEventInformation = new ArrayList<GetCalendarEventsDTO>();
-		
+
 		String getEventInfoQuery = "SELECT eventinformation, eventcreatedby, personalevent, eventtimestamp "
 				+ "FROM calendarevents WHERE courseid=?";
 		JdbcTemplate getEventInfoTemplate = new JdbcTemplate(dataSource);
-		
-		getCalendarEventInformation = getEventInfoTemplate.query(getEventInfoQuery, 
-				new Object[] {courseid}, new GetCalendarEventsMapper());
+
+		getCalendarEventInformation = getEventInfoTemplate.query(
+				getEventInfoQuery, new Object[] { courseid },
+				new GetCalendarEventsMapper());
 		return getCalendarEventInformation;
 	}
 
 	@Override
 	public List<UserInformationDTO> getEnrolledStudents(int globalCourseID) {
 		List<UserInformationDTO> getEnrolledStudents = new ArrayList<UserInformationDTO>();
-		
+
 		String enrolledStudentsQuery = "select firstname, lastname, username, email FROM users inner join enrollment on users.username=enrollment.studentregistered WHERE courseid=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
-		
-		getEnrolledStudents = jdbcTemplate.query(enrolledStudentsQuery, new Object[] {globalCourseID}, new UserInformationMapper());		
+
+		getEnrolledStudents = jdbcTemplate.query(enrolledStudentsQuery,
+				new Object[] { globalCourseID }, new UserInformationMapper());
 		return getEnrolledStudents;
 	}
 
@@ -486,8 +532,9 @@ public class UsersDAOImpl implements UsersDAO {
 	public String addFollower(String studentName, String username, int courseid) {
 		String addFollowerQuery = "INSERT INTO follow VALUES (?,?,?)";
 		JdbcTemplate addFollowerTemplate = new JdbcTemplate(dataSource);
-		
-		addFollowerTemplate.update(addFollowerQuery, new Object[] {courseid, studentName, username});
+
+		addFollowerTemplate.update(addFollowerQuery, new Object[] { courseid,
+				studentName, username });
 		return "You are following this person.";
 	}
 
@@ -496,88 +543,101 @@ public class UsersDAOImpl implements UsersDAO {
 		List<UserInformationDTO> getUserInfo = new ArrayList<UserInformationDTO>();
 		String userInfoQuery = "SELECT firstname, lastname, username, email FROM users WHERE username=?";
 		JdbcTemplate userInfoTemplate = new JdbcTemplate(dataSource);
-		
-		getUserInfo = userInfoTemplate.query(userInfoQuery, new Object[] {loggedInPerson},
-				new UserInformationMapper());
-		
+
+		getUserInfo = userInfoTemplate.query(userInfoQuery,
+				new Object[] { loggedInPerson }, new UserInformationMapper());
+
 		return getUserInfo;
 	}
 
 	@Override
-	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName) {
+	public List<CourseEnrollmentDTO> getAllEnrolledStudents(
+			String instructorsName) {
 		List<CourseEnrollmentDTO> enrolledStudents = new ArrayList<CourseEnrollmentDTO>();
 		String enrolledStudentsQuery = "SELECT courses.coursename, enrollment.studentregistered "
 				+ "FROM enrollment INNER JOIN courses ON enrollment.courseid=courses.courseid WHERE "
 				+ "instructor=?";
 		JdbcTemplate enrolledStudentsTemplate = new JdbcTemplate(dataSource);
-		
-		enrolledStudents = enrolledStudentsTemplate.query(enrolledStudentsQuery, 
-				new Object[] {instructorsName}, new RowMapper<CourseEnrollmentDTO>() {
-			public CourseEnrollmentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				CourseEnrollmentDTO enrollment = new CourseEnrollmentDTO();
-				enrollment.setCoursename(rs.getString(1));
-				enrollment.setStudentregistered(rs.getString(2));
-				return enrollment;
-			}
-		});
+
+		enrolledStudents = enrolledStudentsTemplate.query(
+				enrolledStudentsQuery, new Object[] { instructorsName },
+				new RowMapper<CourseEnrollmentDTO>() {
+					public CourseEnrollmentDTO mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						CourseEnrollmentDTO enrollment = new CourseEnrollmentDTO();
+						enrollment.setCoursename(rs.getString(1));
+						enrollment.setStudentregistered(rs.getString(2));
+						return enrollment;
+					}
+				});
 		return enrolledStudents;
 	}
 
 	@Override
-	public String deleteCourse(String courseid) {		
+	public String deleteCourse(String courseid) {
 		// Delete from discussionposts - it only has ids of posts
 		// this should happen before discussionboard
 		String getThreadIDsForCourses = "SELECT threadid FROM discussionboard WHERE courseid=?";
-		JdbcTemplate getThreadIDsForCoursesTemplate = new JdbcTemplate(dataSource);
+		JdbcTemplate getThreadIDsForCoursesTemplate = new JdbcTemplate(
+				dataSource);
 		List<Integer> allThreadIDs = new ArrayList<Integer>();
-		
-		allThreadIDs = getThreadIDsForCoursesTemplate.query(getThreadIDsForCourses, new Object[] {
-			courseid}, new RowMapper<Integer>() {
-			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getInt(1);
-			}
-		});
-		
+
+		allThreadIDs = getThreadIDsForCoursesTemplate.query(
+				getThreadIDsForCourses, new Object[] { courseid },
+				new RowMapper<Integer>() {
+					public Integer mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return rs.getInt(1);
+					}
+				});
+
 		String deleteDPQuery = "DELETE FROM discussionposts WHERE threadid=?";
 		String deleteSubscriptionsQuery = "DELETE FROM subscriptions WHERE threadid=?";
-		
+
 		JdbcTemplate deleteTemplate = new JdbcTemplate(dataSource);
-		
+
 		for (int threadID : allThreadIDs) {
-			deleteTemplate.update(deleteDPQuery, new Object[]{threadID});
-			deleteTemplate.update(deleteSubscriptionsQuery, new Object[] {threadID});
+			deleteTemplate.update(deleteDPQuery, new Object[] { threadID });
+			deleteTemplate.update(deleteSubscriptionsQuery,
+					new Object[] { threadID });
 		}
-		
-		// Delete from 1. courses, 2. discussionboard, 3. enrollment, 4. calendarevents		
+
+		// Delete from 1. courses, 2. discussionboard, 3. enrollment, 4.
+		// calendarevents
 		String deleteCalendarEventsQuery = "DELETE FROM calendarevents WHERE courseid=?";
 		String deleteEnrollmentQuery = "DELETE FROM enrollment WHERE courseid=?";
 		String deleteDiscussionBoardQuery = "DELETE FROM discussionboard WHERE courseid=?";
 		String deleteFollowQuery = "DELETE FROM follow WHERE courseid=?";
 		String deleteCourseQuery = "DELETE FROM courses WHERE courseid=?";
-		
+
 		JdbcTemplate deleteCourseTemplate = new JdbcTemplate(dataSource);
-		
-		deleteCourseTemplate.update(deleteCalendarEventsQuery, new Object[] {courseid});
-		deleteCourseTemplate.update(deleteEnrollmentQuery, new Object[] {courseid});
-		deleteCourseTemplate.update(deleteDiscussionBoardQuery, new Object[] {courseid});
-		deleteCourseTemplate.update(deleteFollowQuery, new Object[] {courseid});
-		deleteCourseTemplate.update(deleteCourseQuery, new Object[] {courseid});
-		
-		return "Course deleted.";	
+
+		deleteCourseTemplate.update(deleteCalendarEventsQuery,
+				new Object[] { courseid });
+		deleteCourseTemplate.update(deleteEnrollmentQuery,
+				new Object[] { courseid });
+		deleteCourseTemplate.update(deleteDiscussionBoardQuery,
+				new Object[] { courseid });
+		deleteCourseTemplate.update(deleteFollowQuery,
+				new Object[] { courseid });
+		deleteCourseTemplate.update(deleteCourseQuery,
+				new Object[] { courseid });
+
+		return "Course deleted.";
 	}
 
 	@Override
-	public boolean isFollowing(String follower,
-			String enrolledStudent, int courseid) {
+	public boolean isFollowing(String follower, String enrolledStudent,
+			int courseid) {
 		String followingQuery = "SELECT * FROM follow WHERE courseid=? AND username=? AND following=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		RowCountCallbackHandler rowCountCallBackHandler = new RowCountCallbackHandler();
-		
-		jdbcTemplate.query(followingQuery, new Object[]{courseid, follower, enrolledStudent},
-				rowCountCallBackHandler);
+
+		jdbcTemplate.query(followingQuery, new Object[] { courseid, follower,
+				enrolledStudent }, rowCountCallBackHandler);
 		int rowCount = rowCountCallBackHandler.getRowCount();
-		
-		if (rowCount==1) {
+
+		if (rowCount == 1) {
 			return true;
 		} else {
 			return false;
@@ -588,10 +648,11 @@ public class UsersDAOImpl implements UsersDAO {
 	public List<FollowTickrDTO> getLastPostInAnyThread(int courseid) {
 		String lastPostInCourse = "SELECT discussionboard.threadname, discussionposts.postedby, discussionposts.postedat, discussionposts.postanonymously FROM discussionposts INNER JOIN discussionboard ON discussionboard.threadid=discussionposts.threadid INNER JOIN courses ON discussionboard.courseid=courses.courseid WHERE courses.courseid=? ORDER BY postedat DESC LIMIT 1";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
-		List<FollowTickrDTO> lastPostDetails = jdbcTemplate.query(lastPostInCourse, new Object[] {courseid},
+
+		List<FollowTickrDTO> lastPostDetails = jdbcTemplate.query(
+				lastPostInCourse, new Object[] { courseid },
 				new FollowTickrMapper());
-		
+
 		return lastPostDetails;
 	}
 
@@ -599,18 +660,21 @@ public class UsersDAOImpl implements UsersDAO {
 	public void sendRatingEmail(int globalCourseID, String userRated) {
 		String sendRatingEmailQuery = "SELECT email FROM users INNER JOIN enrollment ON users.username=enrollment.studentregistered WHERE enrollment.courseid=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
+
 		List<String> emailList = new ArrayList<String>();
-		emailList = jdbcTemplate.query(sendRatingEmailQuery, new Object[] {globalCourseID}, 
-				new RowMapper<String>() {
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return rs.getString(1);
-			}
-		});
-		
+		emailList = jdbcTemplate.query(sendRatingEmailQuery,
+				new Object[] { globalCourseID }, new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						return rs.getString(1);
+					}
+				});
+
 		String subject = "New Student of the Week Rating";
 		String content = "Hello Students,\n\nOne of your peers has performed extremely well this week and has been given 5 stars rating.\n\n"
-				+ "The username of the person receiving this is: "+userRated+"\n\nI hope that everyone gets motivated by this rating and tries to get the same through hardwork and deligence.\n\nBests,\nProfessor";
+				+ "The username of the person receiving this is: "
+				+ userRated
+				+ "\n\nI hope that everyone gets motivated by this rating and tries to get the same through hardwork and deligence.\n\nBests,\nProfessor";
 		for (String email : emailList) {
 			sendEmail(email, subject, content);
 		}
@@ -621,10 +685,9 @@ public class UsersDAOImpl implements UsersDAO {
 		String urlValueQuery = "SELECT firepadurl FROM discussionboard WHERE "
 				+ "threadid=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
-		int urlValue = jdbcTemplate.queryForObject(urlValueQuery, new Object[] {threadid},
-				Integer.class);
+
+		int urlValue = jdbcTemplate.queryForObject(urlValueQuery,
+				new Object[] { threadid }, Integer.class);
 		return urlValue;
 	}
 }
- 

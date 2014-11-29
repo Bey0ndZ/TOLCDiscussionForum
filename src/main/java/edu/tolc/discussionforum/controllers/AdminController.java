@@ -1,5 +1,7 @@
 package edu.tolc.discussionforum.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,8 @@ public class AdminController {
 	UsersService userService;
 
 	@RequestMapping(value = "/welcomeAdmin", method = RequestMethod.GET)
-	public String welcomeAdminGET() {
+	public String welcomeAdminGET(Model model) {
+
 		return "welcomeAdmin";
 	}
 
@@ -35,7 +38,9 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/viewInstructor", method = RequestMethod.GET)
-	public String viewInstructorGET() {
+	public String viewInstructorGET(Model model) {
+		List<String> instructor = userService.getInstructorsList();
+		model.addAttribute("instructor", instructor);
 		return "viewInstructor";
 	}
 

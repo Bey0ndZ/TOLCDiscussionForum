@@ -97,7 +97,7 @@
 								class="fa fa-fw fa-bar-chart-o"></i>Delete Instructor</a></li>
 					</ul>
 				</div>
-				<!-- /.navbar-collapse -->
+
 			</nav>
 
 			<div id="page-wrapper">
@@ -107,61 +107,11 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">List of all Instructors</h1>
+							<h1 class="page-header">Welcome Admin!</h1>
 						</div>
 					</div>
 					<!-- /.row -->
-
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">
-										<i class="fa fa-bar-chart-o fa-fw"></i> List of all
-										Instructors
-									</h3>
-								</div>
-								<div class="panel-body">
-									<div id="morris-area-chart">
-										<div class="panel-body">
-											<c:if test="${not empty courseInformation}">
-												<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
-														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Instructor</th>
-														</tr>
-													</thead>
-													<tbody>
-
-														<c:forEach var="o" items="${billPayInformation}">
-															<tr>
-																<td>${o.courseID}</td>
-																<td>${o.courseName}</td>
-																<td>${o.courseInstructor }</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</c:if>
-
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- /.row -->
-
 				</div>
-				<!-- /.container-fluid -->
-
 			</div>
 			<!-- /#page-wrapper -->
 
