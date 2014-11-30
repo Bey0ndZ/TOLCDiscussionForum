@@ -75,7 +75,6 @@ public class AdminController {
 	public String deleteInstructorPOST(
 			@ModelAttribute("deleteInformation") UserInformation userInfo,
 			Model model) {
-		System.out.println(userInfo.getUsername());
 		List<String> instructor = userService.deleteInstructor(userInfo
 				.getUsername());
 		model.addAttribute("instructor", instructor);
