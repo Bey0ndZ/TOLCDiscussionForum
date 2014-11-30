@@ -162,7 +162,27 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public List<String> deleteInstructors() {
+	public List<String> getInstructorsUserNameList() {
+		// Get the instructors list from user_roles table
+		String getInstructorUserNameQuery = "SELECT username FROM user_roles WHERE "
+				+ "role=?";
+		JdbcTemplate getInstructorsTemplate = new JdbcTemplate(dataSource);
+		List<String> instructorsList = getInstructorsTemplate.query(
+				getInstructorUserNameQuery, new Object[] { "ROLE_INSTRUCTOR" },
+				new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+
+						String instructor;
+						instructor = rs.getString(1);
+						return instructor;
+					}
+				});
+		return instructorsList;
+	}
+
+	@Override
+	public List<String> deleteInstructors(String username) {
 		// Delete instructor
 		String deleteInstructorUserNameQuery0 = "DELETE FROM enrollment WHERE "
 				+ "courseid=?";
@@ -176,7 +196,7 @@ public class UsersDAOImpl implements UsersDAO {
 				+ "instructor=?";
 		JdbcTemplate getCourseTemplate = new JdbcTemplate(dataSource);
 		List<String> courseList = getCourseTemplate.query(getCourseIdQuery,
-				new Object[] { "erin" }, new RowMapper<String>() {
+				new Object[] { username }, new RowMapper<String>() {
 					public String mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
 
@@ -191,13 +211,13 @@ public class UsersDAOImpl implements UsersDAO {
 					new Object[] { course });
 		}
 		deleteTemplate.update(deleteInstructorUserNameQuery0,
-				new Object[] { "erin" });
+				new Object[] { username });
 		deleteTemplate.update(deleteInstructorUserNameQuery2,
-				new Object[] { "erin" });
+				new Object[] { username });
 		deleteTemplate.update(deleteInstructorUserNameQuery3,
-				new Object[] { "erin" });
+				new Object[] { username });
 		deleteTemplate.update(deleteInstructorUserNameQuery1,
-				new Object[] { "erin" });
+				new Object[] { username });
 		// Get the instructors list from user_roles table
 		String getInstructorUserNameQuery = "SELECT username FROM user_roles WHERE "
 				+ "role=?";

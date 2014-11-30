@@ -123,31 +123,33 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-
-											<table style="width: 25%;"
+											<table style="width: 55%;"
 												class="table table-bordered table-hover table-striped">
 												<thead>
 													<tr>
+														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															Instructor Username</th>
 														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-															Instructor List</th>
+															Instructor Name</th>
 														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-															Delete</th>
+															Select</th>
 													</tr>
 												</thead>
-
 												<tbody>
-													<c:forEach var="instructor" items="${instructor}">
+													<c:forEach items="${map}" var="entry">
 														<tr>
-															<form:form action="deleteInstructor">
-																<td>${instructor}</td>
-																<td><button type="submit" class="btn btn-default">Delete</button></td>
-															</form:form>
+															<td>${entry.key}</td>
+															<td>${entry.value}</td>
+															<td><form:form action="deleteInstructor"
+																	method="POST" modelAttribute="deleteInformation">
+																	<input type="hidden" name="username" id="username" value="${entry.key}" />
+																	<input type="submit" value="Delete"
+																		class="btn btn-danger" />
+																</form:form></td>
 														</tr>
 													</c:forEach>
 												</tbody>
-
 											</table>
-
 										</div>
 									</div>
 								</div>

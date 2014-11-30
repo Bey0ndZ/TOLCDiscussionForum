@@ -1,11 +1,10 @@
 package edu.tolc.discussionforum.controllers;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,24 +41,52 @@ public class AdminController {
 
 	@RequestMapping(value = "/viewInstructor", method = RequestMethod.GET)
 	public String viewInstructorGET(Model model) {
+		List<String> instructorUserName = userService
+				.getInstructorsUserNameList();
+		model.addAttribute("instructorUserName", instructorUserName);
 		List<String> instructor = userService.getInstructorsList();
 		model.addAttribute("instructor", instructor);
+		Map<String, String> map = new LinkedHashMap<String, String>();
+
+		for (int i = 0; i < instructorUserName.size(); i++) {
+			map.put(instructorUserName.get(i), instructor.get(i));
+		}
+		model.addAttribute("map", map);
 		return "viewInstructor";
 	}
 
 	@RequestMapping(value = "/deleteInstructor", method = RequestMethod.GET)
 	public String deleteInstructorGET(Model model) {
+		List<String> instructorUserName = userService
+				.getInstructorsUserNameList();
+		model.addAttribute("instructorUserName", instructorUserName);
 		List<String> instructor = userService.getInstructorsList();
 		model.addAttribute("instructor", instructor);
+		Map<String, String> map = new LinkedHashMap<String, String>();
+
+		for (int i = 0; i < instructorUserName.size(); i++) {
+			map.put(instructorUserName.get(i), instructor.get(i));
+		}
+		model.addAttribute("map", map);
 		return "deleteInstructor";
 	}
 
 	@RequestMapping(value = "/deleteInstructor", method = RequestMethod.POST)
-	public String deleteInstructorPOST(Model model, HttpServletRequest req) {
-		String name = (String) req.getAttribute("instructor");
-		System.out.println(name);
-		//List<String> instructor = userService.deleteInstructor();
-		//model.addAttribute("instructor", instructor);
+	public String deleteInstructorPOST(
+			@ModelAttribute("deleteInformation") UserInformation userInfo,
+			Model model) {
+		System.out.println(userInfo.getUsername());
+		List<String> instructor = userService.deleteInstructor(userInfo
+				.getUsername());
+		model.addAttribute("instructor", instructor);
+		List<String> instructorUserName = userService
+				.getInstructorsUserNameList();
+		Map<String, String> map = new LinkedHashMap<String, String>();
+
+		for (int i = 0; i < instructorUserName.size(); i++) {
+			map.put(instructorUserName.get(i), instructor.get(i));
+		}
+		model.addAttribute("map", map);
 		return "deleteInstructor";
 	}
 }

@@ -123,16 +123,21 @@
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<table style="width:15%;" class="table table-bordered table-hover table-striped">
+											<table style="width: 35%;"
+												class="table table-bordered table-hover table-striped">
 												<thead>
 													<tr>
-														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Instructor List</th>
+														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															Instructor Username</th>
+														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															Instructor Name</th>
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach var="instructor" items="${instructor}">
+													<c:forEach items="${map}" var="entry">
 														<tr>
-															<td>${instructor}</td>
+															<td>${entry.key}</td>
+															<td>${entry.value}</td>
 														</tr>
 													</c:forEach>
 												</tbody>

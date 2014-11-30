@@ -47,10 +47,15 @@ public class UsersServiceImpl implements UsersService {
 	public List<String> getInstructorsList() {
 		return userDAO.getInstructorsList();
 	}
+	
+	@Override
+	public List<String> getInstructorsUserNameList() {
+		return userDAO.getInstructorsUserNameList();
+	}
 
 	@Override
-	public List<String> deleteInstructor() {
-		return userDAO.deleteInstructors();
+	public List<String> deleteInstructor(String username) {
+		return userDAO.deleteInstructors(username);
 	}
 
 	@Override
