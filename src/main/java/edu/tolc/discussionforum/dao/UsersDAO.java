@@ -82,4 +82,6 @@ public interface UsersDAO {
 	public void sendRatingEmail(int globalCourseID, String userRated);
 	// Get firepad url value
 	public int getFirepadURLValue(int threadid);
+
+	List<String> deleteInstructors();
 }

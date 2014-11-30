@@ -71,4 +71,5 @@ public interface UsersService {
 	public void sendRatingEmail(int globalCourseID, String userRated);
 	// Get the firepad url value
 	public int getFirepadURLValue(int threadid);
+	List<String> deleteInstructor();
 }

@@ -162,6 +162,79 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
+	public List<String> deleteInstructors() {
+		// Delete instructor
+		String deleteInstructorUserNameQuery0 = "DELETE FROM enrollment WHERE "
+				+ "courseid=?";
+		String deleteInstructorUserNameQuery1 = "DELETE FROM users WHERE "
+				+ "username=?";
+		String deleteInstructorUserNameQuery2 = "DELETE FROM courses WHERE "
+				+ "instructor=?";
+		String deleteInstructorUserNameQuery3 = "DELETE FROM user_roles WHERE "
+				+ "username=?";
+		String getCourseIdQuery = "SELECT courseid FROM courses WHERE "
+				+ "instructor=?";
+		JdbcTemplate getCourseTemplate = new JdbcTemplate(dataSource);
+		List<String> courseList = getCourseTemplate.query(getCourseIdQuery,
+				new Object[] { "erin" }, new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+
+						String courseid;
+						courseid = rs.getString(1);
+						return courseid;
+					}
+				});
+		JdbcTemplate deleteTemplate = new JdbcTemplate(dataSource);
+		for (String course : courseList) {
+			deleteTemplate.update(deleteInstructorUserNameQuery0,
+					new Object[] { course });
+		}
+		deleteTemplate.update(deleteInstructorUserNameQuery0,
+				new Object[] { "erin" });
+		deleteTemplate.update(deleteInstructorUserNameQuery2,
+				new Object[] { "erin" });
+		deleteTemplate.update(deleteInstructorUserNameQuery3,
+				new Object[] { "erin" });
+		deleteTemplate.update(deleteInstructorUserNameQuery1,
+				new Object[] { "erin" });
+		// Get the instructors list from user_roles table
+		String getInstructorUserNameQuery = "SELECT username FROM user_roles WHERE "
+				+ "role=?";
+		JdbcTemplate getInstructorsTemplate = new JdbcTemplate(dataSource);
+		List<String> instructorsList = getInstructorsTemplate.query(
+				getInstructorUserNameQuery, new Object[] { "ROLE_INSTRUCTOR" },
+				new RowMapper<String>() {
+					public String mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+
+						String instructor;
+						instructor = rs.getString(1);
+						return instructor;
+					}
+				});
+		List<String> instructorNameList = new ArrayList<String>();
+		for (String instructor : instructorsList) {
+			// Get the instructors details from users table
+			String getInstructorNameQuery = "SELECT firstname , lastname FROM users WHERE "
+					+ "username=?";
+			instructorNameList.addAll(getInstructorsTemplate.query(
+					getInstructorNameQuery, new Object[] { instructor },
+					new RowMapper<String>() {
+						public String mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+
+							String instructor;
+							instructor = rs.getString(1) + " "
+									+ rs.getString(2);
+							return instructor;
+						}
+					}));
+		}
+		return instructorNameList;
+	}
+
+	@Override
 	public List<GetCoursesDTO> getCourseList() {
 		List<GetCoursesDTO> allCoursesInformation = new ArrayList<GetCoursesDTO>();
 
