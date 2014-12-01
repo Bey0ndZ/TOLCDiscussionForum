@@ -111,55 +111,45 @@
 						</div>
 					</div>
 					<!-- /.row -->
-
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
 										<i class="fa fa-bar-chart-o fa-fw"></i> List of all
-										Instructors
+										instructors
 									</h3>
 								</div>
 								<div class="panel-body">
 									<div id="morris-area-chart">
 										<div class="panel-body">
-											<c:if test="${not empty courseInformation}">
-												<table
-													class="table table-bordered table-hover table-striped">
-													<thead>
+											<table style="width: 35%;"
+												class="table table-bordered table-hover table-striped">
+												<thead>
+													<tr>
+														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															Instructor Username</th>
+														<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+															Instructor Name</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${map}" var="entry">
 														<tr>
-															<th>Course ID</th>
-															<th>Course Name</th>
-															<th>Instructor</th>
+															<td>${entry.key}</td>
+															<td>${entry.value}</td>
 														</tr>
-													</thead>
-													<tbody>
-
-														<c:forEach var="o" items="${billPayInformation}">
-															<tr>
-																<td>${o.courseID}</td>
-																<td>${o.courseName}</td>
-																<td>${o.courseInstructor }</td>
-															</tr>
-														</c:forEach>
-													</tbody>
-												</table>
-											</c:if>
-
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
+													</c:forEach>
+												</tbody>
+											</table>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- /.row -->
-
 				</div>
+				<div class="row"></div>
 				<!-- /.container-fluid -->
 
 			</div>

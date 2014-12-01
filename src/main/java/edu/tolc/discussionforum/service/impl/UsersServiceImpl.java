@@ -17,15 +17,15 @@ import edu.tolc.discussionforum.dto.UserInformationDTO;
 import edu.tolc.discussionforum.model.UserInformation;
 import edu.tolc.discussionforum.service.UsersService;
 
-public class UsersServiceImpl implements UsersService{
+public class UsersServiceImpl implements UsersService {
 	@Autowired
 	UsersDAO userDAO;
-	
+
 	@Override
 	public String userRegistration(UserInformation userInfo) {
 		return userDAO.userRegistration(userInfo);
 	}
-	
+
 	@Override
 	public String instructorRegistration(UserInformation userInfo) {
 		return userDAO.instructorRegistration(userInfo);
@@ -34,7 +34,8 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public String addCourse(String courseName, String courseDescription,
 			String instructorsName) {
-		return userDAO.addCourse(courseName, courseDescription, instructorsName);
+		return userDAO
+				.addCourse(courseName, courseDescription, instructorsName);
 	}
 
 	@Override
@@ -45,6 +46,16 @@ public class UsersServiceImpl implements UsersService{
 	@Override
 	public List<String> getInstructorsList() {
 		return userDAO.getInstructorsList();
+	}
+	
+	@Override
+	public List<String> getInstructorsUserNameList() {
+		return userDAO.getInstructorsUserNameList();
+	}
+
+	@Override
+	public List<String> deleteInstructor(String username) {
+		return userDAO.deleteInstructors(username);
 	}
 
 	@Override
@@ -64,8 +75,10 @@ public class UsersServiceImpl implements UsersService{
 
 	@Override
 	public String createThread(int courseid, String threadName,
-			String threadSubject, String threadContent, String studentName, boolean isanonymous) {
-		return userDAO.createThread(courseid, threadName, threadSubject, threadContent, studentName, isanonymous);
+			String threadSubject, String threadContent, String studentName,
+			boolean isanonymous) {
+		return userDAO.createThread(courseid, threadName, threadSubject,
+				threadContent, studentName, isanonymous);
 	}
 
 	@Override
@@ -79,8 +92,9 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public void postToThread(int threadid, String newPost, String studentName, boolean postAnonymously) {
-		userDAO.postToThread(threadid, newPost, studentName, postAnonymously);		
+	public void postToThread(int threadid, String newPost, String studentName,
+			boolean postAnonymously) {
+		userDAO.postToThread(threadid, newPost, studentName, postAnonymously);
 	}
 
 	@Override
@@ -106,8 +120,10 @@ public class UsersServiceImpl implements UsersService{
 
 	@Override
 	public String createCalendarEvent(int globalCourseID, String eventDetails,
-			String loggedInPersonsName, boolean personalEvent, Timestamp eventTimestamp) {
-		return userDAO.createCalendarEvent(globalCourseID, eventDetails, loggedInPersonsName, personalEvent, eventTimestamp);
+			String loggedInPersonsName, boolean personalEvent,
+			Timestamp eventTimestamp) {
+		return userDAO.createCalendarEvent(globalCourseID, eventDetails,
+				loggedInPersonsName, personalEvent, eventTimestamp);
 	}
 
 	@Override
@@ -131,7 +147,8 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public List<CourseEnrollmentDTO> getAllEnrolledStudents(String instructorsName) {
+	public List<CourseEnrollmentDTO> getAllEnrolledStudents(
+			String instructorsName) {
 		return userDAO.getAllEnrolledStudents(instructorsName);
 	}
 
@@ -141,8 +158,8 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public boolean isFollowing(String follower,
-			String enrolledStudent, int courseid) {
+	public boolean isFollowing(String follower, String enrolledStudent,
+			int courseid) {
 		return userDAO.isFollowing(follower, enrolledStudent, courseid);
 	}
 
@@ -160,4 +177,4 @@ public class UsersServiceImpl implements UsersService{
 	public int getFirepadURLValue(int threadid) {
 		return userDAO.getFirepadURLValue(threadid);
 	}
-}	
+}

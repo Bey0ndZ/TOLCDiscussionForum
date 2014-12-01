@@ -27,6 +27,7 @@
 		
 		<!-- Permit Admin -->
 		<intercept-url pattern="/welcomeAdmin" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/deleteInstructor" access="hasRole('ROLE_ADMIN')" />
 		
 		<!-- Common -->
 		<intercept-url pattern="/welcome/discussionBoard/courseCalendar" access="hasRole('ROLE_STUDENT')" />		
