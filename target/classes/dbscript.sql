@@ -62,6 +62,7 @@ CREATE  TABLE users (
   postedby VARCHAR(45) NOT NULL,
   postanonymously TINYINT NOT NULL,
   postedat timestamp NOT NULL,
+  editedwiki TINYINT NOT NULL,
   PRIMARY KEY (postid),
   FOREIGN KEY (threadid) REFERENCES discussionboard(threadid));
   

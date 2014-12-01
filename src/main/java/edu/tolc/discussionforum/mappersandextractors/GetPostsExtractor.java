@@ -18,6 +18,7 @@ public class GetPostsExtractor implements ResultSetExtractor<GetPostsDTO> {
 		getPostsDTO.setPostedby(resultSet.getString(2));
 		getPostsDTO.setPostanonymously(resultSet.getBoolean(3));
 		getPostsDTO.setPostedat(resultSet.getTimestamp(4));
+		getPostsDTO.setEditedwiki(resultSet.getBoolean(5));
 
 	return getPostsDTO;
 }

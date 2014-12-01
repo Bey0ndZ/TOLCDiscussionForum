@@ -93,8 +93,8 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public void postToThread(int threadid, String newPost, String studentName,
-			boolean postAnonymously) {
-		userDAO.postToThread(threadid, newPost, studentName, postAnonymously);
+			boolean postAnonymously, boolean editedWiki) {
+		userDAO.postToThread(threadid, newPost, studentName, postAnonymously, editedWiki);
 	}
 
 	@Override
@@ -176,5 +176,15 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public int getFirepadURLValue(int threadid) {
 		return userDAO.getFirepadURLValue(threadid);
+	}
+
+	@Override
+	public boolean hasEditedWiki(String username) {
+		return userDAO.hasEditedWiki(username);
+	}
+
+	@Override
+	public List<String> getUserListForWikiEdits() {
+		return userDAO.getUserListForWikiEdits();
 	}
 }

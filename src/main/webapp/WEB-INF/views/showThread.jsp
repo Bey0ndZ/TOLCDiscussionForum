@@ -181,6 +181,12 @@
 											<!-- Wiki for collaborative editing -->
 											<h3>${threadname} wiki</h3>
 											<div id="firepad"></div><br/>
+											<div class="text-right">
+												<small><b>Wiki edited by:</b></small>
+												<c:forEach var="user" items="${usersWhoHaveEditedWiki}">
+													<small>${user}! </small>
+												</c:forEach>
+											</div>
 											
 											<!-- Show the post which is basically text from the below textarea -->
 											<!-- Use ajax to perform the post text request -->
@@ -197,9 +203,10 @@
 											</c:forEach>
 											
 											<form:form action="/discussionforum/welcome/discussionBoard/showThread" method="POST">
-												<textarea rows="2" cols="116" name="discussion" id="discussion" placeholder="Follow up discussion.."></textarea><br/>
+												<textarea rows="2" cols="116" name="discussion" id="discussion" placeholder="Follow up discussion.."></textarea><br/>	
 												<div class="text-right">
-													Post anonymously: Yes <input type="radio" name="postanonymously" value="yes"/> No <input type="radio" name="postanonymously" value="no" checked/>
+													<small>Have you edited the wiki? Yes <input type="radio" name="wikiEdit" value="yes"/> No <input type="radio" name="wikiEdit" value="no" checked/></small><br/>
+													<small>Post anonymously: Yes <input type="radio" name="postanonymously" value="yes"/> No <input type="radio" name="postanonymously" value="no" checked/></small>
 												</div>
 												<input type="submit" value="Post" id="postToDiscussion"/>
 											</form:form>										

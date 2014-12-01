@@ -48,7 +48,7 @@ public interface UsersDAO {
 
 	// Post to thread
 	public void postToThread(int threadid, String newPost, String studentName,
-			boolean postAnonymously);
+			boolean postAnonymously, boolean editedWiki);
 
 	// Get all posts till then
 	public List<GetPostsDTO> getPosts(int threadid);
@@ -102,4 +102,10 @@ public interface UsersDAO {
 	List<String> deleteInstructors(String username);
 
 	List<String> getInstructorsUserNameList();
+	
+	// Faked wiki
+	public boolean hasEditedWiki(String username);
+	
+	// Get list of all users who have edited the wiki
+	public List<String> getUserListForWikiEdits();
 }

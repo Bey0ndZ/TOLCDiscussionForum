@@ -52,7 +52,7 @@ public interface UsersService {
 
 	// Post to thread
 	public void postToThread(int threadid, String newPost, String studentName,
-			boolean postAnonymously);
+			boolean postAnonymously, boolean editedWiki);
 
 	// Get posts till that time
 	public List<GetPostsDTO> getPosts(int threadid);
@@ -105,4 +105,10 @@ public interface UsersService {
 	List<String> getInstructorsUserNameList();
 
 	List<String> deleteInstructor(String username);
+	
+	// Faked wiki
+	public boolean hasEditedWiki(String username);
+	
+	// Get list of users who have edited wiki
+	public List<String> getUserListForWikiEdits();
 }

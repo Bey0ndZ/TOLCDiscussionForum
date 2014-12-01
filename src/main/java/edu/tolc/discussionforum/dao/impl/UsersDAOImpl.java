@@ -401,9 +401,10 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public void postToThread(int threadid, String newPost, String studentName,
-			boolean postAnonymously) {
-		String newThreadPostQuery = "INSERT INTO discussionposts(threadid, postcontent, postedby, postanonymously, postedat) "
-				+ "VALUES (?,?,?,?,?)";
+			boolean postAnonymously, boolean editedWiki) {
+		
+		String newThreadPostQuery = "INSERT INTO discussionposts(threadid, postcontent, postedby, postanonymously, postedat, editedwiki) "
+				+ "VALUES (?,?,?,?,?,?)";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
 		// Get the timestamp
@@ -412,7 +413,7 @@ public class UsersDAOImpl implements UsersDAO {
 
 		// Actual insert
 		jdbcTemplate.update(newThreadPostQuery, new Object[] { threadid,
-				newPost, studentName, postAnonymously, currentTimestamp });
+				newPost, studentName, postAnonymously, currentTimestamp, editedWiki });
 
 		// Also email people who have subscribed to this thread
 		// saying so and so user modified the post
@@ -471,7 +472,7 @@ public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public List<GetPostsDTO> getPosts(int threadid) {
-		String getPostsQuery = "SELECT postcontent, postedby, postanonymously, postedat "
+		String getPostsQuery = "SELECT postcontent, postedby, postanonymously, postedat, editedwiki "
 				+ "FROM discussionposts WHERE threadid=?";
 		JdbcTemplate getPostsTemplate = new JdbcTemplate(dataSource);
 		List<GetPostsDTO> getAllPosts = new ArrayList<GetPostsDTO>();
@@ -782,5 +783,34 @@ public class UsersDAOImpl implements UsersDAO {
 		int urlValue = jdbcTemplate.queryForObject(urlValueQuery,
 				new Object[] { threadid }, Integer.class);
 		return urlValue;
+	}
+	
+	// Check whether the user has edited the wiki or not
+	public boolean hasEditedWiki(String username) {
+		String wikiEditQuery = "SELECT editedwiki FROM discussionposts WHERE postedby=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
+		jdbcTemplate.query(wikiEditQuery, new Object[] {username}, countCallback);
+		int hasEdited =  countCallback.getRowCount();
+		if (hasEdited == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public List<String> getUserListForWikiEdits() {
+		String userListQuery = "SELECT postedby FROM discussionposts WHERE editedwiki=true";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		List<String> userList = new ArrayList<String>();
+		userList = jdbcTemplate.query(userListQuery, new RowMapper<String>() {
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getString(1);
+			}
+		});
+		
+		return userList;
 	}
 }

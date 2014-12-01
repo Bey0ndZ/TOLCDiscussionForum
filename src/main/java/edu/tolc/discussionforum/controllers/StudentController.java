@@ -269,6 +269,10 @@ public class StudentController {
 				modelAndView.addObject("displayForm", "Subscription form");
 			}
 			
+			// Get the list of students who have edited the wiki
+			List<String> usersWhoHaveEditedWiki = userService.getUserListForWikiEdits();
+			modelAndView.addObject("usersWhoHaveEditedWiki", usersWhoHaveEditedWiki);
+			
 		} else {
 			// Not logged in
 		}		
@@ -276,6 +280,7 @@ public class StudentController {
 		// Get the value for firepadURL
 		int firepadURL = userService.getFirepadURLValue(threadid);
 		modelAndView.addObject("firepadURL", firepadURL);
+		
 		
 		modelAndView.addObject("getAllPosts", getAllPosts);
 		modelAndView.setViewName("showThread");
@@ -288,9 +293,10 @@ public class StudentController {
 	@RequestMapping(value="welcome/discussionBoard/showThread", 
 			method=RequestMethod.POST)
 	public ModelAndView postToThread(@RequestParam("discussion") String newPost,
-			@RequestParam("postanonymously") String postAnon) {
+			@RequestParam("postanonymously") String postAnon, @RequestParam("wikiEdit") String wikiEdit) {
 		ModelAndView modelAndView = new ModelAndView();
 		boolean postAnonymously = false;
+		boolean editedWiki = false;
 		if (newPost != null) {
 			// Get the student logged in
 			Authentication auth = SecurityContextHolder.getContext()
@@ -305,11 +311,23 @@ public class StudentController {
 				
 				if (postAnon.equalsIgnoreCase("yes")) {
 					postAnonymously = true;
+					editedWiki = false;
 				} else {
 					postAnonymously = false;
+					
+					if (wikiEdit.equalsIgnoreCase("yes")) {
+						editedWiki = true;
+					} else {
+						editedWiki = false;
+					}
+				}	
+				
+				if (userService.hasEditedWiki(studentName)) {
+					userService.postToThread(getThreadID, newPost, studentName, postAnonymously, true);
+				} else {
+					userService.postToThread(getThreadID, newPost, studentName, postAnonymously, editedWiki);
 				}
 				
-				userService.postToThread(getThreadID, newPost, studentName, postAnonymously);
 				// Update view
 				modelAndView.setViewName("redirect:showThread/"+getThreadID);
 			} else {

@@ -7,6 +7,7 @@ public class GetPostsDTO {
 	private String postedby;
 	private boolean postanonymously;
 	private Timestamp postedat;
+	private boolean editedwiki;
 	/**
 	 * @return the postcontent
 	 */
@@ -54,5 +55,17 @@ public class GetPostsDTO {
 	 */
 	public void setPostedat(Timestamp postedat) {
 		this.postedat = postedat;
+	}
+	/**
+	 * @return the editedwiki
+	 */
+	public boolean isEditedwiki() {
+		return editedwiki;
+	}
+	/**
+	 * @param editedwiki the editedwiki to set
+	 */
+	public void setEditedwiki(boolean editedwiki) {
+		this.editedwiki = editedwiki;
 	}
 }
