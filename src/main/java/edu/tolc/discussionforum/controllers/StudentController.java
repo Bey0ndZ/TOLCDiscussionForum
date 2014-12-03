@@ -112,7 +112,7 @@ public class StudentController {
 	
 	// Get the discussionBoard for a particular course
 	// The courseid will be in the path variable
-	@RequestMapping(value="welcome/discussionBoard/{courseid}", method=RequestMethod.GET)
+	@RequestMapping(value={"welcome/discussionBoard/{courseid}", "/discussionforum/welcome/discussionBoard/{courseid}"}, method=RequestMethod.GET)
 	public ModelAndView getDiscussionBoardForCourse(@PathVariable int courseid) {
 		ModelAndView modelAndView = new ModelAndView();
 		// Get the information from discussionboard table
@@ -519,9 +519,13 @@ public class StudentController {
 			String studentName = userDetail.getUsername();
 			
 			// Save to the following table
-			String followingMsg = userService.addFollower(studentName, username, getCourseID);
-			modelAndView.addObject("followingUsername", username);
-			modelAndView.addObject("followingMsg", followingMsg);
+			if (userService.isFollowing(studentName, username, getCourseID)) {
+				modelAndView.addObject("followingMsg", "You are already following this person");
+			} else {
+				String followingMsg = userService.addFollower(studentName, username, getCourseID);
+				modelAndView.addObject("followingUsername", username);
+				modelAndView.addObject("followingMsg", followingMsg);
+			}
 		} else {
 			// permission-denied
 			// must log in

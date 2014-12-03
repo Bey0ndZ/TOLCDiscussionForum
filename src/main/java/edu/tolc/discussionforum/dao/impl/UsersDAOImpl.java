@@ -623,7 +623,8 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public String addFollower(String studentName, String username, int courseid) {
+	public String addFollower(String studentName, String username, int courseid) {		
+		
 		String addFollowerQuery = "INSERT INTO follow VALUES (?,?,?)";
 		JdbcTemplate addFollowerTemplate = new JdbcTemplate(dataSource);
 
