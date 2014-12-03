@@ -800,12 +800,12 @@ public class UsersDAOImpl implements UsersDAO {
 	}
 
 	@Override
-	public List<String> getUserListForWikiEdits() {
-		String userListQuery = "SELECT postedby FROM discussionposts WHERE editedwiki=true";
+	public List<String> getUserListForWikiEdits(int threadid) {
+		String userListQuery = "SELECT postedby FROM discussionposts WHERE editedwiki=true AND threadid=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		List<String> userList = new ArrayList<String>();
-		userList = jdbcTemplate.query(userListQuery, new RowMapper<String>() {
+		userList = jdbcTemplate.query(userListQuery, new Object[] {threadid}, new RowMapper<String>() {
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return rs.getString(1);
 			}

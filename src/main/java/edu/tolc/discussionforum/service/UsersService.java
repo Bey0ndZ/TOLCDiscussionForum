@@ -110,5 +110,5 @@ public interface UsersService {
 	public boolean hasEditedWiki(String username);
 	
 	// Get list of users who have edited wiki
-	public List<String> getUserListForWikiEdits();
+	public List<String> getUserListForWikiEdits(int threadid);
 }

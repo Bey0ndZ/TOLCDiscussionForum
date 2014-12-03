@@ -107,5 +107,5 @@ public interface UsersDAO {
 	public boolean hasEditedWiki(String username);
 	
 	// Get list of all users who have edited the wiki
-	public List<String> getUserListForWikiEdits();
+	public List<String> getUserListForWikiEdits(int threadid);
 }

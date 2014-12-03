@@ -270,7 +270,7 @@ public class StudentController {
 			}
 			
 			// Get the list of students who have edited the wiki
-			List<String> usersWhoHaveEditedWiki = userService.getUserListForWikiEdits();
+			List<String> usersWhoHaveEditedWiki = userService.getUserListForWikiEdits(threadid);
 			modelAndView.addObject("usersWhoHaveEditedWiki", usersWhoHaveEditedWiki);
 			
 		} else {

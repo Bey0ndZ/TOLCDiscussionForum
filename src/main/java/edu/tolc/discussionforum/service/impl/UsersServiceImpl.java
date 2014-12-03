@@ -184,7 +184,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public List<String> getUserListForWikiEdits() {
-		return userDAO.getUserListForWikiEdits();
+	public List<String> getUserListForWikiEdits(int threadid) {
+		return userDAO.getUserListForWikiEdits(threadid);
 	}
 }

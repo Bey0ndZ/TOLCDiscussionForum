@@ -182,10 +182,12 @@
 											<h3>${threadname} wiki</h3>
 											<div id="firepad"></div><br/>
 											<div class="text-right">
-												<small><b>Wiki edited by:</b></small>
-												<c:forEach var="user" items="${usersWhoHaveEditedWiki}">
-													<small>${user}! </small>
-												</c:forEach>
+												<c:if test="${not empty usersWhoHaveEditedWiki}">
+													<small><b>Wiki edited by:</b></small>
+													<c:forEach var="user" items="${usersWhoHaveEditedWiki}">
+														<small>${user}! </small>
+													</c:forEach>
+												</c:if>
 											</div>
 											
 											<!-- Show the post which is basically text from the below textarea -->
