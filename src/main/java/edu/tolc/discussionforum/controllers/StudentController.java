@@ -304,7 +304,7 @@ public class StudentController {
 		ModelAndView modelAndView = new ModelAndView();
 		boolean postAnonymously = false;
 		boolean editedWiki = false;
-		if (newPost != null) {
+		if (newPost != null && !newPost.isEmpty()) {
 			// Get the student logged in
 			Authentication auth = SecurityContextHolder.getContext()
 					.getAuthentication();
@@ -343,7 +343,7 @@ public class StudentController {
 			}
 		} else {
 			modelAndView.addObject("discussionMsg", "Please do not leave the text area empty.");
-			modelAndView.setViewName("showThread");
+			modelAndView.setViewName("redirect:showThread/"+getThreadID);
 		}
 		return modelAndView;
 	}
