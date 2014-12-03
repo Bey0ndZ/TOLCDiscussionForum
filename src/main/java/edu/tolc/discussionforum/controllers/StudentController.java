@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -271,7 +273,12 @@ public class StudentController {
 			
 			// Get the list of students who have edited the wiki
 			List<String> usersWhoHaveEditedWiki = userService.getUserListForWikiEdits(threadid);
-			modelAndView.addObject("usersWhoHaveEditedWiki", usersWhoHaveEditedWiki);
+			Set<String> wikiEditsSetNoDupValues = new HashSet<String>();
+			
+			for (String userWikiEdit : usersWhoHaveEditedWiki) {
+				wikiEditsSetNoDupValues.add(userWikiEdit);
+			}
+			modelAndView.addObject("usersWhoHaveEditedWiki", wikiEditsSetNoDupValues);
 			
 		} else {
 			// Not logged in
