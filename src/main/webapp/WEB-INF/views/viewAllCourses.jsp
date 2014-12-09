@@ -147,13 +147,13 @@
 											</c:if>
 											
 											<div class="text-left">
-											<c:forEach var="o" items="${courseInformation}">
+											<c:if test="${not empty courseInformation }">
 												<form:form method="POST" action="enrollInCourse">
 													Type the course ID of the course you want to enroll in:<br/><br/>
 													Course ID: <input type="text" name="enrollInCourseID" /><br/>
 													<input type="submit" value="Enroll" />
 												</form:form>
-											</c:forEach>
+											</c:if>
 											</div>
 										</div>
 									</div>
