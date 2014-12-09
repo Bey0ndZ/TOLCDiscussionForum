@@ -130,11 +130,6 @@
 										<c:if test="${not empty addCourseConfirmation}">
 											${addCourseConfirmation}
 										</c:if>
-										
-											<div class="text-right">
-												<a href="modifyUserExternal">Update Details <i
-													class="fa fa-arrow-circle-right"></i></a>
-											</div>
 										</div>
 									</div>
 								</div>
