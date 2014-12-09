@@ -438,10 +438,10 @@ public class UsersDAOImpl implements UsersDAO {
 		String subject = "New post has been made in: " + threadNameObject;
 		String content = "";
 		if (!postAnonymously) {
-			content = "Post made by: " + studentName + "\n\n<b>Content:</b>\n"
+			content = "Post made by: " + studentName + "\n\nContent:\n"
 					+ newPost;
 		} else {
-			content = "Post has been made anonymously.\n\n<b>Content:</b>\n"
+			content = "Post has been made anonymously.\n\nContent:\n"
 					+ newPost;
 		}
 
@@ -462,7 +462,7 @@ public class UsersDAOImpl implements UsersDAO {
 				new UserInformationMapper());
 		String followingSubject = "New post made by: " + studentName
 				+ " in thread: " + threadNameObject;
-		String followingContent = "A new post has been made by the person you follow.\n\n<b>Post content:</b>\n"
+		String followingContent = "A new post has been made by the person you follow.\n\nPost content:\n"
 				+ newPost;
 
 		for (UserInformationDTO user : userInformation) {
@@ -570,8 +570,8 @@ public class UsersDAOImpl implements UsersDAO {
 					String.class);
 
 			String subject = "New Calendar Event for Course: " + courseName;
-			String content = "<b>Event details:</b> " + eventDetails
-					+ "\n\n<b>Time:</b> " + eventTimestamp;
+			String content = "Event details: " + eventDetails
+					+ "\n\nTime: " + eventTimestamp;
 
 			for (String email : studentsEmail) {
 				// Send email
@@ -588,8 +588,8 @@ public class UsersDAOImpl implements UsersDAO {
 					new Object[] { loggedInPersonsName }, String.class);
 
 			String subject = "New Calendar Event";
-			String content = "<b>Event details: </b>" + eventDetails
-					+ "\n\n<b>Time:</b> " + eventTimestamp;
+			String content = "Event details: " + eventDetails
+					+ "\n\nTime: " + eventTimestamp;
 
 			sendEmail(emailOfLoggedInPerson, subject, content);
 		}
