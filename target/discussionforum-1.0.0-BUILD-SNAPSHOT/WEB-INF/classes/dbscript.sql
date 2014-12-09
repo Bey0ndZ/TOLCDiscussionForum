@@ -20,6 +20,15 @@ CREATE  TABLE users (
   enabled TINYINT NOT NULL,
   PRIMARY KEY (username));
   
+  // Mandatory inserts
+  INSERT INTO users VALUES ('admin', 'admin', 'Administrator', 'DiscussionForum',
+  '4808452326', 'tolcdiscussionforum@gmail.com', true);
+  INSERT INTO users VALUES ('instructor', 'instructor', 'Instructor', 'Course',
+  '4808452326', 'tolcdiscussionforum@gmail.com', true);
+  INSERT INTO users VALUES ('student', 'student', 'Student', 'Course', 
+  '4808452326', 'tolcdiscussionforum@gmail.com', true);
+
+  
   CREATE TABLE user_roles (
   user_role_id int(11) NOT NULL AUTO_INCREMENT,
   username VARCHAR(45) NOT NULL,
@@ -28,6 +37,11 @@ CREATE  TABLE users (
   UNIQUE KEY uni_username_role (role,username),
   KEY fk_username_idx (username),
   CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
+  
+  // Mandatory inserts
+  INSERT INTO user_roles (username, role) VALUES ('admin', 'ROLE_ADMIN');
+  INSERT INTO user_roles (username, role) VALUES ('instructor', 'ROLE_INSTRUCTOR');
+  INSERT INTO user_roles (username, role) VALUES ('student', 'ROLE_STUDENT');
   
   CREATE TABLE courses (
   courseid int(11) NOT NULL AUTO_INCREMENT,
